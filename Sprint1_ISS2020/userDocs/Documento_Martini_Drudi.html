@@ -580,7 +580,7 @@ mevid{
 		<p class="did">Most interactions have been modeled as "fire-and-forget" (message events and dispatching) since a request-reply interactions doesn't seem to be needed from requirements (sender doen't need a specific reply from receiver). Moreover, the waiter doesn't know directly the client (apart from its client identifier), hence it needs to communicate through events.</p>
 		<p class="did">Instead, <i>ring</i> and <i>billPlease</i> messages have been represented as a request-reply interaction. In the first case, client expects its <i>clientidentifier</i> (or the prohibition to enter the safe tearoom) as an answer and, in the second case, it expects the amout to pay for the bill.</p>
 		</br>
-		<p>After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. </p>
+		<p>After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. In fact, a GUI helps to better test the functioning of our system: to create different use cases the custumer only has to "click on different buttons". Moreover, the choice of a <i>web</i> GUI comes from the fact that it does not require any kind of software installation by the customer, so it is a "ready-to-use" tool for testing.  </p>
 		
 		<h5>Qak Smartbell model</h5>
 		<center><img src="img/req_smartbellactor.png" alt="req_smartbellactor.png" width="50%"/></center>
