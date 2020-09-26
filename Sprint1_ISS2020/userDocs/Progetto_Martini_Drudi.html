@@ -1,0 +1,1114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+<!--
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #1F37B5;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin: 10;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 110%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 80%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 100%;
+	border-radius: 5px;
+	padding: 5px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 90%;
+	border-radius: 5px;
+	padding: 3px;
+	padding-top: 0;
+	margin-top: 0;
+	
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #154A7E;
+	padding: 1px;
+	border-radius: 5px;
+}
+ks{
+	background-color: #E8FFD3;
+	padding: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-radius: 5px;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 80%;
+	background-color: #F8FFFD;
+	border: 1.5px solid #90E4C8;
+	padding: 10px;
+	border-radius: 10px;
+	word-break: keep-all;
+	white-space: pre-wrap;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+    font-size: 19px;
+	line-height: 110%;
+}    
+div.cit{
+	padding: 10px;
+	margin: 5px;
+    font-size: 18px;
+	background-color: #EFF9F6;
+	border-radius: 25px;
+	border: 1px solid #d5f2ed;
+}       
+div.remark{
+	background-color: #ffffff;	
+    border: 1.5px solid #d5f2ed;
+	padding-left: 20px;
+	padding-right: 30px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ul{
+	margin: 10px;
+	margin-left: 20px;
+	padding: 0;
+}
+
+li{
+	padding-top: 5px;
+}
+
+table, th, td {
+	border: 2px solid #d5f2ed;
+}
+td{
+	padding: 10px;
+}
+
+#authors {
+	width: 600px;
+	border: 2px solid #AB55FF;
+}
+
+#authors td {
+    background-color: #b2c0ff;
+	padding: 10px;
+	border: 2px solid #AB55FF;
+}
+i{
+	font-weight: bold;
+}
+tl, ttr{
+	color: #154A7E;
+	font-weight: bold;
+}
+ttr{
+	font-style: italic;
+}
+.mytab{
+	tab-size: 4;
+}
+keyw{
+	color: #B12283;
+	font-weight: bold;
+}
+comm{
+	color: #00BD06;
+}
+strs{
+	color: #145CDE;
+}
+ints{
+	color: #E7BE41;
+	}
+p.did{
+	margin: 0;
+	padding-bottom: 10px;
+	padding-top: 0;
+	padding-left: 15px;
+	padding-right: 5px;
+	font-size: 18px;
+	border-left: 2px dashed silver;
+}
+sevid{
+	background-color: #A8ECC7;
+	border-radius: 5px;
+	padding: 2px;
+}
+tevid{
+	border-radius: 5px;
+	padding: 2px;
+	border: 2px solid #A8ECC7;
+	line-height: 24px;
+}
+mevid{
+	background-color: #D4F7E4;
+}
+
+video{
+	margin: 30px;
+  -->
+</style>
+    
+<head>
+   
+<title>Tearoom - sprint 1</title></head>
+    
+<body>
+<div id="top">
+<h1>Safe Tearoom COVID-19<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+<!--<h2>Introduction</h2>
+<div class="remark">
+</div>-->
+
+<h2>Requirements</h2>
+<div class="remark">
+	<h4>Assumptions for Sprint 1</h4>
+	<div>
+		The sprint team after the first meeting decided to approach the development of the system using a spiral development process. The team will begin to develop a <i>simplified version of the system</i> so that it can focus only on a <i>small portion of the issues</i> to be addressed. 
+		</br>The simplifying assumptions that will be considered in this first sprint are:</br>
+		<ul>
+			<li>assumption 1 : there will be only one customer in the tearoom at a time</li>
+			<li>assumption 2 : task will be handled in order of arrival (no priority policy)</li>
+			<li>assumption 3 : Manager's web page won't be developed for now</li>
+		</ul>
+		</br>
+		These assumptions allow the team to <em>focus on the development of a customer's service from the beginning to the end</em> as it works on <i>easier subproblems</i>.</br>In the following sprints these assumptions will be relaxed in order to progressively improve the system and incrementally integrate all the requirements.
+	</div>
+</div>
+
+<h2>Project</h2>
+<div class="remark">
+	<h4>Structure</h4>
+	<div>
+		<ul>
+			<li><h5>Logical Architecture</h5>
+				<p>Hereunder is reported the logical architecture as described in the Problem Analysis. No changes have been applied to the high-level (logical) architecture apart from the client: the client is now considered as a WebGUI to MOK the client behaviour. This way, it was simplier to test the system (expecially the waiter) without a QAK client actor.</p>
+				<center><img src="img/allactors_proj.png" alt="logical architecture" width="100%"/></center>
+				<p>Among all the actors, the waiter has the most complex architecture, as shown by the following paragraph.</p>
+			</li>
+			<li>
+				<h5>Waiter detailed architecture</h5>
+				<p>As said in the problem analysis phase, the waiter uses other actors and components to manage movement in the room and route planning. By doing so we applied the principle of <em>Divide et Impera</em> which allowed us to manage one problem at a time (thus reducing the complexity of the individual components) and at the same time the <em>Single Responsability Principle</em> which is a good software engineering practice as it helps to produce software systems resistant to changes (the modification of an aspect of the system requires the modification of only the component that manages that aspect and not of several components). The waiter's layered logical architecture is made of the following components:</p>
+				<center><img src="img/waiter_proj.png" alt="waiter detailed architecture" width="100%"/></center>
+				<p><b>Waiter</b> : is the actor who is at the highest level of abstraction and deals with the business logic of the system. Interacts with the other actors (Barman, Smartbell, Tearoom) and with the Clients to manage the service of the tearoom customers from start to finish. The waiter in our system can be considered as the "mind" of the robot.</p>
+				<p><b>Mover</b> : is the actor who acts as a bridge between the Waiter and the TrustingWalker. Its task is to receive the Waiter's requests to move to a certain key position, transform it into a request to move to a certain cell of the room map and forward this request to the TrustingWalker. The Mover therefore knows the mapping between key positions and map cells and hides these details of the room from the Waiter allowing the latter to be independent of the actual shape of the room and the position of the objects inside it.</p>
+				<p><b>TrustingWalker</b> : is the actor who takes care of moving the robot from the current position to the destination cell of the room map. To do this, the TrustingWalker uses the Planner component to obtain a sequence of actions that would allow the robot to reach its destination and consequently generates a set of messages to be sent to the Basicrobot to make the underlying physical or virtual robot perform these movements.</p>
+				<p><b>Planner</b> : is a component that, given a representation of the room and given the current state of the robot, is able to produce a plan that allows the robot to pass from the current state to the goal state (state that would occur when the robot arrived at destination ) using artificial intelligence techniques implemented in the AIMA library.</p>
+				<p><b>Basicrobot</b> : is the actor who takes care of moving (rotation or step) the underlying physical or virtual robot</p>
+			</li>
+		</ul>
+	</div>
+	<h4>Interaction</h4>
+	<div>
+		<p>
+			The whole interaction between actors has been modeled as a high level message-based interaction. The real implementation of the communication, though, depends on the QActor Language as explained in: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html#messages">Qak Messages</a> - <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html#msghandlerules">Message handle rules</a> - <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html#msgsendrules">Message send rules</a> .
+		</p>
+		<div class="cit">
+			Each QActor works in a context that provides support for sending-receiving messages on the network, by means of several types of protocols. At the moment the supported protocols are:
+			<ul>
+				<li>TCP as an example of point-to-point, two-way protocols;</li>
+				<li>MQTT as an example of publish-subscribe protocols;</li>
+				<li>CoAP, as an example of a lightweight REST protocol suited for M2M interaction</li>
+			</ul>
+			The mapping between the high-level communication actions and a specific protocol technology is done by the QActor-infrastructure with the help of the Eclipse QActor software factory.
+		</div>
+		<div class="cit">
+			<ul>
+				<li>A message sent from a to a local actor b, is inserted in the kaq of the kactor of b.</li>
+				<li>An event raised in some Context, is delivered to all the other known Contexts of the system and to all the 'alien' connected via TCP or via MQTT.</li>
+			</ul>
+			When a message sent from a to actor b working in a different context (on a different node),the Qak-Infrastructure attempts to find the ipaddress-port of the receiver context:
+			<ul>
+				<li>If information about the context of b is found and a MQTT broker is specified in the model, the message is sent via MQTT; otherwise it is sent via CoAP</li>
+				<li>
+					If no information about the context of b is found, the message to deliver should be a reply to a request made by some 'alien'. The system first checks for the existence of an active TCP connection with the receiver (the 'alien' made a request via TCP).In such a connection is found, the message is sent over it. Otherwise, an attempt is made to send the reply via MQTT, hoping that the 'alien' was MQTT-connected.
+				</li>
+			<ul>
+		</div>
+	</div>
+	<h4>Behaviour</h4>
+	<div>
+		<p>
+		As for what concernes the QAK modeling, most of the actors were unaltered from the problem analysis. The only actor which as undergone some changes (the most relevant to our system) is the waiter.
+		</p>
+		<p>
+		The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, timer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
+		</p>
+		<ul>
+			<li><h5>Waiter QAK behaviour</h5>
+				<pre class="mytab"><code><keyw>System -trace</keyw> waiter
+
+<keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
+
+<comm>// Interaction Waiter - Mover ==============================//</comm>
+<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   
+<keyw>Reply</keyw> done 		: done(X,Y)									  
+<keyw>Dispatch</keyw> end 	: end(ARG)									
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter - Timer ==============================//</comm>
+<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
+<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
+<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter - Tearoom ============================//</comm>
+<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)						
+<keyw>Reply</keyw> state			 : state(STATE)										
+<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST,A1,A2,A3)	
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter - Smartbell ==========================//</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)						   
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter - Client =============================//</comm>
+<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			
+<keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   
+<keyw>Request</keyw> wantToOrder		: wantToOrder(TEATABLE_ID)	         
+<keyw>Reply</keyw> orderPlease		: orderPlease(ARG)					  
+<keyw>Dispatch</keyw> tea 			: tea(TEATABLE_ID, TEA)				  
+<keyw>Event</keyw> teaServed 		: teaServed(TEATABLE_ID, TEA)		  
+<keyw>Request</keyw> billPlease 		: billPlease(TABLE_ID)				  
+<keyw>Reply</keyw> cardPlease 		: cardPlease(ARG)					  
+<keyw>Event</keyw> maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  
+<keyw>Event</keyw> exitPlease 		: exitPlease(CLIENT_ID)				  
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter - Barman  ============================//</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID, TEA)					  
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						
+<comm>//==========================================================//</comm>
+
+<comm>// Interaction Waiter auto-message =========================//</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				  
+<comm>//==========================================================//</comm></code></pre>
+<pre class="mytab"><code>Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+Context ctxtearoom 		 	ip [host="localhost" port=8015]
+
+ExternalQActor tearoom 		context ctxtearoom
+ExternalQActor barman		context ctxtearoom
+ExternalQActor smartbell	context ctxtearoom
+
+CodedQActor datacleaner    	context ctxwaiter className "rx.dataCleaner"
+CodedQActor distancefilter 	context ctxwaiter className "rx.distanceFilter"
+CodedQActor basicrobot 		context ctxwaiter className "it.unibo.basicrobot.Basicrobot"
+CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker.Trustingwalker"
+
+<sevid>QActor waiter</sevid> context ctxwaiter {
+	
+	[# 
+		var MaxWaitTime = 0L
+		val MaxStayTime = 10000L   	// 10 sec
+		val IdleTime = 200L			// 200 ms
+		
+		var ClientToConvoy = ""
+		var DestTable = -1
+		var CurDrink = ""
+		var Price = 3
+		
+		//since there is only one client in our first prototype this function is useless
+		// We still leave it since in future it will be necessary
+		fun getMaxWaitTime() : Long {
+			return 1000
+		}
+	#]
+	
+	
+	<sevid>State s0 initial</sevid> {
+		
+		//init
+		println("waiter | beep beep boop...START...")
+		
+	}
+	<tevid>Goto restingAtHome</tevid>
+	
+	<comm>// WAITER WAIT FOR TASK TO DO 1</comm>
+	<sevid>State restingAtHome</sevid> {
+			
+		println("waiter | Chilling out at home...")	
+		
+	}
+	<tevid>Transition t0 	whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
+	
+	<comm>// WAITER WAIT FOR TASK TO DO 2</comm>
+	<sevid>State doATask</sevid> {
+		
+		println("waiter | checking if there is a task to do...")
+		
+	}
+	<comm>// if waiter has no task it go home to rest a little bit</comm>
+	<tevid>Transition t0 	whenTimeVar IdleTime -> goHome	</tevid>			
+					<tevid>whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
+	
+	<comm>// WAITER GO HOME</comm>
+	<sevid>State goHome</sevid> {
+		
+		<mevid>request mover -m moveTo : moveTo(home)</mevid>
+		
+	}
+	<tevid>Transition t0 whenReply done -> restingAtHome</tevid>
+	
+	<comm>//-------------------------------------------- WAITER HANDLE ENTER REQUEST ----------------------------------------------------</comm>
+	<comm>//---------------------------------------------------------------------------------------------------------------------------</comm>
+	<sevid>State handleEnterPhase1</sevid> {
+		
+		onMsg(enter : enter(CLIENT_ID)){
+			[#ClientToConvoy = payloadArg(0)#]
+			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+			println("waiter | checking if the safe tearoom has a free table ...")
+			<mevid>request tearoom -m getRoomState : getRoomState(getFreeTable, arg1)</mevid>
+		} //onMsg
+		
+	}
+	<tevid>Transition t0 whenReply state -> handleEnterPhase2</tevid>
+	
+	<sevid>State handleEnterPhase2</sevid> {
+		
+		onMsg(state : state(S)){
+			if [#payloadArg(0).toInt() != -1 #] { <comm>//NO free and clean table (CAN'T HAPPEN in this first prototype since there is only one client)</comm>
+				[# 
+					MaxWaitTime =  getMaxWaitTime()
+				#]
+				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
+				<mevid>emit wait : wait($payloadArg(0), $MaxWaitTime)</mevid>
+			}
+			else { <comm>// there is a free and clean table and Tearoom sent me it's ID</comm>
+				[# 
+					MaxWaitTime =  0L
+					DestTable = payloadArg(0).toInt()
+				#]
+			}
+			
+		}
+		
+	}
+	<tevid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else doATask</tevid>
+	
+	
+	<comm>//--------------------------------------  WAITER CONVOY CLIENT TO TABLE  ----------------------------------------- </comm>
+	
+	<sevid>State convoyClientToTablePhase1</sevid> {
+		println("waiter | reaching entrance door to convoy client $ClientToConvoy to teatable $DestTable ...")
+		<mevid>request mover -m moveTo : moveTo(entrance)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase2</tevid>
+	
+	<sevid>State convoyClientToTablePhase2</sevid> {
+		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
+		println("waiter | convoying client $ClientToConvoy to teatable $DestTable ...")
+		[#var Dest =  "teatable" + DestTable.toString() #]
+		<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase3</tevid>
+		
+	<sevid>State convoyClientToTablePhase3</sevid> {
+		
+		forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)
+		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $DestTable )</mevid>
+		<comm>//start timer to count until MaxStayTime</comm>
+		<mevid>forward timer -m startTimer : startTimer($DestTable, $MaxStayTime)</mevid>
+		
+	}
+	<tevid>Goto doATask</tevid>
+	
+	
+<comm>//---------------------------------------WAITER CLEAN TABLE ---------------------------------------------------------</comm>
+	<sevid>State cleanTeatablePhase1</sevid> {
+		
+		onMsg(cleanTable : cleanTable(T)) {
+			<comm>//first we reach the teatable</comm>
+			println("Waiter moving towards teable to clean (${payloadArg(0)})")
+			[#var Dest =  "teatable" + payloadArg(0) 
+			  DestTable = payloadArg(0).toInt()
+			#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> cleanTeatablePhase2</tevid>
+	
+	<sevid>State cleanTeatablePhase2</sevid> {
+		
+		<comm>// then we clean the teatable</comm>
+		println("waiter | cleaning the teatable $DestTable")
+		delay 2000	<comm>//emulate real action</comm>
+		<comm>//update teatable state</comm>
+		<mevid>forward tearoom -m updateState : updateState (updateTableState, $DestTable, clean, ARG3)</mevid>
+			
+	}
+	<comm>//Should check if a client is in queue BUT in this prototype we have only one client so no one can be in queue
+	//Goto convoyClientToTable if [# clientInQueue.isNotEmpty() #] else doATask</comm>
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//-------------------------------------------- WAITER TAKE CLIENT's ORDER -------------------------------------------</comm>
+	<sevid>State handleOrderFromClientPhase1</sevid> {
+		
+		onMsg(wantToOrder : wantToOrder(TEATABLE_ID)){
+			<comm>//Stop timer </comm>
+			<mevid>forward timer -m stopTimer : stopTimer($payloadArg(0))</mevid>
+			println("waiter | client at teatable ${payloadArg(0)} want to order! Reaching table ${payloadArg(0)}...")
+			<comm>// reach teatable to take client order</comm>
+			[#var Dest =  "teatable" + payloadArg(0) #]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> handleOrderFromClientPhase2</tevid>
+	
+	<sevid>State handleOrderFromClientPhase2</sevid> {
+		
+		<mevid>replyTo wantToOrder with orderPlease : orderPlease(ARG)</mevid>
+	}
+	<tevid>Transition t0 whenMsg tea -> handleOrderFromClientPhase3</tevid>
+	
+	<sevid>State handleOrderFromClientPhase3</sevid> {
+		
+		onMsg(tea : tea(TABLE,TEA)){
+			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
+			<mevid>forward barman -m  order : order($payloadArg(0), $payloadArg(1))</mevid>
+		}
+		
+	}
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//------------------------------------------ WAITER SERVE CLIENT  --------------------------------------------------</comm>	
+	
+	<sevid>State serveTeaToClientPhase1</sevid> {
+		
+		onMsg(ready : ready(T,D)){
+			[# 
+				DestTable = payloadArg(0).toInt()
+				CurDrink = payloadArg(1)
+			#]
+			println("waiter | order for table ${payloadArg(0)} ready! Reaching service desk...")	
+			<mevid>request mover -m moveTo : moveTo(servicedesk)</mevid>
+		}
+		
+	}
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase2</tevid>
+	
+	<sevid>State servTeaToClientPhase2</sevid> {
+		
+			println("waiter | bringing tea to table $DestTable...")
+			[#var Dest =  "teatable" + DestTable #]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+			
+	}
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase3</tevid>
+	
+	<sevid>State servTeaToClientPhase3</sevid> {
+		
+			<mevid>emit teaServed : teaServed($DestTable, $CurDrink )</mevid>
+			<comm>//start counting for consumingTime NOW</comm>
+			<comm>//start timer to count until MaxStayTime</comm>
+			<mevid>forward timer -m resumeTimer : resumeTimer($DestTable)</mevid>
+	
+	}		
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//-----------------------------------WAITER HANDLE PAYMENT  -------------------------------------------------------/</comm>
+
+	<sevid>State handlePaymentPhase1</sevid>{
+		
+		onMsg(billPlease : billPlease(T)){
+			
+			<comm>// stopping timer</comm>
+			println("waiter | Client at table ${payloadArg(0)} is ready to pay. Ending timer for table ${payloadArg(0)}")
+			<mevid>forward timer -m endTimer : endTimer($payloadArg(0))</mevid>
+			
+			<comm>// reaching table</comm>
+			[#
+				<comm>//memorizing teatable_id for next phase</comm>
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			println("waiter | Reaching table ${payloadArg(0)} ...")
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+		
+	}
+	<tevid>Transition t0 whenReply done -> handlePaymentPhase2</tevid>
+	
+	<sevid>State handlePaymentPhase2</sevid> {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		delay 500
+		<mevid>replyTo billPlease with cardPlease : cardPlease($Price) </mevid>
+		<comm>//get client_id from table_id</comm>
+		<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable) </mevid>
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
+	
+	<sevid>State convoyClientToExitPhase1</sevid> {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		onMsg(state : state(C)){
+			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
+			[# ClientToConvoy = payloadArg(0)#]
+			<mevid>request mover -m moveTo : moveTo(exit)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToExitPhase2</tevid>
+	
+	<sevid>State convoyClientToExitPhase2</sevid> {
+			println("waiter | saying goodbye to client $ClientToConvoy...")
+			<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
+			
+			<comm>//updating teatable state</comm>
+			<mevid>forward tearoom -m updateState : updateState(updateTableState, $DestTable, dirty, ARG)</mevid>
+			<comm>//remember to clean the table</comm>
+			<mevid>forward waiter -m cleanTable : cleanTable($DestTable)</mevid>
+	}
+	<tevid>Goto doATask</tevid>
+	
+	
+<comm>//----------------  WAITER HANDLE SLOW CLIENT  ---------------------------------------------------------------</comm>	
+
+	<sevid>State handleTimeoutPhase1</sevid> {
+		
+		onMsg(timeout : timeout(T)){
+			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
+			println("waiter | reaching table ${payloadArg(0)}...")
+			
+			[#
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> handleTimeoutPhase2</tevid>
+	
+	<sevid>State handleTimeoutPhase2</sevid> {
+			println("waiter | communicating to client at table ${payloadArg(0)} that he has to pay and leave...")
+			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), $Price)</mevid>
+						
+			<comm>//get client_id from table_id</comm>
+			<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable)</mevid>	
+			
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>	
+	
+}</code></pre>
+			</li>
+			<li><h5>Tearoom QAK knowledge base (Prolog)</h5>
+				<p>As analysts we have already had the opportunity to explain the reasons that led us to choose to store the data in Prolog rather than on a database or file. The most interesting advantage is certainly the possibility of writing code in a declarative language and it is a feature that we immediately exploited as you can see in the code below.<p>
+				<pre class="mytab"><code>%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% =========================================================
+%%	               TEAROOM STATE
+%% =========================================================
+%%
+%% ------------------------------------------------
+%%                  TEATABLE STATE
+%% ------------------------------------------------
+%%
+%% busy		= teatable already taken
+%% dirty	= teatable free BUT dirty
+%% clean	= teatable free AND clean
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+<comm>%%   FACTS   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</comm>
+teatable(1, clean).
+teatable(2, clean).
+
+bound(1, no).
+bound(2, no).
+
+
+<comm>%%   RULES   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</comm>
+numfreetables(N) :-
+	findall( N,teatable( N,clean ), NList),
+	length(NList,N).
+
+stateOfTeatables( [teatable1(V1),teatable2(V2)] ) :-
+	teatable( 1, V1 ),
+	teatable( 2, V2 ).
+
+<comm>%% only a clean table can get busy</comm>	
+setBusyTable(N)	 :-
+	retract( teatable( N, clean ) ),
+	!,
+	assert( teatable( N, busy ) ).
+setBusyTable(N).	
+	
+<comm>%% only a dirty table can get clean</comm>	
+setCleanTable(N)	 :-
+	retract( teatable( N, dirty ) ),
+	!,
+	assert( teatable( N, clean ) ).
+setCleanTable(N).	
+
+<comm>%% only a busy table can get dirty</comm>	
+setDirtyTable(N)	 :-
+	retract( teatable( N, busy ) ),
+	!,
+	assert( teatable( N, dirty ) ).
+setDirtyTable(N).
+
+<comm>%% assign(X,Y) assign at table X the client Y</comm>
+assign(X,Y)		:-
+	retract( bound(X, _) ),
+	!,
+	assert( bound(X,Y) ).
+assign(X,Y).</code></pre>  
+			<p>Prolog facts represent the tearoom information we want to keep stored. In particular, it was decided to keep in memory the state of the tables (busy, clean and dirty) and any mapping between customers and tables so as to be able to trace the customer from the table and vice versa.</p>
+			<p>There are also some rules that implement functionality to update the room state (update the state of a table or change the table-clientId mapping) and some rules to obtain information on the current state of the room exploiting declerative programming</p>
+			</li>
+		</ul>
+	</div>	
+</div>
+
+<h2>Test Plans</h2>
+<div class="remark">
+
+	<h4>Client MOK - WebGUI</h4>
+	<div>
+		<p>	
+			A client web gui has been developed to let the custumer directly test and see the waiter behaviour. We decided to take advantage of Spring Framework and Spring Boot that offer a way to quickly develop and manage a standalone web server: using <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a>, we were allowed to easily manage GET and POST requests from the user web interface (page).
+			</br></br>
+			For the event communication between QAKctors and webGui, instead, we used MQTT support from <i>org.eclipse.paho.client.mqttv3</i> and, for the request-reply / dispatch interaction, we used CoAP (provided by <i>org.eclipse.californium.core</i>). Hereunder are listed the configuration classes for the aforementioned interactions:
+			<ul>
+				<li><a href="./ConnQakCoapMine.kt">ConnQakCoap</a></br></li>
+				<li><a href="./MqttConfig.java">MqttConfig</a></br></li>
+				<li><a href="./EventHandler.java">EventHandler</a></br></li>
+			</ul>
+		</p>
+		<p>
+			As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter was working. That way, the client is updated on its situation. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
+		</p>
+		<p class="did">
+			The code below represents the controller class "ProvaController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping and @PostMapping annotations.
+		</p>
+		<pre class="mytab"><code>@Controller
+public class ProvaController {
+	
+	String appName     ="provaGui";
+    String htmlPage  = "welcome";
+    ConnQakCoapMine connQakSupportS;
+    ConnQakCoapMine connQakSupportW;
+    MqttConfig mqttSupport;
+    String cID="";
+    String tID="";
+    
+    @Autowired
+    SimpMessagingTemplate smt;
+    
+   
+	public ProvaController() {
+        connQakSupportS = new ConnQakCoapMine();
+        connQakSupportW = new ConnQakCoapMine();
+        mqttSupport = new MqttConfig("localhost:1883");
+        connQakSupportS.createConnection("localhost", "8015", "ctxtearoom", "smartbell");
+        connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");
+        mqttSupport.connect();
+        mqttSupport.setReceivingHandler("unibo/polar", this);
+        
+	}
+	
+	
+	/*--------------------------------------------MAPPING-----------------------------------------------------------*/
+	
+	@GetMapping("/")
+	public String welcomePage(Model model){
+		System.out.println("________________________Welcome page requested... " + model);
+		model.addAttribute("attr", "${stringawelcome}");
+		//peparePageUpdating();
+		return "welcome";
+	}
+	
+	@PostMapping("/enter")
+	public String afterRingPage(Model model) {
+		System.out.println("________________________Client rang the smartbell... "+model);
+		
+		try {
+			ApplMessage msg = MsgUtil.buildRequest("clientWebPage", "ring", "ring()", "smartbell");
+			String answer = connQakSupportS.request( msg );
+			this.cID = answer;
+			
+			while(!(model!=null)) {
+				System.out.println("________________________Waiting for smartbell reply...");
+				Thread.sleep(200);
+			}
+			ResourceRepMine rep = getWebPageRep(0);
+			
+			if(!(rep.getContent().contains("sendClientID"))) {
+				System.out.println("_______________________Smartbell | Primo stato scartato: "+rep.getContent());
+				rep = getWebPageRep(0);
+			}
+			
+			System.out.println("_______________________Smartbell reply: "+rep.getContent());
+			String html = this.getAccessResult(rep.getContent(), model);
+			return ""+html;	
+		}
+		catch(Exception e) {
+			System.out.println("_________________________ERROR=" + e.getMessage());
+			e.printStackTrace();
+			return "welcome";
+		}
+	}
+	
+	@PostMapping("/order")
+	public String wantToOrder(Model model){
+		
+		System.out.println("_______________________Client wants to order...");
+		
+		connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "wantToOrder", "wantToOrder("+this.tID+")", "waiter"));
+		while(!(model!=null)) {
+			System.out.println("________________________Waiting for waiter reply...");
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		ResourceRepMine rep = getWebPageRep(1);
+		System.out.println("Waiter arrived at table... | " + rep.getContent());
+		return "order";
+	}
+	
+	
+	@PostMapping("/consume")
+	public String afterOrder(@RequestParam String type, Model model){
+		
+		System.out.println("_______________________Client has requested " + type + " tea...");		
+		connQakSupportW.forward(MsgUtil.buildDispatch("clientWebPage", "tea", "tea("+this.tID+","+type+")", "waiter"));
+		model.addAttribute("teaOrdered", type);
+		return "consume";
+	}
+	
+	@PostMapping("/exit")
+	public String afterOrder(Model model){
+		
+		System.out.println("_______________________Client has requested  the bill...");		
+		connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "billPlease", "billPlease("+this.tID+")", "waiter"));
+		while(!(model!=null)) {
+			System.out.println("________________________Waiting for waiter reply...");
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		ResourceRepMine rep = getWebPageRep(1);
+		System.out.println("Waiter arrived at the table... | "+rep.getContent());
+		return "exit";
+	}
+	
+	/*-------------------------------------------UTILITIES------------------------------------------------------------*/
+	
+	public void updateWaiterResp(String testo, String topic) {
+		smt.convertAndSend(topic, testo);
+		System.out.println("____________________________Updating client web-view...");
+	}
+	
+	public ResourceRepMine getWebPageRep(int con)   {
+		if(con==0) {
+			String resourceRep = connQakSupportS.readRep();
+			System.out.println("__________________________Controller resourceRep=" + resourceRep  );
+			return new ResourceRepMine("" + HtmlUtils.htmlEscape(resourceRep)  );	
+		}
+		else{
+			String resourceRep = connQakSupportW.readRep();
+			System.out.println("__________________________Controller resourceRep=" + resourceRep  );
+			return new ResourceRepMine("" + HtmlUtils.htmlEscape(resourceRep)  );
+			
+		}
+	}
+	
+	
+	public String getAccessResult(String msg, Model m) {
+		
+		String msgArg = KotParser.getMessageArg(msg, "sendClientID");
+		System.out.println(msgArg);
+		String ret = "welcome";
+		
+		if(msgArg.equals("NO")) {
+			System.out.println("________________________The client cannot enter... "+m);
+			ret = "noAccess";
+		}
+		else {
+			System.out.println("________________________The client can enter... "+m);
+			m.addAttribute("waiterResp", "Waiting for waiter instructions...");
+			cID=msgArg;
+			ret = "enter";
+		}
+		return ret;
+	}
+
+	public String getcID() {
+		return cID;
+	}
+
+	public void setcID(String cID) {
+		this.cID = cID;
+	}
+
+	public String gettID() {
+		return tID;
+	}
+
+	public void settID(String tID) {
+		this.tID = tID;
+	}
+	
+}</code></pre>
+		<p>
+			Hereunder there some videos that show the interaction between the virtual robot and the client webGUI:
+			<ul>
+				<li>
+					Client who asks for the bill</br>
+					<center><video width="80%" controls>
+					<source src="./video/request.mp4" type="video/mp4">
+					<source src="./video/request.mp4" type="video/ogg">
+					Your browser does not support the video tag.
+					</video></center>
+				</li>
+				<li>
+					Client who stays over the allowed max time</br>
+					<center><video width="80%" controls>
+					<source src="./video/maxtime.mp4" type="video/mp4">
+					<source src="./video/maxtime.mp4" type="video/ogg">
+					Your browser does not support the video tag.
+					</video></center>
+				</li>
+				<li>
+					Client who cannot enter</br>
+					<center><video width="80%" controls>
+					<source src="./video/noaccess.mp4" type="video/mp4">
+					<source src="./video/noaccess.mp4" type="video/ogg">
+					Your browser does not support the video tag.
+					</video></center>
+				</li>
+			</ul>
+		</p>
+	</div>
+	<h4>Automated Test Plans</h4>
+	<div>
+		<p>
+			For this first prototype we tested the system manually, i.e. we used the client GUI to interact with the waiter and the smartbell and checked with our own eyes that the waiter behaves as required. In reality there is the possibility, taking advantage of the consideration made in the Test Plan paragraphs of the previous phases of Analysis, to create automated tests to test future prototypes more quickly and systematically.
+			</br></br>
+			We can create automated tests by exploiting the fact that our actors behave like Finite State Machines and therefore that there is a correspondence between actions that the actor is performing and its state. Tests must therefore check that actors go through the right states during their workflow. Thus, there is the need to have a mechanism that allows the actors to expose to the outside information representative of the state in which they currently are. To expose this information to the outside, we have decided to use the CoAP protocol as it is already integrated within the QAK infrastructure and together with the Califormium framework allow us to take advantage of an observable machanism already implemented.
+			</br></br>
+			As stated in <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html#actorasresource">Actors as (CoAP) resources</a> each QAkactor is a CoAP observable resource and can be accessed with the URI-path: context_of_QAkctor/QAkctor_name (e.g ctxbarman/barman).</br>Inside the QAkctor we can update the value of it's associated CoAP resource with the instruction <em>updateResource</em>. An example is reported below for the barman actor:
+		</p>
+		<pre class="mytab"><code>QActor barman context ctxtearoom {
+	State s0 initial {
+		discardMsg Off  //We need to prepare every client's order, thus we don't want to lose potential order 
+						//while preparing previous one (while in state makeOrder)
+	}
+	Goto waitOrder
+	
+	State waitOrder{
+		//waiting for orders from the waiter
+		println("barman | waiting for orders from the waiter... ")
+		
+		<mevid>updateResource [# "idle" #]</mevid>
+	}
+	Transition t0 whenMsg order -> makeOrder
+	
+	State makeOrder {
+		onMsg( order : order(D,T)){ 
+			println("barman | making ${payloadArg(1)} for table ${payloadArg(0)} ")
+			<mevid>updateResource [# "preparing(${payloadArg(0)},${payloadArg(1)})" #]</mevid>
+			delay 2000	// MAKE the order received
+			//forward waiter -m ready : ready($payloadArg(0), $payloadArg(1))
+			<mevid>updateResource [# "idle" #]</mevid>
+		}
+	}
+	Goto waitOrder
+}</code></pre>
+		<p>
+			Inside a kotlin test we can check the value of a CoAP resource associated to a QAkactor by using the utility function <em>geResourceRep()</em> which return a String representing the value of the resource. An example is reported below for the barman test class:
+		</p>
+		<pre class="mytab"><code>class testBarman {
+	var barman            : ActorBasic? = null
+	//val mqttTest   	      = MqttUtils("test") 
+	val initDelayTime     = 4000L    
+	//val useMqttInTest 	  = false
+	//val mqttbrokerAddr    = "tcp://broker.hivemq.com" 
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Before
+	fun systemSetUp() {
+		
+   		kotlin.concurrent.thread(start = true) {
+			it.unibo.ctxtearoom.main() 						// MainCtxTearoom()
+			println("testBarman systemSetUp done")
+   		} 
+	}	
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@After
+	fun terminate() {
+		println("testBarman terminated!")
+	}
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	fun test(){
+		println(" --- testBarman ---")
+ 		runBlocking{
+			delay(10000)
+ 			while(barman == null){
+				println("test | waiting for barman to be created...")
+				delay(500)
+				barman = sysUtil.getActor("barman")
+			}
+		//first the barman should be idle
+		var state = barman!!.geResourceRep()
+		//println("barman state is : ${barman!!.geResourceRep()}")
+		assertTrue(state == "idle")
+
+			println("test | now I forward an order message...")
+			MsgUtil.sendMsg( "test","order", "order(1, peach)", barman!!  )
+			
+			delay(500)
+			//now barman state should be preparing(1,peach)
+			//println("barman state is : ${barman!!.geResourceRep()}")
+			state = barman!!.geResourceRep()
+			assertTrue(state == "preparing(1,peach)")
+			
+			delay(4000)
+			//after preparing the tea the barman should return idle
+			//println("barman state is : ${barman!!.geResourceRep()}")			
+			state = barman!!.geResourceRep()
+			assertTrue(state == "idle")
+			
+		}
+}
+
+
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Test
+	fun testBarman(){
+		
+		test()
+
+		println("testBarman finished  ")
+	}
+
+}</code></pre>
+		
+	</div>
+
+	
+
+
+</div>
+
+</div>
+
+
+
+ <!--------------------------------------------------------------------------------------------------------------------------------->
+
+<table id="authors" border="1" align="center">
+<tr>
+<td style="width:50%">
+<center>By Elena Martini ~ email: elena.martini6@studio.unibo.it</center> 
+</td>
+<td style="width:50%">
+<center>By Elisa Drudi ~ email: elisa.drudi4@studio.unibo.it </center>
+</td>
+</tr>
+<!-- ---------------->
+<tr>
+<td style="width:50%">
+<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+</td>
+<td style="width:50%">
+<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+</td>
+</tr>
+</table>  
+</body>
+</html>
+
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+</html>

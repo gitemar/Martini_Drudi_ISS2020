@@ -1,0 +1,540 @@
+System waiter
+
+mqttBroker "localhost" : 1883 eventTopic "unibo/polar" 	//mqtt.eclipse.org
+
+// Interaction Waiter - Mover =================================//
+Request moveTo 	: moveTo(KEY_POSITION)						   //
+Reply done 		: done(X,Y)									   //
+Dispatch end 	: end(ARG)									   //	
+//=============================================================//
+
+// Interaction Mover - TrustingWalker =========================//
+Event    twstarted  : twstarted(X)							   // emitted by TrustingWalker after it started
+Request  movetoCell : movetoCell(X,Y)						   // move to position (X,Y) with X column and Y row
+Reply    atcell     : atcell(X,Y)							   // if success TrustingWalker send this message
+Reply	 walkbreak  : walkbreak(X,Y) 						   // if fail TrustingWalker send this message
+// ============================================================//
+
+// Interaction Waiter - Timer =================================//
+Dispatch startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   //
+Dispatch stopTimer 		: stopTimer(TEATABLE_ID)			   //
+Dispatch resumeTimer 	: resumeTimer(TEATABLE_ID)			   //
+Dispatch endTimer 		: endTimer(TEATABLE_ID)				   //
+Event timeout 			: timeout(TEATABLE_ID)				   //
+//=============================================================//
+
+// Interaction Waiter - Tearoom ========================================//
+Request getRoomState : getRoomState(REQUEST, ARG1)						//
+Reply state			 : state(STATE)										//
+Dispatch updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	//
+//======================================================================//
+
+// Interaction Waiter - Smartbell ============================//
+Dispatch enter : enter(CLIENT_ID)						      //
+//============================================================//
+
+// Interaction Waiter - Client ===============================//
+Event wait 				: wait(CLIENT_ID, MAX_TIME)			  //
+Event sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   //
+Request wantToOrder		: wantToOrder(TEATABLE_ID)	          //
+Reply orderPlease		: orderPlease(ARG)					  //
+Dispatch tea 			: tea(TEATABLE_ID, TEA)				  //
+Event teaServed 		: teaServed(TEATABLE_ID, TEA)		  //
+Request billPlease 		: billPlease(TABLE_ID)				  //
+Reply cardPlease 		: cardPlease(ARG)					  //
+Event maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  //
+Event exitPlease 		: exitPlease(CLIENT_ID)				  //
+//============================================================//
+
+// Interaction Waiter - Barman  ==============================//
+Dispatch order : order(TEATABLE_ID, TEA)					  //
+Dispatch ready : ready(TEATABLE_ID,TEA)						  //
+//============================================================//
+
+// Interaction Waiter auto-message ===========================//
+Dispatch cleanTable : cleanTable (TEATABLE_ID)				  //
+//============================================================//
+
+Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+Context ctxtearoom 		 	ip [host="localhost" port=8015]
+
+ExternalQActor tearoom 		context ctxtearoom
+ExternalQActor barman		context ctxtearoom
+ExternalQActor smartbell	context ctxtearoom
+
+CodedQActor datacleaner    	context ctxwaiter className "rx.dataCleaner"
+CodedQActor distancefilter 	context ctxwaiter className "rx.distanceFilter"
+CodedQActor basicrobot 		context ctxwaiter className "it.unibo.basicrobot.Basicrobot"
+CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker.Trustingwalker"
+
+QActor mover context ctxwaiter {  
+[#
+	var X = 0
+	var Y = 0
+	var correct = true
+	var CurrentPlannedMove = ""
+	var StepTime    	   = 450L
+	val BackTime           = 2 * StepTime / 3
+	//var obstacleFound      = false  
+	val inmapname          = "teaRoomExplored" 
+	
+	
+	fun assignXY(x: Int, y: Int) {
+		X = x
+		Y = y
+	}
+#]
+	State s0 initial {	
+		//initializing Planner (also used by trustingWalker)
+ 		run itunibo.planner.plannerUtil.initAI()
+		run itunibo.planner.plannerUtil.loadRoomMap( inmapname ) 		
+		run itunibo.planner.plannerUtil.showCurrentRobotState()		
+	}	
+	Transition t0 whenEvent twstarted -> waitingForCommand
+	
+	State waitingForCommand {
+		println("mover | waiting for waiter's commands...")
+		[# correct = true #]
+		
+	}
+	Transition t1 	whenRequest moveTo -> move
+					whenMsg end -> end
+	
+	State move {
+		onMsg(moveTo : moveTo(P)){
+			[#
+				when (payloadArg(0)) {
+					"home" 			-> assignXY(0,0)
+					"entrance" 		-> assignXY(0,3)
+					"exit" 			-> assignXY(4,3)
+					"servicedesk"	-> assignXY(4,0)
+					"teatable1"		-> assignXY(1,1)
+					"teatable2"		-> assignXY(3,1)
+					else			-> { correct = false }
+				}	
+			#]
+			if [# correct == true #]{
+				println("mover | correct request: [${payloadArg(0)}] correspond to ($X,$Y)")
+				request trustingwalker -m movetoCell : movetoCell($X,$Y)
+			}
+			else{
+				println("mover | ERROR: required position doesn't exist")
+				printCurrentMessage
+			}
+		}
+	}
+	Goto waitingForReply if [# correct == true #] else unexpected
+	
+ 	State waitingForReply {
+ 	 	println("mover | waiting for reply...")
+ 	 }
+ 	 Transition t2 	whenReply atcell ->  success
+					whenReply walkbreak -> unexpected
+				
+	State success {
+		replyTo moveTo with done : done($X, $Y)
+		onMsg(atcell : atcell(X,Y)){
+			println("Mover replying to waiter...")
+		}
+		// se la direzione che stai guardando non è verso il basso (e.g servo i clienti guardando il tavolo :-))
+		// allora cambia direzione di conseguenza per guardare verso il basso. OCCHIO dovresti aggiornare anche lo stato del robot
+		// per indicare che stai guardando in una diversa direzione.. peccato che sia tutto cablato nel Planner che tu ovviamente non
+		//vuoi toccare!
+		// Quindi la soluzione è memorizzare la direzione che stai guardando. Poi cambiarla per guardare in basso E prima di invocare 
+		// il planner cambiare nuovamente direzione per far sì di tornare a guardare la direzione che il Planner si aspetta :-)
+	}
+	Goto waitingForCommand		
+				
+ 	State unexpected{
+ 		println("There is something wrong ...")
+		printCurrentMessage
+		[# var F = -1 #]
+		replyTo moveTo with done : done($F,$F)
+	}
+    Goto waitingForCommand
+    
+    State end {
+    	println("mover | terminating...")
+    	terminate 1
+    }
+    
+ }
+
+QActor timer context ctxwaiter {
+	
+	[#
+		var Teatable : Int = -1
+		var RemainingTime : Long = -1
+		var Record : Long = -1
+	#]
+	
+	State s0 initial {
+		discardMsg Off
+	}
+	Goto waitingForCommand
+	
+	State waitingForCommand {
+		println("timer | waiting for waiter's command...")
+	}
+	Transition t0 	whenMsg startTimer -> startTimer
+					//whenMsg stopTimer -> stopTimer
+					//whenMsg resumeTimer -> resumeTimer
+					//whenMsg endTimer -> endTimer
+	
+	State startTimer {
+		onMsg(startTimer : startTimer(TEATABLE_ID, MAX_TIME)){
+			println("timer | starting timer for teatable ${payloadArg(0)} and timeout ${payloadArg(1)} ms")
+			[#
+				Teatable = payloadArg(0).toInt()
+				RemainingTime = payloadArg(1).toLong()
+			#]
+			memoCurrentTime Record
+		}
+	}
+	Transition t0 	whenTimeVar RemainingTime ->	handleTimeout
+					whenMsg stopTimer -> stopTimer
+					whenMsg endTimer -> endTimer //customer decided to not order a drink... :-(
+	
+	State stopTimer {
+		println("timer | stopping timer...")
+		[# var previousInstant = Record#]
+		memoCurrentTime Record
+		[# RemainingTime = RemainingTime - (Record - previousInstant) #]
+	}
+	Transition t0	whenMsg resumeTimer -> resumeTimer
+	
+	State resumeTimer {
+		println("timer | resuming timer...")
+		memoCurrentTime Record
+	}
+	Transition t0	whenTimeVar RemainingTime -> handleTimeout	
+					whenMsg endTimer -> endTimer
+					
+	State handleTimeout {
+		println("timer | TIMEOUT! time expired for teatable $Teatable!")
+		emit timeout : timeout($Teatable)
+	}
+	Goto waitingForCommand
+	
+	State endTimer {
+		println("timer | removing timer...")
+	}
+	Goto waitingForCommand
+}
+
+
+/**********************************************************
+ *******************  WAITER ACTOR ************************
+ **********************************************************/
+
+QActor waiter context ctxwaiter {
+	
+	[# 
+		var MaxWaitTime = 0L
+		val MaxStayTime = 10000L   	// 10 sec
+		val IdleTime = 200L			// 200 ms
+		
+		var ClientToConvoy = ""
+		var DestTable = -1
+		var CurDrink = ""
+		var Price = 3
+		
+		//since there is only one client in our first prototype this function is useless
+		// We still leave it's declaraition' since in future it will be necessary
+		fun getMaxWaitTime() : Long {
+			return 1000
+		}
+	#]
+	
+	
+	State s0 initial {
+		
+		//init
+		println("waiter | beep beep boop...START...")
+		discardMsg Off
+	}
+	Goto restingAtHome
+	
+	// WAITER WAIT FOR TASK TO DO 1
+	State restingAtHome {
+			
+		println("waiter | Chilling out at home...")	
+		
+	}
+	Transition t0 	whenMsg enter -> handleEnterPhase1
+					whenRequest wantToOrder -> handleOrderFromClientPhase1
+					whenMsg ready -> serveTeaToClientPhase1
+					whenEvent timeout -> handleTimeoutPhase1
+					whenRequest billPlease -> handlePaymentPhase1 
+					whenMsg cleanTable -> cleanTeatablePhase1
+	
+	// WAITER WAIT FOR TASK TO DO 2
+	State doATask {
+		
+		println("waiter | checking if there is a task to do...")
+		
+	}
+	Transition t0 	whenTimeVar IdleTime -> goHome				// if waiter has no task it go home to rest a little bit
+					whenMsg enter -> handleEnterPhase1
+					whenRequest wantToOrder -> handleOrderFromClientPhase1
+					whenMsg ready -> serveTeaToClientPhase1
+					whenEvent timeout -> handleTimeoutPhase1
+					whenRequest billPlease -> handlePaymentPhase1 
+					whenMsg cleanTable -> cleanTeatablePhase1
+	
+	// WAITER GO HOME
+	State goHome {
+		
+		request mover -m moveTo : moveTo(home)
+		
+	}
+	Transition t0 whenReply done -> restingAtHome
+	
+	/******************************  WAITER HANDLE ENTER REQUEST  ***************************************************************/
+	State handleEnterPhase1 {
+		onMsg(enter : enter(CLIENT_ID)){
+			[#ClientToConvoy = payloadArg(0)#]
+			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+			println("waiter | checking if the safe tearoom has a free table ...")
+			request tearoom -m getRoomState : getRoomState(getFreeTable, arg1)
+		} //onMsg
+		
+	}
+	Transition t0 whenReply state -> handleEnterPhase2
+	
+	State handleEnterPhase2 {
+		
+		onMsg(state : state(S)){
+			if [#payloadArg(0).toInt() == 0 #] { //NO free and clean table (CAN'T HAPPEN in this first prototype since there is only one client)
+				[# 
+					MaxWaitTime =  getMaxWaitTime()
+				#]
+				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
+				emit wait : wait($payloadArg(0), $MaxWaitTime)
+			}
+			else { // there is a free and clean table and Tearoom sent me it's ID
+				[# 
+					MaxWaitTime =  0L
+					DestTable = payloadArg(0).toInt()
+				#]
+			}
+			
+		}
+		
+	}
+	Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else doATask
+	
+	/****************************************************************************************************************************/
+	
+	/******************************  WAITER CONVOY CLIENT TO TABLE  *************************************************************/ 
+	State convoyClientToTablePhase1 {
+		println("waiter | reaching entrance door to convoy client $ClientToConvoy to teatable $DestTable ...")
+		request mover -m moveTo : moveTo(entrance)
+	}
+	Transition t0 whenReply done -> convoyClientToTablePhase2
+	
+	State convoyClientToTablePhase2 {
+		emit wait : wait($ClientToConvoy , $MaxWaitTime)
+		println("waiter | convoying client $ClientToConvoy to teatable $DestTable ...")
+		[#var Dest =  "teatable" + DestTable.toString() #]
+		request mover -m moveTo : moveTo($Dest)
+	}
+	Transition t0 whenReply done -> convoyClientToTablePhase3
+		
+	State convoyClientToTablePhase3 {
+		
+		forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)
+		emit sitPlease : sitPlease($ClientToConvoy, $DestTable )
+		//start timer to count until MaxStayTime
+		forward timer -m startTimer : startTimer($DestTable, $MaxStayTime)
+		
+	}
+	Goto doATask
+	
+/****************************************************************************************************************************/
+
+/******************************  WAITER CLEAN TABLE  ************************************************************************/
+	State cleanTeatablePhase1 {
+		
+		onMsg(cleanTable : cleanTable(T)) {
+			println("Waiter moving towards teable to clean (${payloadArg(0)})")
+			//first we reach the teatable
+			[#var Dest =  "teatable" + payloadArg(0) 
+			  DestTable = payloadArg(0).toInt()
+			#]
+			request mover -m moveTo : moveTo($Dest)
+		}
+	}
+	Transition t0 whenReply done -> cleanTeatablePhase2
+	
+	State cleanTeatablePhase2 {
+		
+		// then we clean the teatable
+		println("waiter | cleaning teatable $DestTable")
+		delay 2000	//emulate real action
+		//update teatable state
+		forward tearoom -m updateState : updateState (updateTableState, $DestTable, clean, ARG3)
+			
+	}
+	//Should check if a client is in queue BUT in this prototype we have only one client so no one can be in queue
+	//Goto convoyClientToTable if [# clientInQueue.isNotEmpty() #] else doATask
+	Goto doATask
+
+/****************************************************************************************************************************/
+
+/******************************  WAITER TAKE CLIENT's ORDER  ****************************************************************/
+	State handleOrderFromClientPhase1 {
+		
+		onMsg(wantToOrder : wantToOrder(TEATABLE_ID)){
+			//Stop timer 
+			forward timer -m stopTimer : stopTimer($payloadArg(0))
+			println("waiter | client at teatable ${payloadArg(0)} want to order! Reaching table ${payloadArg(0)}...")
+			// reach teatable to take client order
+			[#var Dest =  "teatable" + payloadArg(0) #]
+			request mover -m moveTo : moveTo($Dest)
+		}
+	}
+	Transition t0 whenReply done -> handleOrderFromClientPhase2
+	
+	State handleOrderFromClientPhase2 {
+		
+		replyTo wantToOrder with orderPlease : orderPlease(ARG)
+	}
+	Transition t0 whenMsg tea -> handleOrderFromClientPhase3
+	
+	State handleOrderFromClientPhase3 {
+		
+		onMsg(tea : tea(TABLE,TEA)){
+			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
+			forward barman -m  order : order($payloadArg(0), $payloadArg(1))
+		}
+		
+	}
+	Goto doATask
+
+/****************************************************************************************************************************/
+
+/******************************  WAITER SERVE CLIENT  ***********************************************************************/	
+	
+	State serveTeaToClientPhase1 {
+		
+		onMsg(ready : ready(T,D)){
+			[# 
+				DestTable = payloadArg(0).toInt()
+				CurDrink = payloadArg(1)
+			#]
+			println("waiter | order for table ${payloadArg(0)} ready! Reaching service desk...")	
+			request mover -m moveTo : moveTo(servicedesk)
+		}
+		
+	}
+	Transition t0 whenReply done -> servTeaToClientPhase2
+	
+	State servTeaToClientPhase2 {
+		
+			println("waiter | bringing tea to table $DestTable...")
+			[#var Dest =  "teatable" + DestTable #]
+			request mover -m moveTo : moveTo($Dest)
+			
+	}
+	Transition t0 whenReply done -> servTeaToClientPhase3
+	
+	State servTeaToClientPhase3 {
+			delay 800
+			emit teaServed : teaServed($DestTable, $CurDrink )
+			//start counting for consumingTime NOW
+			//start timer to count until MaxStayTime
+			println("Waiter resuming rimer for client...")
+			forward timer -m resumeTimer : resumeTimer($DestTable)
+	
+	}		
+	Goto doATask
+
+/****************************************************************************************************************************/	
+		
+/******************************  WAITER HANDLE PAYMENT  *********************************************************************/
+
+	State handlePaymentPhase1{
+		
+		onMsg(billPlease : billPlease(T)){
+			
+			// stopping timer
+			println("waiter | Client at table ${payloadArg(0)} is ready to pay. Ending timer for table ${payloadArg(0)}")
+			forward timer -m endTimer : endTimer($payloadArg(0))
+			
+			// reaching table
+			[#
+				//memorizing teatable_id for next phase
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			println("waiter | Reaching table ${payloadArg(0)} ...")
+			request mover -m moveTo : moveTo($Dest)
+		}
+		
+	}
+	Transition t0 whenReply done -> handlePaymentPhase2
+	
+	State handlePaymentPhase2 {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		delay 500
+		replyTo billPlease with cardPlease : cardPlease($Price) 
+		//get client_id from table_id
+		request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable) 
+	}
+	Transition t0 whenReply state -> convoyClientToExitPhase1
+	
+	State convoyClientToExitPhase1 {
+		onMsg(state : state(C)){
+			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
+			[# ClientToConvoy = payloadArg(0)#]
+			request mover -m moveTo : moveTo(exit)
+		}
+	}
+	Transition t0 whenReply done -> convoyClientToExitPhase2
+	
+	State convoyClientToExitPhase2 {
+			println("waiter | saying goodbye to client $ClientToConvoy...")
+			emit exitPlease : exitPlease($ClientToConvoy)
+			
+			//updating teatable state
+			forward tearoom -m updateState : updateState(updateTableState, $DestTable, dirty, ARG)
+			
+			//remember to clean the table
+			forward waiter -m cleanTable : cleanTable($DestTable)
+	}
+	Goto doATask
+/****************************************************************************************************************************/
+
+/******************************  WAITER HANDLE SLOW CLIENT  *****************************************************************/	
+
+	State handleTimeoutPhase1 {
+		
+		onMsg(timeout : timeout(T)){
+			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
+			println("waiter | reaching table ${payloadArg(0)}...")
+			
+			[#
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			request mover -m moveTo : moveTo($Dest)
+		}
+	}
+	Transition t0 whenReply done -> handleTimeoutPhase2
+	
+	State handleTimeoutPhase2 {
+			println("waiter | communicating to client at table ${payloadArg(0)} that he has to pay and leave...")
+			emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), $Price)	
+						
+			//get client_id from table_id
+			request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable)	
+			
+	}
+	Transition t0 whenReply state -> convoyClientToExitPhase1	
+	
+/****************************************************************************************************************************/	
+	
+}
+	
+

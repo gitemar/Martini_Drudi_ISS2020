@@ -1,0 +1,1817 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+<!--
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #1F37B5;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin: 10;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 110%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 80%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 100%;
+	border-radius: 5px;
+	padding: 5px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+	border-radius: 5px;
+	padding: 3px;
+	
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #154A7E;
+	padding: 1px;
+	border-radius: 5px;
+}
+ks{
+	background-color: #E8FFD3;
+	padding: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-radius: 5px;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 80%;
+	background-color: #F8FFFD;
+	border: 1.5px solid #90E4C8;
+	padding: 10px;
+	border-radius: 10px;
+	word-break: keep-all;
+	white-space: pre-wrap;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+    font-size: 19px;
+	line-height: 110%;
+}    
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}       
+div.remark{
+	background-color: #ffffff;	
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+	padding-left: 20px;
+	padding-right: 30px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ul{
+	margin: 10px;
+	margin-left: 20px;
+	padding: 0;
+}
+
+li{
+	padding-top: 5px;
+}
+
+table, th, td {
+	border: 2px solid #d5f2ed;
+}
+td{
+	padding: 10px;
+}
+
+#authors {
+	width: 600px;
+	border: 2px solid #AB55FF;
+}
+
+#authors td {
+    background-color: #b2c0ff;
+	padding: 10px;
+	border: 2px solid #AB55FF;
+}
+i{
+	font-weight: bold;
+}
+tl, ttr{
+	color: #154A7E;
+	font-weight: bold;
+}
+ttr{
+	font-style: italic;
+}
+.mytab{
+	tab-size: 4;
+}
+keyw{
+	color: #B12283;
+	font-weight: bold;
+}
+comm{
+	color: #00BD06;
+}
+strs{
+	color: #145CDE;
+}
+ints{
+	color: #E7BE41;
+	}
+p.did{
+	margin: 0;
+	padding-bottom: 10px;
+	padding-top: 0;
+	padding-left: 15px;
+	padding-right: 5px;
+	font-size: 18px;
+	border-left: 1.5px dashed silver;
+}
+sevid{
+	background-color: #A8ECC7;
+	border-radius: 5px;
+	padding: 2px;
+}
+tevid{
+	border-radius: 5px;
+	padding: 2px;
+	border: 2px solid #A8ECC7;
+	line-height: 24px;
+}
+mevid{
+	background-color: #D4F7E4;
+}
+  -->
+</style>
+    
+<head>
+   
+<title>Tearoom - sprint 1</title></head>
+    
+<body>
+<div id="top">
+<h1>Safe Tearoom COVID-19<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+<!--<h2>Introduction</h2>
+<div class="remark">
+</div>-->
+
+<h2>Requirements</h2>
+<div class="remark">
+
+	<h4>Goal - Tearoom COVID-19</h4>
+	<div>
+		The <em>manager</em> of a <em>tearoom</em> intends to regulate the access to the service by means of a ddr robot (<em>waiter</em>).
+		<br/><br/>
+		The <em>tearoom</em> is a rectangular room that includes:
+		<ul>
+			<li>an <em>entrancedoor</em> to enter in the room and an <em>exitdoor</em> to exit form it;</li>
+			<li>a number <tt>N (N=2)</tt> of <em>teatable</em>;</li>
+			<li>a <em>servicearea</em> including a <em>servicedesk</em> at which works a <em>barman</em>;</li>
+			<li>a <em>hall</em> equipped with a <em>presencedetector</em>, i.e. a device (e.g. a sonar) that can detect the presence of 
+			a person (or some other entity) in it.</li>
+		</ul>
+		</br>The <em>waiter</em> can freely move along the borders of the tearoom, since there are no obstacles there.
+		<center><img src="img/tearoom20.png" alt="tearoom20.png" width="60%"/></center>
+	</div>
+	
+	<h4>User stories</h4>
+	<div>
+		As a <em>client</em>:
+		<ul>
+			<li>I intend to <em>notify</em> my interest in <em>entering</em> in a <em>safe tearoom</em>, <em>sitting</em> at a free teatable,  <em>ordering</em> 
+			some tea,  <em>consuming</em> it  (within a limited amount of time <em>maxstaytime</em>)  <em>paying</em> the service
+			with my credit card and finally <em>leaving</em> the room.</li>
+			<li>For <em>safe tearoom</em>, I intend a tearoom with clean tea-tables posed at a proper distance; the room is populated by human clients 
+			whose body temperature is less than <tt>37.5</tt> degrees. </li>
+			<li>I can submit my notification of interest by hitting the <em>smartbell</em> located near the  <em>entrancedoor</em> 
+			that will automatically measure my body temperature and send a request message to the <em>waiter</em>, by giving to me an unique <em>clientidentifier</em>.
+			</li>
+			<li>I my body temperature is ok, but my request cannot be immediately satisfied (since the room is full), I will be <em>informed</em> by the <em>waiter</em> 
+			aabout the maximum waiting time.</li>
+		</ul>
+		</br>
+		As a <em>manager</em>:
+		<ul>
+			<li>I intend to be able to see the <em>current state</em> of the <em>tearoom</em> by using  a browser connected to a web-server 
+			associated to the application.
+			</li>
+		</ul>
+	</div>
+
+	<h4>Requirements</h4>
+	<div>
+		The <em>waiter</em> should perform the following tasks:
+		<ul>
+			<li><em>accept</em> the request of a client to enter in the tearoom if there is at least one teatable in the state <em>tableclean</em>, i.e.
+			the table is free and has been properly cleaned; </li>
+			<li><em>inform</em> the client about the maximum waiting time if there is no table free and clean</em>;</li> 
+			<li><em>reach</em> the <em>entrance door</em> and <em>convoy</em> the accepted client to the selected teatable;</li>
+			<li><em>take</em> the order of the client and transmit it (using a wifi-device) to the <em>barman</em>; </li>
+			<li><em>serve</em>  the client when the <em>barman</em> says that the requested drink is ready;</li>
+			<li><em>collect</em> the payment from the client when he/she has finished to consume or when the <em>maxstaytime</em> is expired;</li>
+			<li><em>convoy</em> the client to the <em>exitdoor</em>;</li>
+			<li><em>clean</em> the tea-table just freed  by the client;</li>
+			<li><em>rest</em> at my <em>home</em> when there is nothing to do.</li>
+		</ul>
+		</br>Since the room could contain <tt>N</tt> clients at the time, the <em>waiter</em> should reduce as much as possible the waiting time of the requests coming from each client.
+	</div>
+	
+	<h4>Assumptions for Sprint 1</h4>
+	<div>
+		The sprint team after the first meeting decided to approach the development of the system using a spiral development process. The team will begin to develop a <i>simplified version of the system</i> so that it can focus only on a <i>small portion of the issues</i> to be addressed. 
+		</br>The simplifying assumptions that will be considered in this first sprint are:</br>
+		<ul>
+			<li>assumption 1 : there will be only one customer in the tearoom at a time</li>
+			<li>assumption 2 : task will be handled in order of arrival (no priority policy)</li>
+			<li>assumption 3 : Manager's web page won't be developed for now</li>
+		</ul>
+		</br>
+		These assumptions allow the team to <em>focus on the development of a customer's service from the beginning to the end</em> as it works on <i>easier subproblems</i>.</br>In the following sprints these assumptions will be relaxed in order to progressively improve the system and incrementally integrate all the requirements.
+	</div>
+</div>
+
+<h2>Requirement analysis</h2>
+<div class="remark">
+	<ol>
+		<li><h4>Names and Verbs analysis</h4>
+			<h5>Tearoom</h5>
+				Rectangular room that is composed of two main parts: the <i>safe tearoom</i> and the <i>hall</i>.
+			<ul>
+				<li><em>Safe tearoom</em> : it is the actual tearoom. Any customer can enter it only if he/she has a body temperature that is less than 37.5°. It is composed of:
+					<ul>
+						<li><em>Teatable</em> : physical objects where clients consumes their orders. The tables are at a proper distance (following COVID-19 restrictions) and need to be cleaned by the waiter before any usage</li>
+						<li><em>Service area</em> : it is composed of the <i>service desk</i>, at which works a barman, and the <i>home</i>, where the waiter stays when it hasn't any task to performe. The service desk is where the waiter will withdraw the orders that are to be brought to the customers;</li>
+						<li><em>Exit and entrance door</em> : access and exit points that connect the <i>hall</i> and the <i>safe tearoom</i>;</li>
+					</ul>
+				</li>
+				<li><em>Hall</em> : passageway where the custumers wait to enter the safe tearoom. After a first meeting with the client it was made clear that <u>only one customer at a time can stay in the hall</u>. It also has:
+					<ul>
+						<li><em>Smartbell</em> : device located near the entrance door that any customer must use to ask the permession to enter. When hit, the smartbell measure the customer's body temperature and, only if it is less that 37.5°, it gives the customer a <i>clientidentifier</i> and sends a message to the waiter to ask for the aforementioned permission;</li>
+						<li><em>Presence dectector</em> : device that is able to dectect the presence of a person;</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h5>Manager</h5>
+			The manager is one of the system users. It intends to access the <em>current state</em> of our system through a web view using a browser connected to a web-server associated to the application. The current state is composed of:
+			<ul>
+				<li><i>Teatables states</i>: it stores information about the presence of a customer at a table and if the table is clean or not;</li>
+				<li><i>Hall state</i>: it stores information about the presence of a customer in the hall;</li>
+				<li><i>Waiter state</i>: it stores information about the task that the waiter is currently performing;</li>
+				<li><i>Barman state</i>: it stores information about the task that the barman is currently performing;</li>
+			</ul>
+			
+			<h5>Client</h5>
+			A client is one of our system users and is a tearoom customer. When inside our system every client has a unique identifier <em>clientidentifier</em>: a string that will uniquely identify that client inside the system.<!--It interacts with the system in the following way:
+			<ul>
+				<li>The client notifies its interes in entering the safe tearoom by hitting the smartbell;</li>
+				<li>If its temperature is under 37.5°, it receives a client identifier from the smartbell;</li>
+				<li>If the client can enter the safe tearoom, it will be notified about that and it will be immediately escorted by the waiter to the table, otherwise it will receive a message by the waiter containing the maximum amount of time the client will have to wait;</li>
+				<li>After arriving to the table, the client immediately sits and order its tea: here, sitting and ordering are an atomic action (performed as a single operation);</li>
+				<li>It waits for the tea to be delivered;</li>
+				<li>When the tea arrives, it starts consuming it within a limited amout of time "maxstaytime". After that period of time, or when it has ended the consumption, it notifies the waiter its intention to pay and leave. Then, it waits for the waiter to arrive at its table, since there is no cash desk due to COVID-19 restrictions;</li>
+				<li>When the waiter reaches the teatable, the client pays and it is escorted to the exit door so it can leave the tearoom.</li>
+			</ul>
+			
+			--><h5>Barman</h5>
+			The barman is an external entity that is in charge of preparing orders and interacts with our system.<!-- and interacts with our system in the followin way:
+			<ul>
+				<li>The barman receives by the waiter, through a Wi-fi device, a <ks>prepare</ks> message with the order to prepare;</li>
+				<li>It prepares the order: this action takes a limited amount of time;</li>
+				<li>It sends a <ks>ready</ks> message to the waiter when the order is ready;</li>
+			</ul>-->
+			
+			<h5>Waiter</h5>
+			It is the <em>DDR robot</em> (Differential Drive Robot - robot that is able to receive command and communicate with many other different devices to complete its tasks) that regulates the access to the tearoom and it is this project main object of study. It performs the following operations:
+			<ul>
+				<li><em>Accept</em> the request of a client: it receives a <ks>enter</ks> message from the smartbell notifying a client's interest in entering the safe tearoom. It accepts that request only if there is at least one teatable that is properly clean and free. Accepting a client means that the chosen table will be reserved for client who sent the message</li>
+				<li><em>Reach</em> the entrance door: after accepting the client, the waiter moves from its current position to the entrance door where the client is waiting;</li>
+				<li><em>Convoy</em> the client to the table: the waiter moves from the entrance door to the client reserved teatable, while convoying the client to that teatable;</li>
+				<li><em>Inform</em> the client about the maximum waiting time: if no teatable is available (no teatable is properly cleaned and free) at <ks>enter</ks> message reception, the waiter sends a <ks>wait</ks> message to the client, containing the maximum time it will have to wait (calculated considering the number of clients that are currently in the safe-tearoom, N, and maxstaytime: N*maxstaytime)</li>
+				<li><em>Take the order</em>: the client will communicate its order to the waiter that will then send it as a <ks>order</ks> message (using a Wifi device) to the barman. Hence, it won't move from the client's table to deliver the order to the barman;</li>
+				<li><em>Serve</em> the client: when client's order is ready the waiter receives a <ks>ready</ks> message from the barman. As a consequence, it will move from its current position to the service desk in the service area, withdraw the tea, and bring it to the client moving from service desk to client's teatable;</li>
+				<li><em>Collect</em> the payment: when <i>maxstaytime</i> expires or the client has finshed its consumption, the waiter receives a <ks>payment</ks> message. As a consequence, it will move from its current position to the client-sender teatable and withdraw the money; After a first meeting with the client it was made clear that <i>maxstaytime</i> must consider the time that elapses between when the customer sit and when the customer order, and the time that passes between when the customer receive the drink and ask to pay and leave. Which means that <u>customer's time expires if orderingTime + consumptionTime > maxstaytime</u>.  </li>
+				<li><em>Convoy</em> the client to the exit door: immediately after payment, the waiter moves from the client's teatable to the exit door while convoying the client that wants to exit the tearoom;</li>
+				<li><em>Clean</em> the teatable: after the client has left the teatable it cannot be used until it is cleaned. To clean a teatable the waiter must move from its current position to that teatable and perform the cleaning action. The cleaning action of that teatable takes a limited amount of time in which the waiter keeps listening for incoming messages from clients or barman (this is required because the waiter still has to answer <ks>enter</ks> messages and should reduce as much as possible the waiting time of the requests coming from each client, which means in some scenarios it may be desirable to suspend the cleaning task in favor of new tasks);</li>
+				<li><em>Rest</em> at home: if the waiter has no more incoming messages in its queue (tasks to complete), it moves from its current position to the home in the service area. It won't move, but it will keep listening for incoming messages on its queue, ready to take on new tasks.</li>
+			</ul>
+		</li>
+		<li><h4>Use cases and scenarios</h4>
+			<h5>Client</h5>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>Ring</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The client that wants to enter the system</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a client I want to enter the safe tearoom,  sitting at a free teatable, ordering some tea and consuming it.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>The client entered the Tearoom Hall and is near the entrance door and hit the smartbell</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The smartbell measure client's body temperature. If it is under 37.5° the smartbell creates a <i>clientidentifier</i> and givis it to the client. After that, the smartbell sends a <ks>enter</ks> message to the waiter to notify client's interest in entering the safe tearoom.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>If client's temperature is under 37.5°, it receives a client identifier from the smartbell, otherwise it leaves the room.</br>
+					If the client cannot enter the safe tearoom because there is no free and clean tables, it receives a <ks>wait</ks> message from the waiter containg the maximum time it will have to wait <i>maxwaittime</i>, otherwise it starts waiting for the waiter.</td>
+				</tr>
+			</table>
+			</br></br>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>EnterAndSit</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The client that wants to reach the table in the safe tearoom</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a client I want to be convoyed to a teatable in the safe tearoom by the waiter.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>The waiter reached the entrance door and communicated its intention of convoying the client that owns a the client's <i>clientidentifier</i> (the client we are analysing).</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The robot convoys the client from the entrance door to the teatable.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>The teatable is reserved for that client and the client is sit down and orderd its consuption(?).</td>
+				</tr>
+			</table>
+			</br></br>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>Order</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The client already in the safe tearoom.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a client, I want to order a tea.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>The client sits at a teatable and wants to order, so it sends a <ks>tea</ks> message to the waiter to specify which tea it would like to have.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The waiter receives the client's order and then sends a <ks>order</ks> message to the barman containg the order.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>The barman starts preparing the tea. The waiter waits for the order to be ready, but can assolve some other tasks in the meantime.</td>
+				</tr>
+			</table>
+			</br></br>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>PayAndLeave</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The client that wants to pay for its consumption and leave.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a client I need to pay for my consumption at the teatable (for COVID-19 restrictions) and then I need the waiter to convoy me at the exit door.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>The client sent a <ks>pay</ks> message to the waiter because it endend its consumption or it exceeded its maximum time <i>maxstaytime</i>.Hence, the waiter reached the client's teatable.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The client pays and the waiter covoys it to the exit door moving from client's teatable to the <i>exit door</i>.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>The client left the <i>safe tearoom</i> and, therefore, left our system.</td>
+				</tr>
+			</table>
+			<h5>Barman</h5>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>ReadyOrder</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The barman that finished preparing the order.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a barman I need the waiter to take the ready order and bring it to the right teatable.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>As a barman, I received an <ks>order</ks> message and I prepared it, hence the order is ready and I sent a <ks>ready</ks> message to the waiter.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The waiter moves from its current position to the service desk in the service area and takes the order, then it moves from the service desk to the right teatable.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>The order is deliverd to the client at the right teatable.</td>
+				</tr>
+			</table>
+			<h5>Manager</h5>
+			<table width="100%" align="center">
+				<tr>
+					<td width="20%"><tl>UC-ID</tl></td>
+					<td width="80%"><ttr>ViewState</ttr></td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Actors</tl></td>
+					<td>The mager that intends to see the <i>Tearoom</i> state.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Description</tl></td>
+					<td>As a manager I want to access a web view (through a browser) that shows me the <i>Tearoom current state</i>. </td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Preconditions</tl></td>
+					<td>The manager, sent a request for the web-view page through a browser.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Activity</tl></td>
+					<td>The system shows the current state to the manager and updates it real-time until the manager closes the web-view.</td>
+				</tr>
+				<!-- ---------------->
+				<tr>
+					<td><tl>Postconditions</tl></td>
+					<td>The manager can see the current state displayed in the web-view.</td>
+				</tr>
+			</table>
+		</li>
+		<li><h4>Model of the requirements</h4>
+		<!-- Spiegare perché usiamo i Qakctors (proprio quelli e non altri linguaggi di modeling), perché in generale usiamo degli Actors per alcune entità.-->
+		As analysts with a model of the requirements we want to achieve two main goals:</br>
+		<ol>
+			<li>we want to <i>highligh essential aspects of the system</i> using a formal and explicit language. By doing so we remove possible ambiguity and misunderstands while also focus our attention solely on important aspects of the system. </li>
+			<li>we want an <i>executable model</i>, so that it is possible to show it to the customer to verify that everything is going as expected and to eventually allow him to better understand what he wants from our system</li>
+		</ol></br>
+		To achieve the above goals we decided to use the <em>QAKctor modeling language</em> : <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html">QAK language and actors</a>. We decided to use a modeling language because a programming language would have required to consider every single detail while we want to focus only on the essential aspects of the system.
+		Also the QAKctor language natively provides us with the concept of QActor which is the abstraction that best approximates the entities involved in our system. In fact, Waiter, Client, Smartbell and Barman are all autonomous and independent entities, whose behavior can be described by a Moore finite state machine.
+		And this is precisely the semantics of QAKctor. 
+		</br>Once a model has been produced in the QAKctor modeling language, the Software Factory that accompanies the modeling language will automatically create an <i>executable prototype in Kotlin language</i> that can be shown to the customer. </br>
+		</br></br>
+		Since Waiter, Client, Smartbell and Barman are autonomous and independent entities, it seemed appropriate to move from a communication based on shared memory to a <i>communication based on message exchange</i>. By doing so, it will not be necessary to manage critical runs to shared resources, in addition to the fact 
+		that communication throught shared memory it's not always possible, especially in a context with heterogeneous computational nodes typical of IoT application and also of this system.
+		
+		<h5>Qak Client model</h5>
+		<center><img src="img/req_clientactor.png" alt="req_clientactor.png" width="50%"/></center>
+		<p>Here, since the <i>client</i> should be a human being, there is the need of MOK messages to simulate a correct human behaviour. Hereunder are described the messages related to the client actor (qakctor).</p>
+		<pre class="mytab"><code><keyw>System</keyw> client
+
+<keyw>Request</keyw> ring : ring(ARG)
+<keyw>Reply</keyw> sendClientID : sendClientID(CLIENT_ID)
+<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)
+<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)
+<keyw>Dispatch</keyw> tea : tea(TEA)
+<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)
+<keyw>Request</keyw> billPlease : billPlease(TEATABLE_ID)
+<keyw>Reply</keyw> cardPlease : cardPlease(ARG)
+<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID) //the waiter sends this message when it is already at the table
+<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)</code></pre>
+		<p class="did">Most interactions have been modeled as "fire-and-forget" (message events and dispatching) since a request-reply interactions doesn't seem to be needed from requirements (sender doen't need a specific reply from receiver). Moreover, the waiter doesn't know directly the client (apart from its client identifier), hence it needs to communicate through events.</p>
+		<p class="did">Instead, <i>ring</i> and <i>billPlease</i> messages have been represented as a request-reply interaction. In the first case, client expects its <i>clientidentifier</i> (or the prohibition to enter the safe tearoom) as an answer and, in the second case, it expects the amout to pay for the bill.</p>
+		</br>
+		<p>After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. </p>
+		
+		<h5>Qak Smartbell model</h5>
+		<center><img src="img/req_smartbellactor.png" alt="req_smartbellactor.png" width="50%"/></center>
+		<pre class="mytab"><code><keyw>System</keyw> smartbell
+
+<keyw>Request</keyw> ring : ring(ARG)
+<keyw>Reply</keyw> sendClientID : sendClientID(CLIENT_ID)
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)</code></pre>
+		</br>
+		<pre class="mytab"><code><keyw>Context</keyw> ctxsmartbell <keyw>ip</keyw> [<keyw>host=</keyw><strs>"localhost"</strs> <keyw>port=</keyw><ints>8030</ints>]
+<keyw>Context</keyw> ctxwaiter <keyw>ip</keyw> [<keyw>host=</keyw><strs>"127.0.0.1"</strs> <keyw>port=</keyw><ints>8020</ints>]
+<keyw>Context</keyw> ctxclient <keyw>ip</keyw> [<keyw>host=</keyw><strs>"localhost"</strs> <keyw>port=</keyw><ints>8077</ints>]
+
+<keyw>ExternalQActor</keyw> waiter <keyw>context</keyw> ctxwaiter
+<keyw>ExternalQActor</keyw> client <keyw>context</keyw> ctxclient
+
+<sevid><keyw>QActor</keyw> smartbell</sevid> <keyw>context</keyw> ctxsmartbell {
+
+    <sevid><keyw>State</keyw> s0 <keyw>initial</keyw></sevid>{
+	    <keyw>discardMsg Off</keyw>  
+	    <comm>//We need to handle every client's request, thus we don't 
+	    // want to lose potential request 
+		//while handling previous one (while in state handleRing)</comm>
+	}
+	<tevid><keyw>Goto</keyw> waitRing</tevid>
+	
+	<sevid><keyw>State</keyw> waitRing</sevid>{
+		<keyw>println</keyw>(<strs>"smartbell | waiting for clients to ring ... "</strs>)
+	}
+	<tevid><keyw>Transition</keyw> t0 <keyw>whenRequest</keyw> ring -> handleRing</tevid>
+	
+	<sevid><keyw>State</keyw> handleRing</sevid>{
+		<comm>// verify client's temperature is under 37.5 degrees. 
+		// If the temperature is ok the smartbell will create a 
+		// client identifier
+		// for the client that sent the request</comm>
+		[#
+			var temperature = getTemperature()	
+			var CLIENT_ID = "no"
+			if (temperature < 37.5)
+				CLIENT_ID = createClientId()
+		#]
+		<keyw>replyTo</keyw> ring <keyw>with</keyw> sendClientID : sendClientID($CLIENT_ID)
+		
+		<keyw>if</keyw> [# temperature < 37.5 #] {
+			<mevid><keyw>forward</keyw> waiter <keyw>-m</keyw> enter : enter($CLIENT_ID)</mevid>
+		}
+	}
+	<tevid><keyw>Goto</keyw> waitRing</tevid>
+}</code></pre>
+		<h5>Qak Barman model</h5>
+		<center><img src="img/req_barmanactor.png" alt="req_barmanactor.png" width="50%"/></center>
+		<pre class="mytab"><code><keyw>System</keyw> barman
+
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)</code></pre>
+		</br>
+		<pre class="mytab"><code><keyw>Context</keyw> ctxbarman <keyw>ip</keyw> [<keyw>host=</keyw><strs>"localhost"</strs> <keyw>port=</keyw><ints>8066</ints>]
+<keyw>Context</keyw> ctxwaiter <keyw>ip</keyw> [<keyw>host=</keyw><strs>"127.0.0.1"</strs> <keyw>port=</keyw><ints>8020</ints>]
+
+<keyw>ExternalQActor</keyw> waiter <keyw>context</keyw> ctxwaiter
+
+<sevid>QActor barman</sevid> context ctxbarman {
+
+	<sevid>State s0 initial</sevid>{
+		discardMsg Off  //We need to prepare every client's order, thus we don't want to lose potential order 
+						//while preparing previous one (while in state makeOrder)
+	}
+	<tevid>Goto waitOrder</tevid>
+	
+	<sevid>State waitOrder</sevid>{
+		//waiting for orders from the waiter
+		println("barman | waiting for orders from the waiter... ")
+	}
+	<tevid>Transition t0 whenMsg order -> makeOrder</tevid>
+	
+	<sevid>State makeOrder</sevid>{
+		onMsg( order : order(T,D)){ 
+			println("barman | making ${payloadArg(1)} for table ${payloadArg(0)} ")
+			delay 500	// MAKE the order received
+			<mevid>forward waiter -m ready : ready($payloadArg(0), $payloadArg(1))</mevid>
+		}
+	}
+	<tevid>Goto waitOrder</tevid>
+}</code></pre>
+		<h5>Qak Waiter model</h5>
+		<!--<center><img src="img/req_waiteractor.png" alt="req_waiteractor.png" width="50%"/></center>--><!--RIFARE L'IMMAGINE-->
+		<pre class="mytab"><code><keyw>System</keyw> waiter
+
+<comm>//-----------SMARTBELL COMMMUNICATION--------------</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)				 <comm>//</comm>
+<comm>//-------------------------------------------------</comm>
+
+<comm>//----------CLIENT COMMUNICATION------------------------------</comm>
+<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)						<comm>//</comm>
+<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)			<comm>//</comm>
+<keyw>Dispatch</keyw> tea : tea(TEATABLE_ID, TEA)						<comm>//</comm>
+<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)				<comm>//</comm>
+<keyw>Request</keyw> billPlease : billPlease(TABLE_ID)					<comm>//</comm>
+<keyw>Reply</keyw> cardPlease : cardPlease(ARG)							<comm>//</comm>
+<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID)		<comm>//</comm>
+<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)					<comm>//</comm>
+<comm>//------------------------------------------------------------</comm>
+
+<comm>//-----------BARMAN COMMUNICATION-----------------------------</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)						<comm>//</comm>
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						<comm>//</comm>	
+<comm>//------------------------------------------------------------</comm>
+
+<comm>//----------SELF MESSAGES-------------------------------------</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				<comm>//</comm>
+<comm>//------------------------------------------------------------</comm>
+
+<comm>//-----------TIMER COMMMUNICATION-----------------------------</comm>
+<keyw>Dispatch</keyw> startTimer : startTimer(TEATABLE_ID, MAX_TIME)		<comm>//</comm>
+<keyw>Dispatch</keyw> stopTimer : stopTimer(TEATABLE_ID)					<comm>//</comm>
+<keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				<comm>//</comm>
+<keyw>Dispatch</keyw> endTimer : endTimer(TEATABLE_ID)					<comm>//</comm>
+<keyw>Dispatch</keyw> timeout : timeout(TEATABLE_ID)						<comm>//</comm>
+<comm>//------------------------------------------------------------</comm></code></pre>
+		</br>
+		<pre class="mytab"><code>Context ctxsmartbell ip [host="localhost" port=8030]
+Context ctxclient ip [host="whateverip" port=8077]
+Context ctxbarman ip [host="localhost" port=8066]
+Context ctxwaiter ip [host="127.0.0.1" port=8020]
+Context ctxtimer ip [host="someip" port=8010]
+
+ExternalQActor barman context ctxbarman
+ExternalQActor smartbell context ctxsmartbell
+ExternalQActor client context ctxclient
+ExternalQActor timer context ctxtimer
+
+
+<sevid>QActor waiter</sevid> context ctxwaiter {
+	[# 
+		var MaxWaitTime : Long
+		val MaxStayTime = 10000L   	// 10 sec
+		val IdleTime = 200L			// 200 ms
+		var ClientToConvoy = ""
+	#]
+	
+	<sevid>State s0 initial</sevid>{
+		//init
+	}
+	<tevid>Goto restingAtHome</tevid>
+	
+	<sevid>State restingAtHome</sevid>{
+		if [# currentPos() != HomePos() #] { [# goToHome() #]}
+		println("waiter | No task to do. Chilling out at home...")	
+	}
+	<tevid>Transition t0 whenMsg enter -> handleEnter</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
+					<tevid>whenMsg tea -> handleOrderFromClient</tevid>
+					<tevid>whenMsg ready -> serveTeaToClient</tevid>
+					<tevid>whenRequest billPlease -> handlePayment </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+					
+					
+	<sevid>State doATask</sevid>{
+		println("waiter | checking if there is a task to do...")
+	}
+	<tevid>Transition t0 whenTimeVar IdleTime -> restingAtHome</tevid>
+					<tevid>whenMsg enter -> handleEnter</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
+					<tevid>whenMsg tea -> handleOrderFromClient</tevid>
+					<tevid>whenMsg ready -> serveTeaToClient</tevid>
+					<tevid>whenRequest billPlease -> handlePayment </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+					
+					
+	<sevid>State handleEnter</sevid>{
+		onMsg(enter : enter(CLIENT_ID)){
+			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+			if [# freeAndCleanTable() == 0 #] { //NO free and clean table
+				[# 
+					MaxWaitTime =  getMaxWaitTime()
+				#]
+				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
+				<mevid>emit wait : wait($payloadArg(0), $MaxWaitTime)</mevid>
+			}
+			else {	// there is a free and clean table
+				println("waiter | ... and since there is a free and clean teatable I let ${payloadArg(0)} in!")
+				//convoying is atomic with enter when there is a free table
+				[# ClientToConvoy = payloadArg(0) #]
+			}
+		} //onMsg
+	}
+	<tevid>Goto convoyClientToTable if [# freeAndCleanTable() > 0 #] else doATask</tevid>
+	
+	
+	<sevid>State convoyClientToTable</sevid>{
+		[#
+			var Teatable = getFreeAndCleanTeatable()	//ID teatable
+			MaxWaitTime = 0L 
+			goToEntranceDoor()		//prepare to convey the client to a teatable
+		#]
+		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
+		println("waiter | convoying client $ClientToConvoy to teatable $Teatable ...")
+		[#
+			reachTeatablePos(Teatable)
+			updateTeatableState(Teatable, "IN_USE")
+		#]
+		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $Teatable )</mevid>
+		//start timer to count until MaxStayTime
+		<mevid>forward timer -m startTimer : startTimer($Teatable)</mevid>
+	}
+	<tevid>Goto doATask</tevid>
+	
+		
+	<sevid>State cleanTeatable</sevid>{
+		onMsg(cleanTable : cleanTable(T)) {
+			//first we reach the teatable
+			[#reachTeatablePos(payloadArg(0))#]
+			// then we clean the teatable
+			println("waiter | cleaning the teatable ${payloadArg(0)}")
+			delay 500	//emulate real action
+			//update teatable state
+			[#updateTeatableState(payloadArg(0), "CLEAN")#]
+		} //onMsg
+	}
+	//As we have just one client at a time (Assumption 1), we don't have to check if there are clients waiting to enter
+	<tevid>Goto doATask</tevid>
+	
+	<sevid>State handleOrderFromClient</sevid>{
+		onMsg(tea : tea(TABLE,TEA)){
+			//Stop timer 
+			<mevid>forward timer -m stopTimer : stopTimer($payloadArg(0))</mevid>
+			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
+			<mevid>forward barman -m  order : order($payloadArg(0), $payloadArg(1))</mevid>
+		}
+	}
+	<tevid>Goto doATask</tevid>
+	
+	<sevid>State serveTeaToClient</sevid>{
+		onMsg(ready : ready(T,D)){
+			println("waiter | order for table ${payloadArg(0)} ready! Serving order...")	
+			[# goToServiceDesk() #]
+			delay 200
+			[#
+				reachTeatablePos(payloadArg(0))	
+			#]
+			<mevid>emit teaServed : teaServed($payloadArg(0), $payloadArg(1) )</mevid>
+			//start counting for consumingTime NOW
+			//start timer to count until MaxStayTime
+			<mevid>forward timer -m resumeTimer : startTimer($payloadArg(0))</mevid>
+		}
+	}
+	<tevid>Goto doATask</tevid>
+	
+	<sevid>State handlePayment</sevid>{
+		onMsg(billPlease : billPlease(T)){
+			[#
+				ClientToConvoy = getClientAtTable(payloadArg(0))
+			#]
+			println("waiter | ending timer for table ${payloadArg(0)}")
+			<mevid>forward timer -m endTimer : endTimer($payloadArg(0))</mevid>
+			
+			println("waiter | client at table ${payloadArg(0)} finished before MaxStayTime expired...")
+			println("waiter | Reaching table ${payloadArg(0)} ...")
+			[#reachTeatablePos(payloadArg(0))#]
+			println("waiter | Arrived at table ${payloadArg(0)}, requesting credit card...")
+			<mevid>replyTo billPlease with cardPlease : cardPlease(amount_to_pay)</mevid>		
+		}
+		
+		delay 200 //simulating client giving credit card and payment time
+		println("waiter | convoying client to exit door...")
+		[#goToExitDoor()#]
+		<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
+		
+		//waiter sends itself a message to remember to clean the table
+		[# TableToClean = getTableFromClientID(ClientToConvoy)#]
+		<mevid>forward waiter -m cleanTable : cleanTable($TableToClean)</mevid>
+		
+		//update teatable state
+		[#updateTeatableState(TableToClean, "FREE")#]
+	}
+	<tevid>Goto doATask</tevid>
+	
+	<sevid>State handleTimeout</sevid>{
+		onMsg(timeout : timeout(T)){
+			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
+			println("waiter | reaching table ${payloadArg(0)}...")
+			[#
+				reachTeatablePos(payloadArg(0))
+				ClientToConvoy = getClientAtTable(payloadArg(0))
+			#]
+			println("waiter | communicating to client $ClientToConvoy that he has to pay and leave...")
+			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), amount_to_pay)</mevid>			
+		}	
+	}
+	<tevid>Goto handlePayment</tevid>	
+}</code></pre>
+		</li>
+		<li><h4>Functional TestPlan</h4>
+		<p>Since our robot must move inside the safe-tearoom and between different point of interests (service desk, teatables, entrance door and exit door, home), we must find a way to automatically verify that the DDR robot is in the right place (requirement achieved).</p>
+		<h5>Representation of the tearoom</h5>
+		<p>From requirements we know that the baundary along the safe tearoom is free from any kind of obstacle and that, as a consequence, the waiter is able to move freely along that boundary.</p>
+		<p>Moreover, there is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
+		
+		The room will be divided into a grid of nh*nw squares of side R and this grid can be represented by a proper data structure as a matrix whose dimension will be nh*nw. The matrix will contain a character representing the "state" of every cell of the grid. For instance:
+		<ul>
+			<li><i>r</i>: the cell is occupied by the robot (waiter)</li>
+			<li><i>0</i>: the cell is not explored (the waiter never passed from that cell)</li>
+			<li><i>1</i>: the cell has been explored (the waiter passed from that cell, but it is not currently there)</li>
+			<li><i>X</i>: the cell is occupied by an obstacle (i.e. teatable, service desk...)</li>
+		</ul>
+		</br>	
+		<table width="100%">
+			<tr>
+				<td width="50%"><img width="100%" src="./img/grid.png" alt="grid.png" ></td>
+				<td>The matrix of the explored room would be, for example:</br>
+				<pre>|r, 1, 1, 1, 1, 1, 1, x, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|1, 1, X, 1, X, 1, 1, X, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|X, X, X, X, X, X, X, X,</pre>
+				</td>
+			</tr>
+		</table></br>	
+		The room map must be unique and must be globally accessible (must be accessed by both the waiter and the tests). To do this it's necessary to create a separate class (MapUtil) which will provide a constructor to create a map like a Singleton (Pattern Singleton).
+		MapUtil should also include methods for updating and resetting the room map.
+		<h5>Knowledge base</h5>
+		To be able to test the correct position of the DDR we need to identify and store key positions of our system. The key positions of our system are:
+		<ul>
+			<li>home</li>
+			<li>service desk</li>
+			<li>entrance door</li>
+			<li>exit door</li>
+			<li>teatable1 (to serve it)</li>
+			<li>teatable2 (to serve it)</li>
+		</ul>
+		
+		We can represent this information as a knowledge base in Prolog. In this case we can memorize our key positions in the following way:
+		<pre><code><comm>% pos(name_of_key_position, column, row) 
+% column and row start from 0 and refer to the room map matrix</comm> 
+	pos(home, 0, 0)
+	pos(servicedesk, 5, 0)
+	pos(entrancedoor, 1, 4)
+	pos(exitdoor, 6, 4)
+	pos(teatable1, 2, 2)
+	pos(teatable2, 4, 2)
+</code></pre>
+		This is only an example and correct number of row and column for the key positions can be obtained solely after we generated a room map for the tearoom. Therefore, we need to run our DDR on the client tearoom to get a correct room map and after that we can build our knowledge base in Prolog.
+		</br></br>
+		It is also possible to memorize this information on a DataBase but in our specific case using prolog offers an advantage. First of all, the number of information we need to store is considerably small and therefore we do not need specialized systems for an efficient management and storage of large amounts of data (Database).
+		Hence, a Database would not offer appreciable advantages over a Prolog knowledge base. Secondly, Prolog allows us to mix rules with facts and thus we can add portions of declarative programming to our system.
+		We could use declarative programming to quickly write Prolog rules that allow us to search for tables with a certain state if we decide to also keep the state of the teatables stored in the Prolog knowledge base.
+		<h5>Entities states</h5>
+		<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then ther will be a correspondence between the actions an actor is performing and its state.
+		</p>
+		<p>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
+		<p>For instance, the <i>barman</i> may have the following states:
+			<ul>
+				<li><i>idle</i>: when the barman is not doing anything;</li>
+				<li><i>preparing</i>: when the barman is making a tea for a customer;</li>
+				<li><i>ready</i>: when the barman has finished to prepare the tea;</li>
+			</ul>
+		</p>
+		</li>
+	</ol>
+</div>
+
+<h2>Problem analysis</h2>
+<div class="remark">
+	<ol>
+		<li><h4>Logical architecture:</h4>
+			<p>Compared to the requirements analysis, it came out the necessity of adding some components to resolve some of the system problems. The resulting logical system architecture is described by the underlying image:</p>
+			<center><img src="./img/prob_allactors.png" alt="all actors" width="100%"></center>
+			<p>The added actors are:
+				<ul>
+					<li><em>Timer</em>: the timer was added to manage client's <i>maxStayTime</i> requirement and, therefore, its correct stay inside the tearoom</li>
+					<li><em>Mover</em>: the mover shows up as a service for the waiter and allows it to move from it's current position to a new one. Moving around the room require the ability to move the low level robot-component and the ability to plan which path can take you from your current position to your destination. These issue are not addressed directly by the waiter, instead are entrusted to the Mover. Thank to this, the Movement logic is indipent of the business logic of the Application (waiter's workflow). As analysts this decision was made to make the Movement Logic reusable for future commissions.</li>
+					<li><em>Tearoom</em>: this actor, instead, was added to manage and save the room state (and teatables), as there is no convenience in let that information be managed and saved by smartbell, waiter or barman actors. The tearoom actor, then, worls as a "state holder", freeing the other components from this task.</li>
+				</ul>
+			</p>
+			<h5>Waiter QAKctor</h5>
+			<pre class="mytab"><code><keyw>System -trace</keyw> waiter
+
+<keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
+
+<comm>// Interaction Waiter - Mover =================================//</comm>
+<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   <comm>//</comm>
+<keyw>Reply</keyw> done 		: done(X,Y)									   <comm>//</comm>
+<keyw>Dispatch</keyw> end 	: end(ARG)									  <comm> //	</comm>
+<comm>//=============================================================//</comm>
+
+<comm>// Interaction Waiter - Timer =================================//</comm>
+<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   <comm>//</comm>
+<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   <comm>//</comm>
+<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   <comm>//</comm>
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   <comm>//</comm>
+<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   <comm>//</comm>
+<comm>//=============================================================//</comm>
+
+<comm>// Interaction Waiter - Tearoom ========================================//</comm>
+<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)						<comm>//</comm>
+<keyw>Reply</keyw> state			 : state(STATE)										<comm>//</comm>
+<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	<comm>//</comm>
+<comm>//======================================================================//</comm>
+
+<comm>// Interaction Waiter - Smartbell ============================//</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)						      <comm>//</comm>
+<comm>//============================================================//</comm>
+
+<comm>// Interaction Waiter - Client ===============================//</comm>
+<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 <comm> //</comm>
+<keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   <comm>//</comm>
+<keyw>Request</keyw> wantToOrder		: wantToOrder(TEATABLE_ID)	          <comm>//</comm>
+<keyw>Reply</keyw> orderPlease		: orderPlease(ARG)					  <comm>//</comm>
+<keyw>Dispatch</keyw> tea 			: tea(TEATABLE_ID, TEA)				  <comm>//</comm>
+<keyw>Event</keyw> teaServed 		: teaServed(TEATABLE_ID, TEA)		  <comm>//</comm>
+<keyw>Request</keyw> billPlease 		: billPlease(TABLE_ID)				  <comm>//</comm>
+<keyw>Reply</keyw> cardPlease 		: cardPlease(ARG)					  <comm>//</comm>
+<keyw>Event</keyw> maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  <comm>//</comm>
+<keyw>Event</keyw> exitPlease 		: exitPlease(CLIENT_ID)				  <comm>//</comm>
+<comm>//============================================================//</comm>
+
+<comm>// Interaction Waiter - Barman  ==============================//</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID, TEA)					  <comm>//</comm>
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						  <comm>//</comm>
+<comm>//============================================================//</comm>
+
+<comm>// Interaction Waiter auto-message ===========================//</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				  <comm>//</comm>
+<comm>//============================================================//</comm></code></pre>
+		</br>
+		<p>Waiter has undergone some changes so that it wuold be able to interface with mover and tearoom and the interaction with the timer actor has been refined. 
+
+Moreover, two more messages have been added to the interaction with the client: wantToOrder and orderPlease are used to manage the order phase, where the client can take some time to decide which tea he wants and, in that time, the waiter can performe some other tasks and needs to step away from client's table. Then, when the client is ready to order, he needs to communicate his will to the waiter.</p>
+		<pre class="mytab"><code>Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+Context ctxtearoom 		 	ip [host="localhost" port=8015]
+
+ExternalQActor tearoom 		context ctxtearoom
+ExternalQActor barman		context ctxtearoom
+ExternalQActor smartbell	context ctxtearoom
+
+CodedQActor datacleaner    	context ctxwaiter className "rx.dataCleaner"
+CodedQActor distancefilter 	context ctxwaiter className "rx.distanceFilter"
+CodedQActor basicrobot 		context ctxwaiter className "it.unibo.basicrobot.Basicrobot"
+CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker.Trustingwalker"
+
+<sevid>QActor waiter</sevid> context ctxwaiter {
+	
+	[# 
+		var MaxWaitTime = 0L
+		val MaxStayTime = 10000L   	// 10 sec
+		val IdleTime = 200L			// 200 ms
+		
+		var ClientToConvoy = ""
+		var DestTable = -1
+		var CurDrink = ""
+		var Price = 3
+		
+		<comm>//since there is only one client in our first prototype this function is useless
+		// We still leave it since in future it will be necessary</comm>
+		fun getMaxWaitTime() : Long {
+			return 1000
+		}
+	#]
+	
+	
+	<sevid>State s0 initial</sevid> {
+		
+		//init
+		println("waiter | beep beep boop...START...")
+		
+	}
+	<tevid>Goto restingAtHome</tevid>
+	
+	<comm>// WAITER WAIT FOR TASK TO DO 1</comm>
+	<sevid>State restingAtHome</sevid> {
+			
+		println("waiter | Chilling out at home...")	
+		
+	}
+	<tevid>Transition t0 	whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
+	
+	<comm>// WAITER WAIT FOR TASK TO DO 2</comm>
+	<sevid>State doATask</sevid> {
+		
+		println("waiter | checking if there is a task to do...")
+		
+	}
+	<comm>// if waiter has no task it go home to rest a little bit</comm>
+	<tevid>Transition t0 	whenTimeVar IdleTime -> goHome	</tevid>			
+					<tevid>whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
+	
+	<comm>// WAITER GO HOME</comm>
+	<sevid>State goHome</sevid> {
+		
+		<mevid>request mover -m moveTo : moveTo(home)</mevid>
+		
+	}
+	<tevid>Transition t0 whenReply done -> restingAtHome</tevid>
+	
+	<comm>//-------------------------------------------- WAITER HANDLE ENTER REQUEST ----------------------------------------------------</comm>
+	<sevid>State handleEnterPhase1</sevid> {
+		
+		onMsg(enter : enter(CLIENT_ID)){
+			[#ClientToConvoy = payloadArg(0)#]
+			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+			println("waiter | checking if the safe tearoom has a free table ...")
+			<mevid>request tearoom -m getRoomState : getRoomState(getFreeTable, arg1)</mevid>
+		} //onMsg
+		
+	}
+	<tevid>Transition t0 whenReply state -> handleEnterPhase2</tevid>
+	
+	<sevid>State handleEnterPhase2</sevid> {
+		
+		onMsg(state : state(S)){
+			if [#payloadArg(0).toInt() != -1 #] { <comm>//NO free and clean table (CAN'T HAPPEN in this first prototype since there is only one client)</comm>
+				[# 
+					MaxWaitTime =  getMaxWaitTime()
+				#]
+				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
+				<mevid>emit wait : wait($payloadArg(0), $MaxWaitTime)</mevid>
+			}
+			else { <comm>// there is a free and clean table and Tearoom sent me it's ID</comm>
+				[# 
+					MaxWaitTime =  0L
+					DestTable = payloadArg(0).toInt()
+				#]
+			}
+			
+		}
+		
+	}
+	<tevid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else doATask</tevid>
+	
+	
+	<comm>//--------------------------------------  WAITER CONVOY CLIENT TO TABLE  ----------------------------------------- </comm>
+	
+	<sevid>State convoyClientToTablePhase1</sevid> {
+		println("waiter | reaching entrance door to convoy client $ClientToConvoy to teatable $DestTable ...")
+		<mevid>request mover -m moveTo : moveTo(entrance)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase2</tevid>
+	
+	<sevid>State convoyClientToTablePhase2</sevid> {
+		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
+		println("waiter | convoying client $ClientToConvoy to teatable $DestTable ...")
+		[#var Dest =  "teatable" + DestTable.toString() #]
+		<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase3</tevid>
+		
+	<sevid>State convoyClientToTablePhase3</sevid> {
+		
+		forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)
+		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $DestTable )</mevid>
+		<comm>//start timer to count until MaxStayTime</comm>
+		<mevid>forward timer -m startTimer : startTimer($DestTable, $MaxStayTime)</mevid>
+		
+	}
+	<tevid>Goto doATask</tevid>
+	
+	
+<comm>//---------------------------------------WAITER CLEAN TABLE ---------------------------------------------------------</comm>
+	<sevid>State cleanTeatablePhase1</sevid> {
+		
+		onMsg(cleanTable : cleanTable(T)) {
+			<comm>//first we reach the teatable</comm>
+			[#var Dest =  "teatable" + payloadArg(0) #]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Goto cleanTeatablePhase2</tevid>
+	
+	<sevid>State cleanTeatablePhase2</sevid> {
+		
+		<comm>// then we clean the teatable</comm>
+		println("waiter | cleaning the teatable ${payloadArg(0)}")
+		delay 500	<comm>//emulate real action</comm>
+		<comm>//update teatable state</comm>
+		[# var T = payloadArg(0)#]
+		<mevid>forward tearoom -m updateState : updateState (updateTableState, $T, clean, ARG3)</mevid>
+			
+	}
+	<comm>//Should check if a client is in queue BUT in this prototype we have only one client so no one can be in queue
+	//Goto convoyClientToTable if [# clientInQueue.isNotEmpty() #] else doATask</comm>
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//-------------------------------------------- WAITER TAKE CLIENT's ORDER -------------------------------------------</comm>
+	<sevid>State handleOrderFromClientPhase1</sevid> {
+		
+		onMsg(wantToOrder : wantToOrder(TEATABLE_ID)){
+			<comm>//Stop timer </comm>
+			<mevid>forward timer -m stopTimer : stopTimer($payloadArg(0))</mevid>
+			println("waiter | client at teatable ${payloadArg(0)} want to order! Reaching table ${payloadArg(0)}...")
+			<comm>// reach teatable to take client order</comm>
+			[#var Dest =  "teatable" + payloadArg(0) #]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> handleOrderFromClientPhase2</tevid>
+	
+	<sevid>State handleOrderFromClientPhase2</sevid> {
+		
+		<mevid>replyTo wantToOrder with orderPlease : orderPlease(ARG)</mevid>
+	}
+	<tevid>Transition t0 whenMsg tea -> handleOrderFromClientPhase3</tevid>
+	
+	<sevid>State handleOrderFromClientPhase3</sevid> {
+		
+		onMsg(tea : tea(TABLE,TEA)){
+			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
+			<mevid>forward barman -m  order : order($payloadArg(0), $payloadArg(1))</mevid>
+		}
+		
+	}
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//------------------------------------------ WAITER SERVE CLIENT  --------------------------------------------------</comm>	
+	
+	<sevid>State serveTeaToClientPhase1</sevid> {
+		
+		onMsg(ready : ready(T,D)){
+			[# 
+				DestTable = payloadArg(0).toInt()
+				CurDrink = payloadArg(1)
+			#]
+			println("waiter | order for table ${payloadArg(0)} ready! Reaching service desk...")	
+			<mevid>request mover -m moveTo : moveTo(servicedesk)</mevid>
+		}
+		
+	}
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase2</tevid>
+	
+	<sevid>State servTeaToClientPhase2</sevid> {
+		
+			println("waiter | bringing tea to table $DestTable...")
+			[#var Dest =  "teatable" + DestTable #]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+			
+	}
+	<tevid>Goto servTeaToClientPhase3 </tevid>
+	
+	<sevid>State servTeaToClientPhase3</sevid> {
+		
+			<mevid>emit teaServed : teaServed($DestTable, $CurDrink )</mevid>
+			<comm>//start counting for consumingTime NOW</comm>
+			<comm>//start timer to count until MaxStayTime</comm>
+			<mevid>forward timer -m resumeTimer : resumeTimer($DestTable)</mevid>
+	
+	}		
+	<tevid>Goto doATask</tevid>
+
+
+<comm>//-----------------------------------WAITER HANDLE PAYMENT  -------------------------------------------------------/</comm>
+
+	<sevid>State handlePaymentPhase1</sevid>{
+		
+		onMsg(billPlease : billPlease(T)){
+			
+			<comm>// stopping timer</comm>
+			println("waiter | Client at table ${payloadArg(0)} is ready to pay. Ending timer for table ${payloadArg(0)}")
+			<mevid>forward timer -m endTimer : endTimer($payloadArg(0))</mevid>
+			
+			<comm>// reaching table</comm>
+			[#
+				<comm>//memorizing teatable_id for next phase</comm>
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			println("waiter | Reaching table ${payloadArg(0)} ...")
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+		
+	}
+	<tevid>Transition t0 whenReply done -> handlePaymentPhase2</tevid>
+	
+	<sevid>State handlePaymentPhase2</sevid> {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		<mevid>replyTo billPlease with cardPlease : cardPlease($Price) </mevid>
+		<comm>//get client_id from table_id</comm>
+		<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable) </mevid>
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
+	
+	<sevid>State convoyClientToExitPhase1</sevid> {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		onMsg(state : state(C)){
+			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
+			[# ClientToConvoy = payloadArg(0)#]
+			<mevid>request mover -m moveTo : moveTo(exit)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToExitPhase2</tevid>
+	
+	<sevid>State convoyClientToExitPhase2</sevid> {
+			println("waiter | saying goodbye to client $ClientToConvoy...")
+			<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
+			
+			<comm>//updating teatable state</comm>
+			<mevid>forward tearoom -m updateState : updateState(updateTableState, $DestTable, dirty, ARG)</mevid>
+	}
+	<tevid>Goto doATask</tevid>
+	
+	
+<comm>//----------------  WAITER HANDLE SLOW CLIENT  ---------------------------------------------------------------</comm>	
+
+	<sevid>State handleTimeoutPhase1</sevid> {
+		
+		onMsg(timeout : timeout(T)){
+			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
+			println("waiter | reaching table ${payloadArg(0)}...")
+			
+			[#
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> handleTimeoutPhase2</tevid>
+	
+	<sevid>State handleTimeoutPhase2</sevid> {
+			println("waiter | communicating to client at table ${payloadArg(0)} that he has to pay and leave...")
+			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), $Price)</mevid>
+						
+			<comm>//get client_id from table_id</comm>
+			<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable)</mevid>	
+			
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>	
+	
+}</code></pre>
+			<h5>Mover QAKctor</h5>
+			<pre class="mytab"><code><keyw>System -trace</keyw> waiter
+
+<keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
+
+<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)	
+<keyw>Reply</keyw> done 		: done(X,Y)	
+<keyw>Dispatch</keyw> end 	: end(ARG)</code></pre>
+		</br>
+		<pre class="mytab"><code><sevid>QActor mover</sevid> context ctxwaiter {  
+[#
+	var X = 0
+	var Y = 0
+	var correct = true
+	var CurrentPlannedMove = ""
+	var StepTime    	   = 450L
+	val BackTime           = 2 * StepTime / 3
+	//var obstacleFound      = false  
+	val inmapname          = "teaRoomExplored" 
+	
+#]
+	<sevid>State s0 initial</sevid> {	
+		//initializing Planner (also used by trustingWalker) 
+ 		run itunibo.planner.plannerUtil.initAI()
+		run itunibo.planner.plannerUtil.loadRoomMap( inmapname ) 		
+		run itunibo.planner.plannerUtil.showCurrentRobotState()
+
+		//read key-position from prolog file
+		solve(consult("position.pl"))
+	}	
+	<tevid>Transition t0 whenEvent twstarted -> waitingForCommand</tevid>
+	
+	<sevid>State waitingForCommand</sevid> {
+		println("mover | waiting for waiter's commands...")
+		[# correct = false #]
+		
+	}
+	<tevid>Transition t1 	whenRequest moveTo -> move</tevid>
+					<tevid>whenMsg end -> end</tevid>
+	
+	<sevid>State move</sevid> {
+		onMsg(moveTo : moveTo(P)){
+			
+			[# var Pos = payloadArg(0) #]
+		
+			solve(pos($Pos, X, Y))	
+			ifSolved { 
+					[# 
+						X = getCurSol("X").toString().toInt() 
+						Y = getCurSol("Y").toString().toInt()
+						correct = true	
+					#]
+			}
+			if [# correct == true #]{
+				println("mover | correct request: [${payloadArg(0)}] correspond to ($X,$Y)")
+				<mevid>request trustingwalker -m movetoCell : movetoCell($X,$Y)</mevid>
+			}
+			else{
+				println("mover | ERROR: required position doesn't exist")
+				printCurrentMessage
+			}
+		}
+	}
+	<tevid>Goto waitingForReply if [# correct == true #] else unexpected</tevid>
+	
+ 	<sevid>State waitingForReply</sevid> {
+ 	 	println("mover | waiting for reply...")
+ 	 }
+ 	<tevid>Transition t2 	whenReply atcell ->  success</tevid>
+					<tevid>whenReply walkbreak -> unexpected</tevid>
+				
+	<sevid>State success</sevid> {
+		<mevid>replyTo moveTo with done : done($X, $Y)</mevid>
+	}
+	<tevid>Goto waitingForCommand</tevid>		
+				
+ 	<sevid>State unexpected</sevid>{
+ 		println("There is something wrong ...")
+		printCurrentMessage
+		[# var F = -1 #]
+		<mevid>replyTo moveTo with done : done($F,$F)</mevid>
+	}
+    <tevid>Goto waitingForCommand</tevid>
+    
+    <sevid>State end</sevid> {
+    	println("mover | terminating...")
+    	terminate 1
+    }
+    
+ }</code></pre>
+ </br>
+		The knowledge base, thorugh which the mover knows how to move in the Tearoom, will be represented in Prolog as anticipated in the Requirements Analysis. Hereunder there are the predicates that represent the key positions in the room-map:
+		<pre><code><comm>% pos(name_of_key_position, column, row) 
+% column and row start from 0 and refer to the room map matrix</comm> 
+	pos(home, 0, 0)
+	pos(servicedesk, 4, 0)
+	pos(entrance, 0, 3)
+	pos(exit, 4, 3)
+	pos(teatable1, 1, 1)
+	pos(teatable2, 3, 1)
+</code></pre>
+			<h5>Timer QAKctor</h5>
+			<pre class="mytab"><code><keyw>System -trace</keyw> timer
+
+<keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
+
+<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
+<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
+<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)	</code></pre>
+		</br>
+		<pre class="mytab"><code><sevid>QActor timer</sevid> context ctxtimer {
+	
+	[#
+		var Teatable : Int = -1
+		var RemainingTime : Long = -1
+		var Record : Long = -1
+	#]
+	
+	<sevid>State s0 initial</sevid> {
+		
+	}
+	Goto waitingForCommand
+	
+	<sevid>State waitingForCommand</sevid> {
+		println("timer | waiting for waiter's command...")
+	}
+	<tevid>Transition t0 	whenMsg startTimer -> startTimer</tevid>
+					//whenMsg stopTimer -> stopTimer
+					//whenMsg resumeTimer -> resumeTimer
+					//whenMsg endTimer -> endTimer
+	
+	<sevid>State startTimer</sevid> {
+		onMsg(startTimer : startTimer(TEATABLE_ID, MAX_TIME)){
+			println("timer | starting timer for teatable ${payloadArg(0)} and timeout ${payloadArg(1)} ms")
+			[#
+				Teatable = payloadArg(0).toInt()
+				RemainingTime = payloadArg(1).toLong()
+			#]
+			memoCurrentTime Record
+		}
+	}
+	<tevid>Transition t0 	whenTimeVar RemainingTime ->	handleTimeout</tevid>
+					<tevid>whenMsg stopTimer -> stopTimer</tevid>
+					<tevid>whenMsg endTimer -> endTimer</tevid> //customer decided to not order a drink...
+	
+	<sevid>State stopTimer</sevid> {
+		println("timer | stopping timer...")
+		[# var previousInstant = Record#]
+		memoCurrentTime Record
+		[# RemainingTime = RemainingTime - (Record - previousInstant) #]
+	}
+	<tevid>Transition t0	whenMsg resumeTimer -> resumeTimer</tevid>
+	
+	<sevid>State resumeTimer</sevid> {
+		println("timer | resuming timer...")
+		memoCurrentTime Record
+	}
+	<tevid>Transition t0	whenTimeVar RemainingTime -> handleTimeout</tevid>
+					<tevid>whenMsg endTimer -> endTimer</tevid>
+					
+	<sevid>State handleTimeout</sevid> {
+		println("timer | TIMEOUT! time expired for teatable $Teatable!")
+		<mevid>emit timeout : timeout($Teatable)</mevid>
+	}
+	<tevid>Goto waitingForCommand</tevid>
+	
+	<sevid>State endTimer</sevid> {
+		println("timer | removing timer...")
+	}
+	<tevid>Goto waitingForCommand</tevid>
+}</code></pre>
+			<h5>Tearoom QAKctor</h5>
+			<pre class="mytab"><code><keyw>System -trace</keyw> tearoom
+			
+<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)
+<keyw>Reply</keyw> state : state(STATE)	
+<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)
+
+<comm>// REQUEST can be: 
+// 				getNumFreeTables
+//				getFreeTable
+// 				getTablesState		(Not for now)
+// 				getTableFromClient	[ARG1 = client_id]
+// 				getClientFromTable	[ARG1 = teatable_id]
+// UPDATE-REQUEST can be: 
+// 				updateTableState  [ARG1 = teatable_id {1,2}, ARG2 = new_state {busy, dirty, clean}, if ARG2=busy => ARG3= client_id]
+// 				updateBound		  [ARG1 = teatable_id {1,2}, ARG2 = client_id]</comm></code></pre>
+		</br>
+		<pre class="mytab"><code>Context ctxtearoom 			ip [host="localhost" port=8015]
+Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+
+ExternalQActor waiter context ctxwaiter
+
+<sevid>QActor tearoom</sevid> context ctxtearoom {
+	
+	<sevid>State s0 initial</sevid> {
+		
+		discardMsg Off
+		solve(consult("state.pl"))
+		
+		//solve(assert( teatable(1, clean) ))
+		//solve(assert( teatable(2, clean) ))
+		//solve(assert( bound(1, no) ))
+		//solve(assert( bound(2, no) ))
+	}
+	<tevid>Goto waitingForCommand</tevid>
+	
+	<sevid>State waitingForCommand</sevid> {
+		println("tearoom | waiting for command...")
+	}
+	<tevid>Transition t0	whenRequest getRoomState -> handleRequest</tevid>
+					<tevid>whenMsg updateState -> handleUpdate</tevid>
+	
+	<sevid>State handleRequest</sevid> {
+		
+		<comm>// REQUEST: getFreeTable</comm>
+		onMsg(getRoomState : getRoomState(getFreeTable, A)){
+			[# var Table = -1 #]
+		
+			solve(teatable(T, clean))	
+			ifSolved { [# Table = getCurSol("T").toString().toInt() #] 
+				println("tearoom | table $Table is free")
+			}
+			<mevid>replyTo getRoomState with state : state($Table)</mevid>
+			
+		}
+		
+		<comm>// REQUEST: getNumFreeTables</comm>
+		onMsg(getRoomState : getRoomState(getNumFreeTables, A)){
+			[# var Num = 0 #]
+		
+			solve(numfreetables(N))	
+			ifSolved { [# Num = getCurSol("N").toString().toInt() #] }
+			println("tearoom | number of free table: $Num")
+			<mevid>replyTo getRoomState with state : state($Num)</mevid>
+			
+		}
+		
+		<comm>// REQUEST: getTableFromClient</comm>
+		onMsg(getRoomState : getRoomState(getTableFromClient, A)){
+			
+			[# 
+				var Client_id = payloadArg(1)
+				var ID = -1			  
+			#]
+			solve(bound(N,$Client_id))	
+			ifSolved { [# ID = getCurSol("N").toString().toInt() #] 
+				println("tearoom | client $Client_id is at table $ID")
+			}
+			<mevid>replyTo getRoomState with state : state($ID)</mevid>
+			
+		}
+		
+		<comm>// REQUEST: getClientFromTable</comm>
+		onMsg(getRoomState : getRoomState(getClientFromTable, A)){
+			println("tearoom | INSIDE GET_CLIENT_FORM_TABLE")
+			[# 
+				var C = "no"
+				var ID = payloadArg(1).toInt()		  
+			#]
+			solve(bound($ID,N))	
+			ifSolved { [# C = getCurSol("N").toString() #] }
+			println("tearoom | table $ID is used by client $C")
+			<mevid>replyTo getRoomState with state : state($C)</mevid>
+			
+		}
+	}
+	<tevid>Goto waitingForCommand</tevid>
+	
+	<sevid>State handleUpdate</sevid> {
+		
+		//println("tearoom | INSIDE HANDLE_UPDATE")
+		printCurrentMessage
+		
+		<comm>// UPDATE-REQUEST: updateTableState CLEAN</comm>
+		onMsg(updateState : updateState(updateTableState, ID, clean, A )){
+			
+			[# var T =  payloadArg(1).toInt() #]
+			solve(setCleanTable($T))
+			println("tearoom | update State: table $T is now clean")
+			
+		}
+		
+		<comm>// UPDATE-REQUEST: updateTableState DIRTY</comm>
+		onMsg(updateState : updateState(updateTableState, ID, dirty, A )){
+			
+			[# 
+				var T =  payloadArg(1).toInt() 
+				var C = "no"
+			#]
+			solve(setDirtyTable($T))
+			solve(assign($T,$C))
+			println("tearoom | update State: table $T is now dirty")
+			
+		}
+		
+		<comm>// UPDATE-REQUEST: updateTableState BUSY</comm>
+		onMsg(updateState : updateState(updateTableState, ID, busy, A )){
+			
+			[# 
+				var T =  payloadArg(1).toInt() 
+				var C = payloadArg(3)
+			#]
+			solve(setBusyTable($T))
+			solve(assign($T,$C))
+			println("tearoom | update State: table $T is now busy and assigned to client $C")
+			
+		}
+	}
+	<tevid>Goto waitingForCommand</tevid>
+}</code></pre>
+			
+		</li>
+		<li><h4>Abstraction gap:</h4>
+			<h5>Application</h5>
+			
+			<p>The abstraction gap between the "high level" components (our qak actors) and the "low level" ones (DDR robot components) is filled up by some previously released libraries (developed in the past by UNIBO team). Since we work with the virtual version of the DDR our reference library is <i>virtualRobotSupport.kt</i>. It contain functions to translate application level moves to moves written in the native language of the DDR, thus reducing gratly the abstraction gap. Changing from virtual to physical robot in the future will not be a problem since a 'bridge' library for the physical version already exists.</p>
+			<p>The issue related to the movement of the waiter around the room are already addressed by some component that the unibo team developed in the past. As already mentioned for the basic movement of the robot we can use application level command instead of low level command thanks to virtualRobotSupport.kt. The unibo team also developed a basicrobot actor (<a href="https://htmlpreview.github.io/?https://github.com/anatali/iss2020LabBo/blob/master/it.unibo.qak20.basicrobot/userDocs/Qak20Basicrobot.html">Basicrobot docs</a>) which is able to compute basic moves indipendently of the version of the robot (virtual or physical) thank to the multiple libraries mentioned above. As analyst we use the Basicrobot actor as a service to make our application more tecnology indipendent.</p>
+			<p>The planning of a correct path to reach a certain destination is also not a real problem since we have a Planner component developed by unibo team able to plan path by exploiting AI technique.</p> 
+
+			<p>The abstraction gap is also greatly reduced by the support of the QAK infrastructure thant resolve most of the common issue of distributed systems and let us work on a higher abstraction level.</p>
+
+			<p>In conclusion, thank to these components the abstraction gap for our application is extremely small. Once the team has become familiar with the aforementioned components it should be able to design and develop the system in this first form (with the assumption mentioned in the Requirement Analysis)in short time.</p>
+
+			<h5>Web-GUI</h5>
+			<p>As for what concernes the user interface, the usage of Spring Web ( <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a> ) reduces the abstraction gap. In fact, the Spring Framework, with the help of Spring Boot ( <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/webspring.intro/userDocs/LabSpringIntro.html">Spring Boot</a> ) provides a way to quickly develop applications without concerning about the lower part of it: in the web case, Spring Web creates and manages a standalone server (Tomcat) and relative beans, all sone automatically, so that the developer can concentrate on the business logic of the web-app.</p><!-- 
+			
+			A livello di gestione dei servizi web, invece, l'utilizzo di Spring Web facilita la progettazione e lo sviluppo del server-web PIPPONE SU SPRING, SERVER STANDALONE E ANNOTATIONS
+			-->
+		</li>
+		<li><h4>Functional TestPlan:</h4><!--
+			Per quanto riguarada gli altri stati, ogni attore gestisce il proprio. Dunque, la gestione degli stati è distribuita, poiché ogni attore mantiene il suo stato di pertinenza e non vi è un unica autorità centrale che si occupa di mantenerli tutti.
+			
+			-->
+			<h5>Representation of the tearoom</h5>
+			<p>Since the position of the robot (waiter) inside the map can be used to verify if it is behaving correctly, we need first to define a room-map. To have a faithful map, though, there is the need to previously scan the room with the robot. In this phase, some tuning (adjusting virtual robot speed and step size) will be required to "tailor" the map representation around the virtual robot itself. Hereunder, a possible room-map has been obtained after a scan with the virtual robot:</p>
+			<table width="100%">
+			<tr>
+				<td width="60%"><img width="100%" src="./img/grid_prob.png" alt="grid.png" ></td>
+				<td >The matrix of the explored room is:</br>
+				<pre>|r, 1, 1, 1, 1, X, 
+|1, 1, 1, 1, 1, X, 
+|1, X, 1, X, 1, X, 
+|1, 1, 1, 1, 1, X, 
+|X, X, X, X, X, X,</pre>
+				</td>
+			</tr>
+		</table>
+		<p>Other representations (with more rows and columns) have been found from different tuning parameters, but, from now on, will be referring to this room-map representation for positioning and consequent actor states.</p>
+		<h5>Entities states</h5>
+			<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then ther will be a correspondence between the actions an actor is performing and its state. </br>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
+			
+			<p>The states will be distributed among the different actors, so that every actor has its own state to manage. The state is made visible to external entities as a CoAP resource. Hereunder are listed the values of the main states of waiter, barman, tearoom (hall state is not represented now, since we decided to focus on just one client at a time):
+			<ul>
+				<li><i>Barman</i> : 
+					<ul>
+						<li><i>idle</i> : barman is doing nothing</li>
+						<li><i>preparing(TEATABLE_ID, TEA)</i> : barman is preparing a TEA tea for teatable TEATABLE_ID</li>
+					</ul>
+				</li>
+				<li><i>Tearoom</i> : 
+					<ul>
+						<li><i>teatable_N(CLEAN,NO)</i> : teatable N is free and clean</li>
+						<li><i>teatable_N(DIRTY,NO)</i> : teatable N is free and dirty, so it has to be cleaned</li>
+						<li><i>teatable_N(BUSY,CLIENT_ID)</i> : teatable N is occupied by client CLIENT_ID</li>
+					</ul>
+				</li>
+				<li><i>Waiter</i> : 
+					<ul>
+						<li><i>atPosition(X,Y, ELEMENT)</i> : the waiter is standing at element ELEMENT which is at position (X,Y) </li>
+						<!--<li><i>collectingClient</i> : the waiter is moving to the tearoom element ELEMENT (teatables, entrance door, exit door, service desk, home) which is at position (X,Y)</li>-->
+						<li><i>convoyingClientToTable(TEATABLE_ID, CLIENT_ID)</i> : the waiter is convoying the new client CLIENT_ID from entrance door to teatable TEATABLE_ID</li>
+						<li><i>takingOrder(TEATABLE_ID)</i> : the waiter is taking the order at teatable TEATABLE_ID and communicating it to the barman</li>
+						<li><i>servingTea(TEATABLE_ID)</i> : the waiter is bringing the tea to teatable TEATABLE_ID</li>
+						<li><i>handlePayment(TEATABLE_ID)</i> : the waiter is handling the payment for client at teatable TEATABLE_ID</li>
+						<li><i>convoyingClientToExitDoor(CLIENT_ID)</i> : the waiter is bringing the client CLIENT_ID to the exit door so it can leave the tearoom</li>
+						<li><i>cleaning(TEATABLE_ID)</i> : the waiter is cleaning the teatable TEATABLE_ID</li>
+					</ul>
+				</li>
+			</ul>
+			</p>
+			<p>Here is an example of a test to verify barman state:
+			<pre><code>class TestRobotboundary {
+			
+	var barman             : ActorBasic? = null
+	val mqttTest   	      = MqttUtils("test") 
+	val initDelayTime     = 1000L   // 
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Before
+	fun systemSetUp() {
+		println("Preparing test for barman actor...")
+   		kotlin.concurrent.thread(start = true) {
+			it.unibo.ctxbarman.main() 
+		}
+	}
+
+	@After
+	fun terminate() {
+		println("%%%  TestBarman terminate ")
+	}
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	suspend fun forwardToBarman(msgId: String, payload:String){
+		println(" --- forwardToBarman --- $msgId:$payload")
+		if( barman != null )  MsgUtil.sendMsg( "test",msgId, payload, barman!!  )
+	}
+	
+	fun checkResource(value: String){		
+		if( barman != null ){
+			println(" --- checkResource --- ${barman!!.geResourceRep()}")
+			assertTrue( barman!!.geResourceRep() == value)
+		}  
+	}
+
+
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Test
+	fun testBarman(){
+	 	runBlocking{
+ 			while( barman == null ){
+				println("testBarman wait for barman ... ")
+				delay(initDelayTime)  //time for robot to start
+				barman = it.unibo.kactor.sysUtil.getActor("barman")
+ 			}
+			
+			//first the barman is waiting for an order
+ 			checkResource("idle")
+			
+			forwardToBarman("order","order(1,peach)")
+			delay(200)
+			
+			//check if barman is preparing the tea
+			checkResource("preparing(1,peach)")
+			delay(1000)
+			
+			//after some time the barman should be idle again
+			checkResource("idle")
+			
+ 			if( robot != null ) robot!!.waitTermination()
+  		}
+	 	println("testBarman BYE  ")  
+	}
+}</code></pre>
+			</p>
+		</li>
+		<li><h4>Product backlog:</h4>
+			For this first SPRINT, the team will focus on developing the <i>waiter</i> component and the client <i>Web-GUI</i> as introduced in the problem analysis. The team will also produce <i>test plans</i> to check if the waiter and the other componens are behaving as expected.  
+		</li>
+	</ol>
+</div>
+
+
+ <!--------------------------------------------------------------------------------------------------------------------------------->
+
+<table id="authors" border="1" align="center">
+<tr>
+<td style="width:50%">
+<center>By Elena Martini ~ email: elena.martini6@studio.unibo.it</center> 
+</td>
+<td style="width:50%">
+<center>By Elisa Drudi ~ email: elisa.drudi4@studio.unibo.it </center>
+</td>
+</tr>
+<!-- ---------------->
+<tr>
+<td style="width:50%">
+<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+</td>
+<td style="width:50%">
+<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+</td>
+</tr>
+</table>  
+</body>
+</html>
+
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+</html>
