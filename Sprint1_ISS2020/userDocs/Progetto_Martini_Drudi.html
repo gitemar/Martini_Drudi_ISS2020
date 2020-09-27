@@ -291,7 +291,7 @@ video{
 		</p>
 		<ul>
 			<li><h5>Waiter QAK behaviour</h5>
-				<pre class="mytab"><code><keyw>System -trace</keyw> waiter
+				<pre class="mytab"><code><keyw>System</keyw> waiter
 
 <keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
 
@@ -376,7 +376,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		
 		//init
 		println("waiter | beep beep boop...START...")
-		
+		discardMsg Off 
 	}
 	<tevid>Goto restingAtHome</tevid>
 	
@@ -416,8 +416,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 	}
 	<tevid>Transition t0 whenReply done -> restingAtHome</tevid>
 	
-	<comm>//-------------------------------------------- WAITER HANDLE ENTER REQUEST ----------------------------------------------------</comm>
-	<comm>//---------------------------------------------------------------------------------------------------------------------------</comm>
+	<comm>//---------------------------------------- WAITER HANDLE ENTER REQUEST -----------------------------------------------</comm>
 	<sevid>State handleEnterPhase1</sevid> {
 		
 		onMsg(enter : enter(CLIENT_ID)){
@@ -473,7 +472,8 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		
 		forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)
 		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $DestTable )</mevid>
-		<comm>//start timer to count until MaxStayTime</comm>
+		<comm>//start counting for orderTime now!</comm>
+		<comm>//start timer to count until timeout</comm>
 		<mevid>forward timer -m startTimer : startTimer($DestTable, $MaxStayTime)</mevid>
 		
 	}
@@ -568,7 +568,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		
 			<mevid>emit teaServed : teaServed($DestTable, $CurDrink )</mevid>
 			<comm>//start counting for consumingTime NOW</comm>
-			<comm>//start timer to count until MaxStayTime</comm>
+			<comm>//start timer to count until timeout</comm>
 			<mevid>forward timer -m resumeTimer : resumeTimer($DestTable)</mevid>
 	
 	}		
@@ -928,7 +928,7 @@ public class ProvaController {
 	
 }</code></pre>
 		<p>
-			Hereunder there some videos that show the interaction between the virtual robot and the client webGUI:
+			Hereunder there are some videos that show the interaction between the virtual robot and the client webGUI:
 			<ul>
 				<li>
 					Client who asks for the bill</br>
@@ -1034,7 +1034,7 @@ public class ProvaController {
 		//first the barman should be idle
 		var state = barman!!.geResourceRep()
 		//println("barman state is : ${barman!!.geResourceRep()}")
-		assertTrue(state == "idle")
+		<mevid>assertTrue(state == "idle")</mevid>
 
 			println("test | now I forward an order message...")
 			MsgUtil.sendMsg( "test","order", "order(1, peach)", barman!!  )
@@ -1043,13 +1043,13 @@ public class ProvaController {
 			//now barman state should be preparing(1,peach)
 			//println("barman state is : ${barman!!.geResourceRep()}")
 			state = barman!!.geResourceRep()
-			assertTrue(state == "preparing(1,peach)")
+			<mevid>assertTrue(state == "preparing(1,peach)")</mevid>
 			
 			delay(4000)
 			//after preparing the tea the barman should return idle
 			//println("barman state is : ${barman!!.geResourceRep()}")			
 			state = barman!!.geResourceRep()
-			assertTrue(state == "idle")
+			<mevid>assertTrue(state == "idle")</mevid>
 			
 		}
 }

@@ -592,7 +592,7 @@ mevid{
 		</br>
 		<pre class="mytab"><code><keyw>Context</keyw> ctxsmartbell <keyw>ip</keyw> [<keyw>host=</keyw><strs>"localhost"</strs> <keyw>port=</keyw><ints>8030</ints>]
 <keyw>Context</keyw> ctxwaiter <keyw>ip</keyw> [<keyw>host=</keyw><strs>"127.0.0.1"</strs> <keyw>port=</keyw><ints>8020</ints>]
-<keyw>Context</keyw> ctxclient <keyw>ip</keyw> [<keyw>host=</keyw><strs>"localhost"</strs> <keyw>port=</keyw><ints>8077</ints>]
+<keyw>Context</keyw> ctxclient <keyw>ip</keyw> [<keyw>host=</keyw><strs>"someip"</strs> <keyw>port=</keyw><ints>8077</ints>]
 
 <keyw>ExternalQActor</keyw> waiter <keyw>context</keyw> ctxwaiter
 <keyw>ExternalQActor</keyw> client <keyw>context</keyw> ctxclient
@@ -671,35 +671,35 @@ mevid{
 		<pre class="mytab"><code><keyw>System</keyw> waiter
 
 <comm>//-----------SMARTBELL COMMMUNICATION--------------</comm>
-<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)				 <comm>//</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)				 
 <comm>//-------------------------------------------------</comm>
 
 <comm>//----------CLIENT COMMUNICATION------------------------------</comm>
-<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)						<comm>//</comm>
-<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)			<comm>//</comm>
-<keyw>Dispatch</keyw> tea : tea(TEATABLE_ID, TEA)						<comm>//</comm>
-<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)				<comm>//</comm>
-<keyw>Request</keyw> billPlease : billPlease(TABLE_ID)					<comm>//</comm>
-<keyw>Reply</keyw> cardPlease : cardPlease(ARG)							<comm>//</comm>
-<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID)		<comm>//</comm>
-<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)					<comm>//</comm>
+<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)						
+<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)			
+<keyw>Dispatch</keyw> tea : tea(TEATABLE_ID, TEA)						
+<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)				
+<keyw>Request</keyw> billPlease : billPlease(TABLE_ID)					
+<keyw>Reply</keyw> cardPlease : cardPlease(ARG)							
+<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID)		
+<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)					
 <comm>//------------------------------------------------------------</comm>
 
 <comm>//-----------BARMAN COMMUNICATION-----------------------------</comm>
-<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)						<comm>//</comm>
-<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						<comm>//</comm>	
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)						
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						
 <comm>//------------------------------------------------------------</comm>
 
 <comm>//----------SELF MESSAGES-------------------------------------</comm>
-<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				<comm>//</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				
 <comm>//------------------------------------------------------------</comm>
 
 <comm>//-----------TIMER COMMMUNICATION-----------------------------</comm>
-<keyw>Dispatch</keyw> startTimer : startTimer(TEATABLE_ID, MAX_TIME)		<comm>//</comm>
-<keyw>Dispatch</keyw> stopTimer : stopTimer(TEATABLE_ID)					<comm>//</comm>
-<keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				<comm>//</comm>
-<keyw>Dispatch</keyw> endTimer : endTimer(TEATABLE_ID)					<comm>//</comm>
-<keyw>Dispatch</keyw> timeout : timeout(TEATABLE_ID)						<comm>//</comm>
+<keyw>Dispatch</keyw> startTimer : startTimer(TEATABLE_ID, MAX_TIME)		
+<keyw>Dispatch</keyw> stopTimer : stopTimer(TEATABLE_ID)					
+<keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				
+<keyw>Dispatch</keyw> endTimer : endTimer(TEATABLE_ID)					
+<keyw>Dispatch</keyw> timeout : timeout(TEATABLE_ID)						
 <comm>//------------------------------------------------------------</comm></code></pre>
 		</br>
 		<pre class="mytab"><code>Context ctxsmartbell ip [host="localhost" port=8030]
@@ -724,6 +724,7 @@ ExternalQActor timer context ctxtimer
 	
 	<sevid>State s0 initial</sevid>{
 		//init
+		discardMsg Off
 	}
 	<tevid>Goto restingAtHome</tevid>
 	
@@ -877,8 +878,7 @@ ExternalQActor timer context ctxtimer
 		<li><h4>Functional TestPlan</h4>
 		<p>Since our robot must move inside the safe-tearoom and between different point of interests (service desk, teatables, entrance door and exit door, home), we must find a way to automatically verify that the DDR robot is in the right place (requirement achieved).</p>
 		<h5>Representation of the tearoom</h5>
-		<p>From requirements we know that the baundary along the safe tearoom is free from any kind of obstacle and that, as a consequence, the waiter is able to move freely along that boundary.</p>
-		<p>Moreover, there is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
+		<p>There is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
 		
 		The room will be divided into a grid of nh*nw squares of side R and this grid can be represented by a proper data structure as a matrix whose dimension will be nh*nw. The matrix will contain a character representing the "state" of every cell of the grid. For instance:
 		<ul>
@@ -930,14 +930,13 @@ ExternalQActor timer context ctxtimer
 		Hence, a Database would not offer appreciable advantages over a Prolog knowledge base. Secondly, Prolog allows us to mix rules with facts and thus we can add portions of declarative programming to our system.
 		We could use declarative programming to quickly write Prolog rules that allow us to search for tables with a certain state if we decide to also keep the state of the teatables stored in the Prolog knowledge base.
 		<h5>Entities states</h5>
-		<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then ther will be a correspondence between the actions an actor is performing and its state.
+		<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then there will be a correspondence between the actions an actor is performing and its state.
 		</p>
 		<p>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
 		<p>For instance, the <i>barman</i> may have the following states:
 			<ul>
 				<li><i>idle</i>: when the barman is not doing anything;</li>
 				<li><i>preparing</i>: when the barman is making a tea for a customer;</li>
-				<li><i>ready</i>: when the barman has finished to prepare the tea;</li>
 			</ul>
 		</p>
 		</li>
