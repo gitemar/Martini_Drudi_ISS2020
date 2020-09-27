@@ -1066,11 +1066,154 @@ assign(X,Y).</code></pre>
 	}
 
 }</code></pre>
+	
+	<p>
+	Here's another automated test with CoAP resources. The actor this time is the mover, so we test that the reached position is the one we expect and the state of the actor will be "<i>X,Y</i>" where X is the column and Y is the row of the room map.
+	</p>
+	
+	<p>Hereunder is reported the piece of mover QAkctor code that performs the <i>updateResource</i>:</p>
+	<pre class="mytab"><code>
+	...
+	
+	State waitingForCommand {
+		println("mover | waiting for waiter's commands...")
+		<mevid>updateResource [#"${itunibo.planner.plannerUtil.get_curPos().first},${itunibo.planner.plannerUtil.get_curPos().second}"#]</mevid>
+		[# correct = false #]
 		
-	</div>
+	}
+	Transition t1 	whenRequest moveTo -> move
+					whenMsg end -> end
+					
+	...
+	</code></pre>
+	<p>
+	Hereunder is reported the file <i>positions.pl</i> where all the key postions are listed (in Prolog):
+	</p>
+	<pre class="mytab"><code>% pos(name_of_key_position, column, row) 
+% column and row start from 0 and refer to the room map matrix 
+pos(home, 0, 0).
+pos(servicedesk, 4, 0).
+pos(entrance, 0, 3).
+pos(exit, 4, 3).
+pos(teatable1, 1, 1).
+pos(teatable2, 3, 1).</code></pre>
+	<p>
+	Hereunder is reported the test performed with JUnit on the mover (<i>testMover.kt</i>):
+	</p>
+	<pre class="mytab"><code>import org.junit.Before
+import org.junit.After
+import org.junit.Test
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.delay
+import it.unibo.kactor.ActorBasic
+import it.unibo.kactor.MsgUtil
+import it.unibo.kactor.MqttUtils
+import it.unibo.kactor.sysUtil
+import java.util.regex.Pattern
+
+class testMover {
+	
+	var mover            : ActorBasic? = null
+	val initDelayTime     = 4000L
 
 	
+	fun assertPosition(state : String, x : String , y : String) {
+		println("state is $state")
+		var pos = Pattern.compile(",").split(state)
+		var first = pos[0]
+		var second = pos[1]
+		println("test : x = $first , y = $second")
+		<sevid>assertTrue(first == x && second == y)</sevid>
+	}
+	
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Before
+	fun systemSetUp() {
+		
+   		kotlin.concurrent.thread(start = true) {
+			it.unibo.ctxmover.main() 						// MainCtxTearoom()
+			println("testMover systemSetUp done")
+   		} 
+	}	
 
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@After
+	fun terminate() {
+		println("testMover terminated!")
+	}
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	fun test(){
+		println(" --- testMover ---")
+ 		runBlocking{
+			
+			delay(15000)
+ 			while(mover == null){
+				println("test | waiting for mover to be created...")
+				delay(500)
+				mover = sysUtil.getActor("mover")
+			}
+		//Virtual Robot start at Home position (0,0) 
+		var state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "0", "0")</mevid>
+		
+		//move to entrance (0,3)
+		var request = MsgUtil.buildRequest( "test","moveTo", "moveTo(entrance)", mover!!.name  )
+		mover!!.actor.send(request)
+		delay(5000)
+		state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "0", "3")</mevid>
+			
+		//move to teatable 1 (1,1)
+		request = MsgUtil.buildRequest( "test","moveTo", "moveTo(teatable1)", mover!!.name  )
+		mover!!.actor.send(request)
+		delay(5000)
+		state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "1", "1")</mevid>
+				
+		//move to teatable 2 (3,1)
+		request = MsgUtil.buildRequest( "test","moveTo", "moveTo(teatable2)", mover!!.name  )
+		mover!!.actor.send(request)
+		delay(5000)
+		state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "3", "1")</mevid>
+			
+		//move to service desk (4,0)
+		request = MsgUtil.buildRequest( "test","moveTo", "moveTo(servicedesk)", mover!!.name  )
+		mover!!.actor.send(request)
+		delay(5000)
+		state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "4", "0")</mevid>
+			
+		//move to exit (4,3)
+		request = MsgUtil.buildRequest( "test","moveTo", "moveTo(exit)", mover!!.name  )
+		mover!!.actor.send(request)
+		delay(5000)
+		state = mover!!.geResourceRep()
+		<mevid>assertPosition(state, "4", "3")</mevid>
+				
+		}
+}
+	
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Test
+	fun testMover(){
+		
+		test()
+
+		println("testMover finished  ")
+	}
+
+}</code></pre>
+	</div>
 
 </div>
 
