@@ -237,7 +237,7 @@ video{
 	<div>
 		<ul>
 			<li><h5>Logical Architecture</h5>
-				<p>Hereunder is reported the logical architecture as described in the Problem Analysis. No changes have been applied to the high-level (logical) architecture apart from the client: the client is now considered as a WebGUI to MOK the client behaviour. This way, it was simplier to test the system (expecially the waiter) without a QAK client actor.</p>
+				<p>Hereunder is reported the logical architecture as described in the Problem Analysis. No changes have been applied to the high-level (logical) architecture.</p>
 				<center><img src="img/allactors_proj.png" alt="logical architecture" width="100%"/></center>
 				<p>Among all the actors, the waiter has the most complex architecture, as shown by the following paragraph.</p>
 			</li>
@@ -287,7 +287,7 @@ video{
 		As for what concernes the QAK modeling, most of the actors were unaltered from the problem analysis. The only actor which as undergone some changes (the most relevant to our system) is the waiter.
 		</p>
 		<p>
-		The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, timer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
+		@TONNO The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, timer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
 		</p>
 		<ul>
 			<li><h5>Waiter QAK behaviour</h5>
@@ -746,13 +746,13 @@ assign(X,Y).</code></pre>
 			</ul>
 		</p>
 		<p>
-			As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter was working. That way, the client is updated on its situation. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
+			@TONNO As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter was working. That way, the client is updated on its situation. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
 		</p>
 		<p class="did">
-			The code below represents the controller class "ProvaController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping and @PostMapping annotations.
+			The code below represents the controller class "ProvaController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping("http_Request_path") and @PostMapping("http_Request_path") annotations).
 		</p>
 		<pre class="mytab"><code>@Controller
-public class ProvaController {
+@TONNO public class ProvaController {
 	
 	String appName     ="provaGui";
     String htmlPage  = "welcome";
@@ -770,10 +770,10 @@ public class ProvaController {
         connQakSupportS = new ConnQakCoapMine();
         connQakSupportW = new ConnQakCoapMine();
         mqttSupport = new MqttConfig("localhost:1883");
-        connQakSupportS.createConnection("localhost", "8015", "ctxtearoom", "smartbell");
-        connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");
+        <mevid>connQakSupportS.createConnection("localhost", "8015", "ctxtearoom", "smartbell");</mevid>
+        <mevid>connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");</mevid>
         mqttSupport.connect();
-        mqttSupport.setReceivingHandler("unibo/polar", this);
+        <mevid>mqttSupport.setReceivingHandler("unibo/polar", this);</mevid>
         
 	}
 	
@@ -794,14 +794,14 @@ public class ProvaController {
 		
 		try {
 			ApplMessage msg = MsgUtil.buildRequest("clientWebPage", "ring", "ring()", "smartbell");
-			String answer = connQakSupportS.request( msg );
+			<mevid>String answer = connQakSupportS.request( msg );</mevid>
 			this.cID = answer;
 			
 			while(!(model!=null)) {
 				System.out.println("________________________Waiting for smartbell reply...");
 				Thread.sleep(200);
 			}
-			ResourceRepMine rep = getWebPageRep(0);
+			<mevid>ResourceRepMine rep = getWebPageRep(0);</mevid>
 			
 			if(!(rep.getContent().contains("sendClientID"))) {
 				System.out.println("_______________________Smartbell | Primo stato scartato: "+rep.getContent());
@@ -824,7 +824,7 @@ public class ProvaController {
 		
 		System.out.println("_______________________Client wants to order...");
 		
-		connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "wantToOrder", "wantToOrder("+this.tID+")", "waiter"));
+		<mevid>connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "wantToOrder", "wantToOrder("+this.tID+")", "waiter"));</mevid>
 		while(!(model!=null)) {
 			System.out.println("________________________Waiting for waiter reply...");
 			try {
@@ -835,7 +835,7 @@ public class ProvaController {
 			}
 		}
 		
-		ResourceRepMine rep = getWebPageRep(1);
+		<mevid>ResourceRepMine rep = getWebPageRep(1);</mevid>
 		System.out.println("Waiter arrived at table... | " + rep.getContent());
 		return "order";
 	}
@@ -845,7 +845,7 @@ public class ProvaController {
 	public String afterOrder(@RequestParam String type, Model model){
 		
 		System.out.println("_______________________Client has requested " + type + " tea...");		
-		connQakSupportW.forward(MsgUtil.buildDispatch("clientWebPage", "tea", "tea("+this.tID+","+type+")", "waiter"));
+		<mevid>connQakSupportW.forward(MsgUtil.buildDispatch("clientWebPage", "tea", "tea("+this.tID+","+type+")", "waiter"));</mevid>
 		model.addAttribute("teaOrdered", type);
 		return "consume";
 	}
@@ -854,7 +854,7 @@ public class ProvaController {
 	public String afterOrder(Model model){
 		
 		System.out.println("_______________________Client has requested  the bill...");		
-		connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "billPlease", "billPlease("+this.tID+")", "waiter"));
+		<mevid>connQakSupportW.request(MsgUtil.buildRequest("clientWebPage", "billPlease", "billPlease("+this.tID+")", "waiter"));</mevid>
 		while(!(model!=null)) {
 			System.out.println("________________________Waiting for waiter reply...");
 			try {
@@ -864,7 +864,7 @@ public class ProvaController {
 				e.printStackTrace();
 			}
 		}
-		ResourceRepMine rep = getWebPageRep(1);
+		<mevid>ResourceRepMine rep = getWebPageRep(1);</mevid>
 		System.out.println("Waiter arrived at the table... | "+rep.getContent());
 		return "exit";
 	}

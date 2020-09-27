@@ -555,32 +555,12 @@ mevid{
 			<li>we want an <i>executable model</i>, so that it is possible to show it to the customer to verify that everything is going as expected and to eventually allow him to better understand what he wants from our system</li>
 		</ol></br>
 		To achieve the above goals we decided to use the <em>QAKctor modeling language</em> : <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html">QAK language and actors</a>. We decided to use a modeling language because a programming language would have required to consider every single detail while we want to focus only on the essential aspects of the system.
-		Also the QAKctor language natively provides us with the concept of QActor which is the abstraction that best approximates the entities involved in our system. In fact, Waiter, Client, Smartbell and Barman are all autonomous and independent entities, whose behavior can be described by a Moore finite state machine.
+		Also the QAKctor language natively provides us with the concept of QActor which is the abstraction that best approximates the entities involved in our system. In fact, Waiter, Smartbell and Barman are all autonomous and independent entities, whose behavior can be described by a Moore finite state machine.
 		And this is precisely the semantics of QAKctor. 
 		</br>Once a model has been produced in the QAKctor modeling language, the Software Factory that accompanies the modeling language will automatically create an <i>executable prototype in Kotlin language</i> that can be shown to the customer. </br>
 		</br></br>
 		Since Waiter, Client, Smartbell and Barman are autonomous and independent entities, it seemed appropriate to move from a communication based on shared memory to a <i>communication based on message exchange</i>. By doing so, it will not be necessary to manage critical runs to shared resources, in addition to the fact 
 		that communication throught shared memory it's not always possible, especially in a context with heterogeneous computational nodes typical of IoT application and also of this system.
-		
-		<h5>Qak Client model</h5>
-		<center><img src="img/req_clientactor.png" alt="req_clientactor.png" width="50%"/></center>
-		<p>Here, since the <i>client</i> should be a human being, there is the need of MOK messages to simulate a correct human behaviour. Hereunder are described the messages related to the client actor (qakctor).</p>
-		<pre class="mytab"><code><keyw>System</keyw> client
-
-<keyw>Request</keyw> ring : ring(ARG)
-<keyw>Reply</keyw> sendClientID : sendClientID(CLIENT_ID)
-<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)
-<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)
-<keyw>Dispatch</keyw> tea : tea(TEA)
-<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)
-<keyw>Request</keyw> billPlease : billPlease(TEATABLE_ID)
-<keyw>Reply</keyw> cardPlease : cardPlease(ARG)
-<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID) //the waiter sends this message when it is already at the table
-<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)</code></pre>
-		<p class="did">Most interactions have been modeled as "fire-and-forget" (message events and dispatching) since a request-reply interactions doesn't seem to be needed from requirements (sender doen't need a specific reply from receiver). Moreover, the waiter doesn't know directly the client (apart from its client identifier), hence it needs to communicate through events.</p>
-		<p class="did">Instead, <i>ring</i> and <i>billPlease</i> messages have been represented as a request-reply interaction. In the first case, client expects its <i>clientidentifier</i> (or the prohibition to enter the safe tearoom) as an answer and, in the second case, it expects the amout to pay for the bill.</p>
-		</br>
-		<p>After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. In fact, a GUI helps to better test the functioning of our system: to create different use cases the custumer only has to "click on different buttons". Moreover, the choice of a <i>web</i> GUI comes from the fact that it does not require any kind of software installation by the customer, so it is a "ready-to-use" tool for testing.  </p>
 		
 		<h5>Qak Smartbell model</h5>
 		<center><img src="img/req_smartbellactor.png" alt="req_smartbellactor.png" width="50%"/></center>
@@ -876,9 +856,12 @@ ExternalQActor timer context ctxtimer
 }</code></pre>
 		</li>
 		<li><h4>Functional TestPlan</h4>
-		<p>Since our robot must move inside the safe-tearoom and between different point of interests (service desk, teatables, entrance door and exit door, home), we must find a way to automatically verify that the DDR robot is in the right place (requirement achieved).</p>
+		<h5>Client MOK</h5>
+		<p>The client is not part of the system we have to develop, but it is a useful tool to better test the system and its behaviour. After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. In fact, a GUI helps to better test the functioning of our system: to create different use cases the custumer only has to "click on different buttons". Moreover, the choice of a <i>web</i> GUI comes from the fact that it does not require any kind of software installation by the customer, so it is a "ready-to-use" tool for testing. </p>
 		<h5>Representation of the tearoom</h5>
-		<p>There is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
+		<p>Since our robot must move inside the safe-tearoom and between different point of interests (service desk, teatables, entrance door and exit door, home), we must find a way to automatically verify that the DDR robot is in the right place (requirement achieved). Therefore, there is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
+		
+		@TONNO
 		
 		The room will be divided into a grid of nh*nw squares of side R and this grid can be represented by a proper data structure as a matrix whose dimension will be nh*nw. The matrix will contain a character representing the "state" of every cell of the grid. For instance:
 		<ul>
@@ -1657,6 +1640,26 @@ ExternalQActor waiter context ctxwaiter
 			Per quanto riguarada gli altri stati, ogni attore gestisce il proprio. Dunque, la gestione degli stati è distribuita, poiché ogni attore mantiene il suo stato di pertinenza e non vi è un unica autorità centrale che si occupa di mantenerli tutti.
 			
 			-->
+			<h5>Client MOK Web-GUI</h5>
+			<p>As the client MOK needs to interact with the system, it needs to exchange messages with some of our actors (in particular Waiter and Smartbell). Hence, the client has been represented (here) as an actor and its messages are represented in the QAK syntax. This has been done only for the sake of highlight the principal aspects of its interaction with the system by using a formal modeling language (QAK modeling language).</p>
+			<center><img src="img/req_clientactor.png" alt="req_clientactor.png" width="50%"/></center>
+			<pre class="mytab"><code><keyw>System</keyw> client
+
+<keyw>Request</keyw> ring : ring(ARG)
+<keyw>Reply</keyw> sendClientID : sendClientID(CLIENT_ID)
+<keyw>Event</keyw> wait : wait(CLIENT_ID, MAX_TIME)
+<keyw>Event</keyw> sitPlease : sitPlease(CLIENT_ID, TEATABLE_ID)
+<keyw>Request</keyw> wantToOrder		: wantToOrder(TEATABLE_ID)	         
+<keyw>Reply</keyw> orderPlease		: orderPlease(ARG)
+<keyw>Dispatch</keyw> tea : tea(TEA)
+<keyw>Event</keyw> teaServed : teaServed(TEATABLE_ID, TEA)
+<keyw>Request</keyw> billPlease : billPlease(TEATABLE_ID)
+<keyw>Reply</keyw> cardPlease : cardPlease(ARG)
+<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID) //the waiter sends this message when it is already at the table
+<keyw>Event</keyw> exitPlease : exitPlease(CLIENT_ID)</code></pre>
+		<p class="did">Most interactions have been modeled as "fire-and-forget" (message events and dispatching) since a request-reply interactions doesn't seem to be needed from requirements (sender doen't need a specific reply from receiver). Moreover, the waiter doesn't know directly the client (apart from its client identifier), hence it needs to communicate through events.</p>
+		<p class="did">Instead, <i>ring</i> and <i>billPlease</i> messages have been represented as a request-reply interaction. In the first case, client expects its <i>clientidentifier</i> (or the prohibition to enter the safe tearoom) as an answer and, in the second case, it expects the amout to pay for the bill.</p>
+		</br>
 			<h5>Representation of the tearoom</h5>
 			<p>Since the position of the robot (waiter) inside the map can be used to verify if it is behaving correctly, we need first to define a room-map. To have a faithful map, though, there is the need to previously scan the room with the robot. In this phase, some tuning (adjusting virtual robot speed and step size) will be required to "tailor" the map representation around the virtual robot itself. Hereunder, a possible room-map has been obtained after a scan with the virtual robot:</p>
 			<table width="100%">
@@ -1705,7 +1708,7 @@ ExternalQActor waiter context ctxwaiter
 			</ul>
 			</p>
 			<p>Here is an example of a test to verify barman state:
-			<pre><code>class TestRobotboundary {
+			<pre><code>class TestBarman {
 			
 	var barman             : ActorBasic? = null
 	val mqttTest   	      = MqttUtils("test") 
