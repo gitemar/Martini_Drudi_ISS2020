@@ -78,11 +78,6 @@ QActor mover context ctxwaiter {
 	//var obstacleFound      = false  
 	val inmapname          = "teaRoomExplored" 
 	
-	
-	fun assignXY(x: Int, y: Int) {
-		X = x
-		Y = y
-	}
 #]
 	State s0 initial {	
 		//initializing Planner (also used by trustingWalker)
