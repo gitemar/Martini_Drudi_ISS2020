@@ -3,12 +3,12 @@ package connMqtt;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-import it.unibo.clientGui.ProvaController;
+import it.unibo.clientGui.ClientController;
 import utils.KotParser;
 
 public final class EventHandler {
 	
-	public static void handleWaitEvent(String message, ProvaController pc) {
+	public static void handleWaitEvent(String message, ClientController pc) {
 		
 		String [] els = getMessageElements(message, "wait");
 		System.out.println("__________Waiter said that client " + els[0] + " has to wait " + els[1] + "mins");
@@ -34,7 +34,7 @@ public final class EventHandler {
 		
 	}
 	
-	public static void handleSitEvent(String message, ProvaController pc) {
+	public static void handleSitEvent(String message, ClientController pc) {
 		
 		String[] elements = getMessageElements(message.toString(),"sitPlease");
 		pc.settID(elements[1]);
@@ -43,7 +43,7 @@ public final class EventHandler {
 		
 	}
 	
-	public static void handleTeaServedEvent(String message, ProvaController pc) {
+	public static void handleTeaServedEvent(String message, ClientController pc) {
 		
 		String[] elements = getMessageElements(message.toString(),"teaServed");
 		System.out.println("__________________"+elements[1]+" tea was brought to teatable "+elements[0]);
@@ -51,7 +51,7 @@ public final class EventHandler {
 		
 	}
 	
-	public static void handleMaxTimeExceededEvent(String message, ProvaController pc) {
+	public static void handleMaxTimeExceededEvent(String message, ClientController pc) {
 		
 		String[] elements = getMessageElements(message.toString(),"maxTimeExceeded");
 		System.out.println("__________________Max time exceeded for teatable "+ elements[0]);
@@ -59,7 +59,7 @@ public final class EventHandler {
 		
 	}
 	
-	public static void handleExitEvent(String message, ProvaController pc) {
+	public static void handleExitEvent(String message, ClientController pc) {
 		
 		String[] elements = getMessageElements(message.toString(),"exitPlease");
 		System.out.println("__________________Client "+elements[0]+" can now leave ");

@@ -1,4 +1,4 @@
-System -trace tearoom
+System tearoom
 
 mqttBroker "localhost" : 1883 eventTopic "unibo/polar" 	//mqtt.eclipse.org
 

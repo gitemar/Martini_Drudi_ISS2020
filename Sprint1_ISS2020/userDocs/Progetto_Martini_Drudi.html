@@ -287,7 +287,7 @@ video{
 		As for what concernes the QAK modeling, most of the actors were unaltered from the problem analysis. The only actor which as undergone some changes (the most relevant to our system) is the waiter.
 		</p>
 		<p>
-		@TONNO The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, timer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
+		The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, timer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
 		</p>
 		<ul>
 			<li><h5>Waiter QAK behaviour</h5>
@@ -746,13 +746,13 @@ assign(X,Y).</code></pre>
 			</ul>
 		</p>
 		<p>
-			@TONNO As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter was working. That way, the client is updated on its situation. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
+			As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter is working. That way, the client web page is updated every time an MQTT event is sent to the client. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
 		</p>
 		<p class="did">
-			The code below represents the controller class "ProvaController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping("http_Request_path") and @PostMapping("http_Request_path") annotations).
+			The code below represents the controller class "ClientController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping("http_Request_path") and @PostMapping("http_Request_path") annotations).
 		</p>
 		<pre class="mytab"><code>@Controller
-@TONNO public class ProvaController {
+	public class ClientController {
 	
 	String appName     ="provaGui";
     String htmlPage  = "welcome";
@@ -766,7 +766,7 @@ assign(X,Y).</code></pre>
     SimpMessagingTemplate smt;
     
    
-	public ProvaController() {
+	public ClientController() {
         connQakSupportS = new ConnQakCoapMine();
         connQakSupportW = new ConnQakCoapMine();
         mqttSupport = new MqttConfig("localhost:1883");

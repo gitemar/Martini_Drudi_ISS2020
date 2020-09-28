@@ -14,7 +14,7 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.springframework.messaging.MessagingException;
 import org.springframework.web.util.HtmlUtils;
 
-import it.unibo.clientGui.ProvaController;
+import it.unibo.clientGui.ClientController;
 import utils.KotParser;
 
 
@@ -54,7 +54,7 @@ public class MqttConfig {
 		}
 	}
 	
-	public void setReceivingHandler(String topicMsg, ProvaController pc) {
+	public void setReceivingHandler(String topicMsg, ClientController pc) {
 		
 			try {
 				IMqttToken t = subscriber.subscribe(topicMsg, 0);
