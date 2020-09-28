@@ -34,7 +34,7 @@ class testMover {
 	fun systemSetUp() {
 		
    		kotlin.concurrent.thread(start = true) {
-			it.unibo.ctxmover.main() 						// MainCtxTearoom()
+			it.unibo.ctxmover.main() 						
 			println("testMover systemSetUp done")
    		} 
 	}	
