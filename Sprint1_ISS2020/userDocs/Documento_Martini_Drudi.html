@@ -858,24 +858,25 @@ ExternalQActor timer context ctxtimer
 		<li><h4>Functional TestPlan</h4>
 		<h5>Client MOK</h5>
 		<p>The client is not part of the system we have to develop, but it is a useful tool to better test the system and its behaviour. After the <i>first meeting</i> with the client it was made clear that the <u>client actor</u> will not be developed as a QAKctor, but as a <u>Web GUI (user-interface)</u> that allows to directly test the application flow from the customer point of view. In fact, a GUI helps to better test the functioning of our system: to create different use cases the custumer only has to "click on different buttons". Moreover, the choice of a <i>web</i> GUI comes from the fact that it does not require any kind of software installation by the customer, so it is a "ready-to-use" tool for testing. </p>
+		
 		<h5>Representation of the tearoom</h5>
-		<p>Since our robot must move inside the safe-tearoom and between different point of interests (service desk, teatables, entrance door and exit door, home), we must find a way to automatically verify that the DDR robot is in the right place (requirement achieved). Therefore, there is the need of introducing a proper representation of the safe tearoom space. Through this representation, it is possible to check if the waiter-robot has achieved the requirement, that means that it moved from one point of interest to another one (i.e. from home to one teatable).</p>
-		
-		@TONNO
-		
-		The room will be divided into a grid of nh*nw squares of side R and this grid can be represented by a proper data structure as a matrix whose dimension will be nh*nw. The matrix will contain a character representing the "state" of every cell of the grid. For instance:
+		<p>In the past, the development team had already built several software systems with DDR robot where the business logic required the robot to move around a room according to a certain policy. During the design of these systems, the need arose to find a way to verify that the robot traveled the right path inside the room or to make the robot aware of what is inside the room so that it could plan a route to its destination without colliding with obstacles. To achive these goals it was decided to introduce a proper representation of the room space. In particular, the room space was represented with a grid of nh*nw squares of side R. This matrix contained for every cell a character that reresented the "state" of that portion of room. The possible states were:
 		<ul>
 			<li><i>r</i>: the cell is occupied by the robot (waiter)</li>
 			<li><i>0</i>: the cell is not explored (the waiter never passed from that cell)</li>
 			<li><i>1</i>: the cell has been explored (the waiter passed from that cell, but it is not currently there)</li>
 			<li><i>X</i>: the cell is occupied by an obstacle (i.e. teatable, service desk...)</li>
-		</ul>
-		</br>	
+		</ul></p>
+		
+		<p>Actually, this representation continues to be useful for this software system as well. In fact, our robot must move inside the safe-tearoom and between points of interest (service desk, teatables, entrance door and exit door, home). In order to test that the robot is in the correct position we need to represent these key points within the tearoom through some notation. In particular, we could exploit the same representation used in the past and <u>associate a cell (X, Y) of the matrix to each point of interest</u>. For example the Home position would be associated with the cell (0,0).</p>
+		<p>Furthermore, using this representation allows us to maintain
+		compatibility with the software systems mentioned above. This means that we can use these systems developed in the past as services for our Waiter without having to manage different representations of the room.</p>
+		<p>If we represent the tearoom as a grid as said above, we would have, for instance, a representation like this one:</p>
 		<table width="100%">
 			<tr>
 				<td width="50%"><img width="100%" src="./img/grid.png" alt="grid.png" ></td>
 				<td>The matrix of the explored room would be, for example:</br>
-				<pre>|r, 1, 1, 1, 1, 1, 1, x, 
+				<pre>|r, 1, 1, 1, 1, 1, 1, X, 
 |1, 1, 1, 1, 1, 1, 1, X, 
 |1, 1, 1, 1, 1, 1, 1, X, 
 |1, 1, X, 1, X, 1, 1, X, 
@@ -884,8 +885,7 @@ ExternalQActor timer context ctxtimer
 				</td>
 			</tr>
 		</table></br>	
-		The room map must be unique and must be globally accessible (must be accessed by both the waiter and the tests). To do this it's necessary to create a separate class (MapUtil) which will provide a constructor to create a map like a Singleton (Pattern Singleton).
-		MapUtil should also include methods for updating and resetting the room map.
+		
 		<h5>Knowledge base</h5>
 		To be able to test the correct position of the DDR we need to identify and store key positions of our system. The key positions of our system are:
 		<ul>
@@ -1661,20 +1661,21 @@ ExternalQActor waiter context ctxwaiter
 		<p class="did">Instead, <i>ring</i> and <i>billPlease</i> messages have been represented as a request-reply interaction. In the first case, client expects its <i>clientidentifier</i> (or the prohibition to enter the safe tearoom) as an answer and, in the second case, it expects the amout to pay for the bill.</p>
 		</br>
 			<h5>Representation of the tearoom</h5>
-			<p>Since the position of the robot (waiter) inside the map can be used to verify if it is behaving correctly, we need first to define a room-map. To have a faithful map, though, there is the need to previously scan the room with the robot. In this phase, some tuning (adjusting virtual robot speed and step size) will be required to "tailor" the map representation around the virtual robot itself. Hereunder, a possible room-map has been obtained after a scan with the virtual robot:</p>
+			<p>We decided to mantain the room space representation described in the Functional TestPlan paragraph of the Requirements Analysis:</p>
 			<table width="100%">
 			<tr>
-				<td width="60%"><img width="100%" src="./img/grid_prob.png" alt="grid.png" ></td>
-				<td >The matrix of the explored room is:</br>
-				<pre>|r, 1, 1, 1, 1, X, 
-|1, 1, 1, 1, 1, X, 
-|1, X, 1, X, 1, X, 
-|1, 1, 1, 1, 1, X, 
-|X, X, X, X, X, X,</pre>
+				<td width="50%"><img width="100%" src="./img/grid.png" alt="grid.png" ></td>
+				<td>The matrix of the explored room would be, for example:</br>
+				<pre>|r, 1, 1, 1, 1, 1, 1, X, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|1, 1, X, 1, X, 1, 1, X, 
+|1, 1, 1, 1, 1, 1, 1, X, 
+|X, X, X, X, X, X, X, X,</pre>
 				</td>
 			</tr>
 		</table>
-		<p>Other representations (with more rows and columns) have been found from different tuning parameters, but, from now on, will be referring to this room-map representation for positioning and consequent actor states.</p>
+		<p>The image above is only an example of how the final representation of the tearoom will be. To have a faithful map, though, there is the need to previously scan the room with the robot. In the Design phase, some tuning (adjusting virtual robot speed and step size) will be required to "tailor" the map representation around the virtual robot itself.</p>
 		<h5>Entities states</h5>
 			<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then ther will be a correspondence between the actions an actor is performing and its state. </br>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
 			
