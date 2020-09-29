@@ -1,0 +1,940 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+<!--
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #1F37B5;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin: 10;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 110%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 80%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 100%;
+	border-radius: 5px;
+	padding: 5px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 90%;
+	border-radius: 5px;
+	padding: 3px;
+	padding-top: 0;
+	margin-top: 0;
+	
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #154A7E;
+	padding: 1px;
+	border-radius: 5px;
+}
+ks{
+	background-color: #E8FFD3;
+	padding: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-radius: 5px;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 80%;
+	background-color: #F8FFFD;
+	border: 1.5px solid #90E4C8;
+	padding: 10px;
+	border-radius: 10px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+    font-size: 19px;
+	line-height: 110%;
+}    
+div.cit{
+	padding: 10px;
+	margin: 5px;
+    font-size: 18px;
+	background-color: #EFF9F6;
+	border-radius: 25px;
+	border: 1px solid #d5f2ed;
+}       
+div.remark{
+	background-color: #ffffff;	
+    border: 1.5px solid #d5f2ed;
+	padding-left: 20px;
+	padding-right: 30px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ul{
+	margin: 10px;
+	margin-left: 20px;
+	padding: 0;
+}
+
+li{
+	padding-top: 5px;
+}
+
+table, th, td {
+	border: 2px solid #d5f2ed;
+}
+td{
+	padding: 10px;
+}
+
+#authors {
+	width: 600px;
+	border: 2px solid #AB55FF;
+}
+
+#authors td {
+    background-color: #b2c0ff;
+	padding: 10px;
+	border: 2px solid #AB55FF;
+}
+i{
+	font-weight: bold;
+}
+tl, ttr{
+	color: #154A7E;
+	font-weight: bold;
+}
+ttr{
+	font-style: italic;
+}
+.mytab{
+	tab-size: 4;
+}
+keyw{
+	color: #B12283;
+	font-weight: bold;
+}
+comm{
+	color: #00BD06;
+}
+strs{
+	color: #145CDE;
+}
+ints{
+	color: #E7BE41;
+	}
+p.did{
+	margin: 0;
+	padding-bottom: 10px;
+	padding-top: 0;
+	padding-left: 15px;
+	padding-right: 5px;
+	font-size: 18px;
+	border-left: 2px dashed silver;
+}
+sevid{
+	background-color: #A8ECC7;
+	border-radius: 5px;
+	padding: 2px;
+}
+tevid{
+	border-radius: 5px;
+	padding: 2px;
+	border: 2px solid #A8ECC7;
+	line-height: 24px;
+}
+mevid{
+	background-color: #D4F7E4;
+}
+
+video{
+	margin: 30px;
+  -->
+</style>
+    
+<head>
+   
+<title>Tearoom - sprint 2</title></head>
+    
+<body>
+<div id="top">
+<h1>Safe Tearoom COVID-19<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+<!--<h2>Introduction</h2>
+<div class="remark">
+</div>-->
+
+<h2>Requirements</h2>
+<div class="remark">
+	<h4>Assumptions for Sprint 2</h4>
+	<p>The assumptios made for the second sprint can be found here: <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_2_step_1/userDocs/Documento_Martini_Drudi.html#assumption">Assumptions Sprint 2</a>
+</div>
+
+<h2>Project</h2>
+<div class="remark">
+	<h4>Structure</h4>
+	<div>
+		<ul>
+			<li><h5>Logical Architecture</h5>
+				<p>Hereunder is reported the logical architecture as described in the Problem Analysis. </p>
+				<center><img src="img/prog_architecture.PNG" alt="logical architecture" width="100%"/></center>
+				<p>The main changes concern the context of the mastertimer: it has now been made explicit that the timer function is implemented by means of two different components.
+				On one hand we have the <em>Mastertimer</em> which communicates directly with the waiter and receives all his requests, regardless of which table you want to use the timer for.
+				On the other hand we have the <em>Subtimers</em>, actors that are in charge of keeping track of the time for a specific teatable.
+				</p>
+				<p> The advantages of this type of solution, as already mentioned in Problem analysis (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_2_step_1/userDocs/Documento_Martini_Drudi.html#logicarch">problem analysis - Logical architecture</a>), are many:
+					<ul>
+					<li>Having a timer per table (Subtimer) instead of a single timer that manages all the tables (old Timer) means having to deal with components that are <i>simpler</i> (and so <i>easier</i> to implement) and also <i>more precise</i> in their counting as they have no other tasks to perform besides counting</li>
+					<li>Having a Mastertimer that redirects messages to the right Subtimer instead of letting the Waiter communicate directly with the multiple subtimers means hiding the implementation of the timer from the Waiter and thus making it more <i>independent</i> from it</li>
+					</ul>
+				</p>			
+			</li>
+			<li>
+				<h5>Manager architecture</h5>
+				Hereunder are shown the manager and all the components that it is going to observe and interact with. The interaction with QAK actors is done thorugh CoAP, while the updating of the web-page is done thorugh web sockets.</br></br>
+				In particular, when the manager access its webGUI, the manager web server will start observing the CoAP resources as Waiter, Barman and Tearoom (so teatables) and, at any change of their states, the web page will be updated through web sockets.
+				</br></br>
+				<center><img src="img/proj_manager.png" alt="logical architecture" width="70%"/></center>
+			</li></br>
+			<li>
+				<h5>Waiter architecture</h5>
+				
+				The Waiter architecture has not changed compared to what was defined in the <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_2_step_1/userDocs/Progetto_Martini_Drudi.html">Sprint 1 project document</a>.
+				
+
+			</li>
+		</ul>
+	</div>
+	<h4>Interaction</h4>
+	<div>
+		<p>The interaction between actors is still realized as specified in the Sprint 1 document.
+		We also have a new type of interaction, namely the one between Manager and actors. 
+		This type of interaction was implemented with the CoAP protocol and in particular we used the APIs provided by the Californium framework.</p>
+		
+		<p>More detailed information can be found in: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/it.unibo.coapintro/userDocs/LabCoAP.html">Introduction to CoAP</a> - <a href="https://htmlpreview.github.io/?https://github.com/anatali/iss2020LabBo/blob/master/it.unibo.qakactor/userDocs/LabQakIntro2020.html#actorasresource">QAkctor as CoAP resources</a> - <a href="https://www.eclipse.org/californium/">Eclipse Califormium Website</a></p>
+		
+		<div class="cit">
+			Some key points are :
+			<ul>
+				<li>Interactions between components through CoAP are based on the request-response pattern, where a client sends a request to a server and gets back a response</li>
+				<li>the CoapResource provided by Californium is a basic implementation of a CoAP resource. Each resource is allowed to define its own executor. When a request arrives, it will be handled by that executor.</li>
+				<li>CoapResource supports CoAP’s observe mechanism. Enable a CoapResource to be observable by a CoAP client by marking it as observable with setObservable(boolean). Notify all CoAP observers by calling the method changed (), that reprocesses the request from observing clients. A CoAP observe relation between the resource and a CoAP client is represented by an instance of ObserveRelation. </li>
+				<li>The method changed () notifies all CoAP clients that have established an observe relation with the CoapResource that the state has changed by reprocessing their originalrequest that has established the ObserveRelation. </li>
+			</ul>
+		</div>
+		
+		<div class="cit">
+			A QAkactor named <i>qa</i> working in a context named <i>ctxqa</i> can be accessed as a CoAP resource with URI-path <i>ctxqa/qa</i> and works as a (CoAP) observable resource.
+			</br>
+			The current state of the resource can be stored as a String in the variable ActorResourceRep, by using the operation updateResource of the QAkactor language.
+		</div>		
+		
+		
+		
+	</div>
+	<h4>Behaviour</h4>
+	<div>
+		<p>
+		As for what concernes the QAK modeling, most of the actors were unaltered from the problem analysis. Only the Mastertimer actor and the Subtimer actors have undergone some changes (code reported below in their respective paragraphs).
+		</p>
+		<p>
+		The source code for all QAK actor can by viewed at: <a href="./waiter.qak">Waiter, mastertimer and mover</a> - <a href="./tearoom.qak">Tearoom, smartbell and barman</a> .
+		</p>
+		<ul>
+			<li><h5>Mastertimer QAK behaviour</h5>
+			<pre class="mytab"><code><keyw>System</keyw> mastertimer
+
+<keyw>mqttBroker</keyw>  "localhost" : 1883 <keyw>eventTopic</keyw> "unibo/timer"
+
+<comm>// Interaction Waiter - Timer =======================================//</comm>
+<keyw>Dispatch</keyw> startTimer 		: startTimer(TEATABLE_ID, MAX_TIME)	   
+<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> resumeTimer 		: resumeTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
+<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   
+<comm>//===================================================================//</comm>
+
+<comm>// Interaction MasterTimer - SubTimers ===============================//</comm>
+<keyw>Dispatch</keyw> startSubtimer 			: startSubtimer(MAX_TIME)	   				
+<keyw>Dispatch</keyw> stopSubtimer 			: stopSubtimerARG)			  			
+<keyw>Dispatch</keyw> resumeSubtimer 		: resumeSubtimer(ARG)			   			
+<keyw>Dispatch</keyw> endSubtimer 			: endSubtimer(ARG)				   			
+<keyw>Dispatch</keyw> timeoutSubtimer 		: timeoutSubtimer(TEATABLE_ID)				    
+<comm>//====================================================================//</comm></code></pre>
+
+			<p>Below is reported the QAK model of the Mastertimer. Compared to what was defined in the Problem Analysis, the main change concerns its interaction with the Subtimers.</br>
+			In particular, to avoid having to replicate N times the code of a Subtimer, if N is the number of teatable, inside a QAK model, it was decided to create a generic Subtimer class that represents the behavior of a generic subtimer.</br>
+			The Mastertimer, therefore, according to its own internal policy decides when it is necessary to create a new subtimer (currently the policy is to create one subtimer per table immediately upon startup, but does not mean that more dynamic policies can be adopted in the future)
+and can communicate with them through the forward operation (which implements a dispatch) simply by entering the name of the right subtimer as the destination.</p>
+			<p>The interaction between Mastertimer and Waiter remains unchanged compared to what was defined in the Problem Analysis. The role of the Mastertimer, thus, remains the one of an intermediary component who, having received a request from the waiter, decides which subtimer is in charge of managing it and forwards it to him.</p>
+			<pre class="mytab"><code>Context ctxmastertimer ip [host="someip" port=8010]
+
+<sevid>QActor mastertimer</sevid> context ctxmastertimer {
+	
+	[#
+		val map = mutableMapOf<Int, ActorBasic?>()
+		var Teatable : Int 
+	#]
+	
+	<sevid>State s0 initial</sevid> {
+		discardMsg Off
+		
+		[#
+			//map init: create timer to be immediately ready when Waiter want to use timers
+			map.put(1, Subtimer("subtimer1", scope, context!!, 1))
+			map.put(2, Subtimer("subtimer2", scope, context!!, 2))
+
+			// waiting for subtimer to be created
+			delay(1000)
+		#]
+	}
+	<tevid>Goto waitForCommand</tevid>
+	
+	<sevid>State waitForCommand</sevid>{
+		println("mastertimer | waiting for waiter's command...")
+	}
+	<tevid>Transition t0 	whenMsg startTimer -> startTimer</tevid>
+					<tevid>whenMsg stopTimer -> stopTimer</tevid>
+					<tevid>whenMsg resumeTimer -> resumeTimer</tevid>
+					<tevid>whenMsg endTimer -> endTimer</tevid>
+					<tevid>whenMsg timeoutSubtimer -> handleTimeout</tevid>
+	
+	<sevid>State startTimer</sevid> {
+		onMsg(startTimer : startTimer(TABLE, TIME)){
+			println("mastertimer | starting timer for teatable ${payloadArg(0)} and timeout ${payloadArg(1)} ms")
+		    [#
+		    	Teatable = payloadArg(0).toInt()
+		    	<mevid>forward("startSubtimer", "startSubtimer(${payloadArg(1)})" ,"${map.get(Teatable)!!.name}" )</mevid>
+		    #]
+
+		}
+		
+	}
+	<tevid>Goto waitForCommand</tevid>
+	
+	<sevid>State stopTimer</sevid> {
+		onMsg(stopTimer : stopTimer(TABLE)) {
+			
+			 println("mastertimer | stopping timer for teatable ${payloadArg(0)}...")
+			 [#
+		    	Teatable = payloadArg(0).toInt()
+		    	<mevid>forward("stopSubtimer", "stopSubtimer(arg)" ,"${map.get(Teatable)!!.name}" )</mevid>
+		    #]
+
+		}
+	}
+	<tevid>Goto waitForCommand</tevid>
+	
+	<sevid>State resumeTimer</sevid> {
+		onMsg(resumeTimer : resumeTimer(TABLE)) {
+			
+			 println("mastertimer | resuming timer for teatable ${payloadArg(0)}...")
+			 [#
+		    	Teatable = payloadArg(0).toInt()
+		    	<mevid>forward("resumeSubtimer", "resumeSubtimer(arg)" ,"${map.get(Teatable)!!.name}" )</mevid>
+		    #]
+
+		}
+	}
+	<tevid>Goto waitForCommand</tevid>
+	
+	<sevid>State endTimer</sevid> {
+		onMsg(endTimer : endTimer(TABLE)) {
+			
+			 println("mastertimer | ending timer for teatable ${payloadArg(0)}...")
+			  [#
+		    	Teatable = payloadArg(0).toInt()
+		    	<mevid>forward("endSubtimer", "endSubtimer(arg)" ,"${map.get(Teatable)!!.name}" )</mevid>
+		    #]
+
+		}
+	}
+	<tevid>Goto waitForCommand</tevid>
+	
+	<sevid>State handleTimeout</sevid> {
+		onMsg(timeoutSubtimer : timeoutSubtimer(TABLE)){
+			[#Teatable = payloadArg(0).toInt()#]
+			println("mastertimer | timeout for teatable $Teatable...")
+			<mevid>emit timeout : timeout($Teatable)</mevid>
+		} 
+	}
+	<tevid>Goto waitForCommand</tevid>
+}</code></pre>
+			</li>
+		<li><h5>Subtimer Actor behaviour</h5>
+		
+			<p>As can be seen from the underlying code, the role of the Subtimers has not undergone any change with respect to what was defined during the Problem Analysis.</br>
+			Each subtimer has still the goal of keeping time for a specific teatable, in our particular case at creation time it is associated with a specific teatable but nothing forbids in the future to introduce the possibility of dynamically changing this association.
+			</p>
+			<p>As designers we decided to implement Subtimers as actors to be instantiated starting from a general Subtimer class that inherits ActorBasicFsm rather than as N actors with a different name but with the same code defined directly within a QAK model.</br>
+			The reasons that led us to prefer this implementation choice despite being less intuitive are the following:
+			<ul>
+				<li>less redundancy of the code (therefore easier to maintain, modify and more resistant to errors)</li>
+				<li>greater potential for future extensions and evolutions (i.e. since it's the Mastertimer that controls the Subtimers creation, there is the possibility, in the future, of dinamycally choose when and how many subtimers create and maintain active at a certain time)</li>
+			</ul>
+			</p>
+		
+			
+			<pre class="mytab"><code>package it.unibo.mastertimer
+
+import kotlinx.coroutines.CoroutineScope
+import it.unibo.kactor.QakContext
+import it.unibo.kactor.ActorBasicFsm
+import it.unibo.kactor.TimerActor
+import alice.tuprolog.Term
+
+/*
+ * startSubtimer : startSubtimer(TIME)
+ * stopSubtimer : stopSubtimer(ARG)
+ * resumeSubtimer : resumeSubtimer(ARG)
+ * endSubtimer : endSubtimer(ARG)
+ * timeoutSubtimer : timeoutSubtimer (TEATABLE_ID)
+ */
+
+<sevid>class Subtimer (name: String, scope: CoroutineScope, val ctx : QakContext , tid : Int ) : ActorBasicFsm( name, scope )</sevid>{
+
+   var Teatable : Int = -1
+	 //var name = name
+	 
+   init {
+      println("$name CREATED")
+      ctx.addActor(this)	// inject yourself inside context and abilitate MQTT if possible
+      Teatable = tid
+   }
+	 
+   override fun getInitialState() : String{
+      return "s0"
+   }
+	
+   @kotlinx.coroutines.ObsoleteCoroutinesApi
+   @kotlinx.coroutines.ExperimentalCoroutinesApi			
+   override fun getBody() : (ActorBasicFsm.() -> Unit){
+			
+      var RemainingTime : Long = -1
+      var Record : Long = -1
+		
+      return { //this:ActionBasciFsm
+         <sevid>state("s0")</sevid> { //this:State
+            action { //it:State
+               discardMessages = true //we want to ignore messages sent in the wrong order. Anyway it SHOULD NEVER happen!
+            }
+            <tevid>transition( edgeName="goto",targetState="waitingForCommand", cond=doswitch() )</tevid>
+         }
+			
+         <sevid>state("waitingForCommand")</sevid> { //this:State
+            action { //it:State
+               println("$name | waiting for master's command...")			
+            }
+            <tevid>transition(edgeName="t05",targetState="startTimer",cond=whenDispatch("startSubtimer"))</tevid>
+         }
+				
+         <sevid>state("startTimer")</sevid> { //this:State
+            action { //it:State
+               if( checkMsgContent( Term.createTerm("startSubtimer(MAX_TIME)"), Term.createTerm("startSubtimer(MAX_TIME)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+                  println("$name | starting timer for teatable $Teatable and timeout ${payloadArg(0)} ms")
+								
+                  RemainingTime = payloadArg(0).toLong()
+                  Record = getCurrentTime()
+               }
+               stateTimer = TimerActor("$name" + "_startSubtimer", 
+						scope, context!!, "local_tout_$name" + "_startSubtimer", RemainingTime )
+               println("$name | started TimerActor for $RemainingTime ms!")
+            }
+            <tevid>transition(edgeName="t07",targetState="handleTimeout",cond=whenTimeout("local_tout_$name" + "_startSubtimer"))</tevid>  
+            <tevid>transition(edgeName="t08",targetState="stopTimer",cond=whenDispatch("stopSubtimer"))</tevid>
+            <tevid>transition(edgeName="t09",targetState="endTimer",cond=whenDispatch("endSubtimer"))</tevid>
+         }
+				
+         <sevid>state("stopTimer")</sevid> { //this:State
+            action { //it:State
+               println("$name | stopping timer...")
+               var previousInstant = Record 
+               Record = getCurrentTime()
+               RemainingTime = RemainingTime - (Record - previousInstant)  
+            }
+            <tevid>transition(edgeName="t010",targetState="resumeTimer",cond=whenDispatch("resumeSubtimer"))</tevid>
+         }
+				
+         <sevid>state("resumeTimer")</sevid> { //this:State
+            action { //it:State
+               println("$name | resuming timer for $RemainingTime ms...")
+               stateTimer = TimerActor("$name" + "_resumeSubtimer", 
+						scope, context!!, "local_tout_$name" + "_resumeSubtimer", RemainingTime )
+            }
+            <tevid>transition(edgeName="t011",targetState="handleTimeout",cond=whenTimeout("local_tout_$name" + "_resumeSubtimer")) </tevid>  
+            <tevid>transition(edgeName="t012",targetState="endTimer",cond=whenDispatch("endSubtimer"))</tevid>
+         }
+				
+         <sevid>state("handleTimeout")</sevid> { //this:State
+            action { //it:State
+               println("$name | TIMEOUT! time expired for teatable $Teatable!")
+               <mevid>forward("timeoutSubtimer", "timeoutSubtimer($Teatable)" ,"mastertimer" )</mevid>
+            }
+            <tevid>transition( edgeName="goto",targetState="waitingForCommand", cond=doswitch() )</tevid>
+         }
+				
+         <sevid>state("endTimer")</sevid> { //this:State
+            action { //it:State
+               println("$name | reset timer")
+            }
+            <tevid>transition( edgeName="goto",targetState="waitingForCommand", cond=doswitch() )</tevid>
+         }	 
+      } // return
+   } // getBody
+} // class
+</code></pre>
+			</li>
+			<li><h5>Manager GUI behaviour</h5>
+				<p>
+					For what concernes the manager gui, we decided to take advantage of Spring Framework and Spring Boot project that offer a way to quickly develop and manage a standalone web server: using <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a>, we were allowed to easily manage GET and POST requests from the manager web interface (page). For the communication between QAKctors and managerGui, instead, we used CoAP (provided by <i>org.eclipse.californium.core</i>). The updating of the web page is done, instead, through web-sockets.
+				</p>
+				<p>
+					lato web-server, il manager richiede unicamente di poter accedere al monitoring dello stato delle entità del sistema e quindi di waiter, tearoom (teatables) e barman. La classe responsabile della gestione di tali richieste è ManagerController (as it helds @Controller annotation): le richieste di tipo GET sono gestite dai metodi annotati con @GetMapping("path"), mentre le richieste di tipo POST sono gestite dai metodi annotati con @PostMapping("path").
+					</br></br>
+					In particolare, nel momento in cui il manager comunica l'intenzione di iniziare a monitorare le risorse, la risorsa obiettivo verrà osservata come CoAP resource e, ad ogni cambiamento di stato, verrà pubblicato un messaggio attraverso una o più web-socket configurate in <a href="./WebSocketConfigManager.java">WebSocketConfig</a> che provocherà l'aggiornamento della pagina html mostrata al manager.
+				</p>
+				<p>
+					<i>ManagerController.java</i>
+					<pre class="mytab"><code>@Controller
+public class ManagerController {
+	
+	String appName     ="managerGui";
+    String htmlPage  = "welcome";
+    ConnQakCoapMine connQakSupportT;
+    ConnQakCoapMine connQakSupportB;
+    ConnQakCoapMine connQakSupportW;
+    
+    @Autowired
+    SimpMessagingTemplate smt;
+    
+    public ManagerController() {
+    	connQakSupportT = new ConnQakCoapMine();		//connection to tearoom
+    	connQakSupportB = new ConnQakCoapMine();		//connection to barman
+    	connQakSupportW = new ConnQakCoapMine();		//connection to waiter
+        connQakSupportT.createConnection("localhost", "8015", "ctxtearoom", "tearoom");
+        connQakSupportB.createConnection("localhost", "8015", "ctxtearoom", "barman");
+        connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");
+    	
+    }
+    
+    @GetMapping
+    public String welcomePage(Model m) {
+    	System.out.println("________________________Welcome page requested... " + m);
+    	
+    	return htmlPage;
+    }
+    
+    @PostMapping("/monitor")
+    public String requestMonitorPage(Model m) {
+    	System.out.println("________________________Monitor page requested... " + m);
+    	peparePageUpdating();
+    	return "monitor";
+    }
+    
+    
+    /*---------------------------------------------------------------------------------------------------------*/
+    
+    private void peparePageUpdating() {
+    	connQakSupportT.getClient().observe(new CoapHandler() {
+			@Override
+			public void onLoad(CoapResponse response) {
+				System.out.println("MonitorController --> CoapClient changed ->" + response.getResponseText());
+				smt.convertAndSend(WebSocketConfig.topicForClient1, 
+						new ResourceRepMine("" + HtmlUtils.htmlEscape(response.getResponseText())  ));
+			}
+
+			@Override
+			public void onError() {
+				System.out.println("MonitorController --> CoapClient error!");
+			}
+		});
+    	
+    	connQakSupportB.getClient().observe(new CoapHandler() {
+			@Override
+			public void onLoad(CoapResponse response) {
+				System.out.println("MonitorController --> CoapClient changed ->" + response.getResponseText());
+				smt.convertAndSend(WebSocketConfig.topicForClient2, 
+						new ResourceRepMine("" + HtmlUtils.htmlEscape(response.getResponseText())  ));
+			}
+
+			@Override
+			public void onError() {
+				System.out.println("MonitorController --> CoapClient error!");
+			}
+		});
+    	connQakSupportW.getClient().observe(new CoapHandler() {
+			@Override
+			public void onLoad(CoapResponse response) {
+				System.out.println("MonitorController --> CoapClient changed ->" + response.getResponseText());
+				smt.convertAndSend(WebSocketConfig.topicForClient3, 
+						new ResourceRepMine("" + HtmlUtils.htmlEscape(response.getResponseText())  ));
+			}
+
+			@Override
+			public void onError() {
+				System.out.println("MonitorController --> CoapClient error!");
+			}
+		});
+	}
+	
+
+}</code></pre>
+				</p>
+				<p>lato client, invece, l'aggiornamento della pagina tramite web-socket è gestito da javascript (reception.js file). In particolare, la "pagina" viene sottoscritta a diversi topic di interesse e alla ricezione di un messaggio su tali topic verrà invocato un metodo che si occuperà dell'aggiornamento. All'interno di tale metodo e tramite Jquery, infine, è possibile modificare direttamente gli elementi del DOM (Document OBject Model). Nel caso specifico: 
+				<center><p style="font-family: monospace;
+						  font-size: 17px;
+						  background-color: #F4F4F4;
+						  padding: 10px;
+						  border-radius: 10px; 
+						  display: inline-block;">
+					$('#idelemento').html("contenuto dell'elemento")
+				</p></center>
+				</p>
+				<p><i>reception.js</i>
+					<pre class="mytab"><code>function connectSocket() {
+    var socket = new SockJS('/it-unibo-iss');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/topic/displaytearoom', function (msg) {
+             showTearoom(msg);
+        });
+		stompClient.subscribe('/topic/displaybarman', function (msg) {
+             showBarman(msg);
+        });
+		stompClient.subscribe('/topic/displaywaiterstate', function (msg) {
+             showWaiter(msg);
+        });
+    });
+}
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    console.log("Disconnected");
+}
+
+function showTearoom(message) {
+	var testo = message.body;
+	
+	console.log(testo);
+	var resp = JSON.parse(testo);
+	$('#tearoom').html("Tearoom state |    " + resp.content);
+}
+
+function showBarman(message) {
+	var testo = message.body
+	
+	console.log(testo);
+	var resp = JSON.parse(testo);
+	$('#barman').html("Barman state |    " + resp.content);
+}
+
+function showWaiter(message) {
+	var testo = message.body
+	
+	console.log(testo);
+	var resp = JSON.parse(testo);
+	$('#waiter').html("Waiter state |    " + resp.content);
+}</code></pre>
+				</p>
+			</li>
+		</ul>
+	</div>	
+</div>
+
+<h2>Test Plans</h2>
+<div class="remark">
+
+	<h4>Client MOK - WebGUI</h4>
+	<div>
+		<p>	
+			A client web gui has been developed to let the custumer directly test and see the waiter behaviour. Again, we decided to take advantage of Spring Framework and Spring Boot project. Here, for the event communication between QAKctors and webGui, we used MQTT support from <i>org.eclipse.paho.client.mqttv3</i> and, for the dispatch interaction, we used CoAP (provided by <i>org.eclipse.californium.core</i>) as for the manager. Hereunder are listed the configuration classes for the aforementioned interactions:
+			<ul>
+				<li><a href="./ConnQakCoapMine.kt">ConnQakCoap</a></br></li>
+				<li><a href="./MqttConfig.java">MqttConfig</a></br></li>
+				<li><a href="./EventHandler.java">EventHandler</a></br></li>
+			</ul>
+		</p>
+		<p>
+			As for what concerns the client-side part of the web gui, we decided to use web sockets to obtain a "real-time" updating of the html page while the waiter was working. That way, the client is updated on its situation. The configuration class (server-side) is <a href="./WebSocketConfig.java">WebSocketConfig</a>, while client-side the web socket is managed through javascript: <a href="./reception.js">Javascript Socket</a>.
+		</p>
+		<p class="did">
+			The code below represents the controller class "ProvaController" (as it helds the @Controller annotation) which is responsible for managing the GET ans POST requests (through @GetMapping and @PostMapping annotations). When the client interacts with the web page clicking on buttons, a post/get request is made and is taken on by this controller, which will invoke the right method under the right @PostMapping("path") annotation.
+			</br></br>
+			Inside this methods, to communicate with Qak actors, we take advantage of the ConnQakCoapMine.kt library to communicate with the QAK actors, so Waiter and Smartbell, using a .forward() method for dispatch and .request() method for a request.
+		</p>
+		<pre class="mytab"><code>@Controller
+public class ProvaController {
+	
+	String appName     ="provaGui";
+    String htmlPage  = "welcome";
+    ConnQakCoapMine connQakSupportS;
+    ConnQakCoapMine connQakSupportW;
+    MqttConfig mqttSupport;
+   
+    @Autowired
+    ClientAttributes ca;
+    
+    @Autowired
+    SimpMessagingTemplate smt;
+    
+    String[] tavoliClienti = new String[2];
+   
+	public ProvaController() {
+        connQakSupportS = new ConnQakCoapMine();
+        connQakSupportW = new ConnQakCoapMine();
+        mqttSupport = new MqttConfig("localhost:1883");
+        connQakSupportS.createConnection("localhost", "8015", "ctxtearoom", "smartbell");
+        connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");
+        mqttSupport.connect();
+        mqttSupport.setReceivingHandler("unibo/polar", this);
+        
+	}
+	
+	
+	/*--------------------------------------------MAPPING-----------------------------------------------------------*/
+	
+	@GetMapping("/")
+	public String welcomePage(Model model, HttpSession s){
+		
+		System.out.println("________________________Welcome page requested: " + s.getId());
+		model.addAttribute("attr", "${stringawelcome}");
+		return "welcome";
+		
+	}
+	
+	@PostMapping("/enter")
+	public String afterRingPage(Model model, HttpServletResponse r) {
+		System.out.println("________________________Client rang the smartbell... "+model);
+		
+		try {
+			ApplMessage msg = MsgUtil.buildRequest("clientWebPage", "ring", "ring()", "smartbell");
+			String answer = connQakSupportS.request( msg );
+			
+			while(!(model!=null)) {
+				System.out.println("________________________Waiting for smartbell reply...");
+				Thread.sleep(200);
+			}
+			
+			System.out.println("_______________________Smartbell reply: "+answer);
+			String html = this.getAccessResult(answer, model);
+			r.addCookie(new Cookie("id",ca.getId()));
+			r.addCookie(new Cookie("table","0"));
+			return ""+html;	
+		}
+		catch(Exception e) {
+			System.out.println("_________________________ERROR=" + e.getMessage());
+			e.printStackTrace();
+			return "welcome";
+		}
+	}
+	
+	@PostMapping("/order")
+	public String wantToOrder(Model model, HttpServletResponse r){
+		
+		int tid = indexOf(ca.getId()) + 1;		
+		ca.setTable(tid);
+		System.out.println("_______________________Client wants to order...");
+		connQakSupportW.forward(MsgUtil.buildDispatch(ca.getId(), "wantToOrder", "wantToOrder("+ca.getTable()+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+		return "order";
+	}
+	
+	@PostMapping("/consume")
+	public String afterOrder(@RequestParam String type, Model model, HttpServletResponse r){
+		
+		System.out.println("_______________________Client has requested " + type + " tea...");		
+		connQakSupportW.forward(MsgUtil.buildDispatch("clientWebPage", "tea", "tea("+ca.getTable()+","+type+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+		model.addAttribute("teaOrdered", type);
+		return "consume";
+	}
+	
+
+	@PostMapping("/exit")
+	public String afterOrder(Model model, HttpServletResponse r){
+		
+		System.out.println("_______________________Client has requested  the bill...");		
+		connQakSupportW.forward(MsgUtil.buildDispatch(ca.getId(), "billPlease", "billPlease("+ca.getTable()+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+		return "exit";
+	}
+	
+	
+	/*-------------------------------------------UTILITIES------------------------------------------------------------*/
+	
+	public void updateWaiterResp(String testo, String topic) {
+		smt.convertAndSend(topic, testo);
+		System.out.println("____________________________Updating client web-view...");
+		System.out.println("TOPIC: "+topic+"\nTESTO: "+testo);
+	}
+	
+	
+	
+	public ResourceRepMine getWebPageRep(int con)   {
+		if(con==0) {
+			String resourceRep = connQakSupportS.readRep();
+			System.out.println("__________________________Controller resourceRep=" + resourceRep  );
+			return new ResourceRepMine("" + HtmlUtils.htmlEscape(resourceRep)  );	
+		}
+		else{
+			String resourceRep = connQakSupportW.readRep();
+			System.out.println("__________________________Controller resourceRep=" + resourceRep  );
+			return new ResourceRepMine("" + HtmlUtils.htmlEscape(resourceRep)  );
+			
+		}
+	}
+	
+	
+	public String getAccessResult(String msg, Model m) {
+		
+		String msgArg = KotParser.getMessageArg(msg, "sendClientID");
+		System.out.println(msgArg);
+		String ret = "welcome";
+		
+		if(msgArg.equals("NO")) {
+			System.out.println("________________________The client cannot enter... "+m);
+			ret = "noAccess";
+		}
+		else {
+			System.out.println("________________________The client can enter... "+m);
+			m.addAttribute("waiterResp", "Waiting for waiter instructions...");
+			ca.setId(msgArg);
+			ret = "enter";
+		}
+		
+		return ret;
+		
+	}
+
+
+	public String[] getTavoliClienti() {
+		return tavoliClienti;
+	}
+
+	private int indexOf(String id) {
+		if(tavoliClienti[0].equals(id)) {
+			return 0;
+		}
+		else {
+			if(tavoliClienti[1].equals(id)) {
+				return 1;
+			}
+			else
+				return -1;
+		}
+	}
+
+}</code></pre>
+		
+	</div>
+	<h4>Automated Test Plans</h4>
+	<div>
+		<p>
+		</p>
+	
+	</div>
+
+	
+
+
+</div>
+
+</div>
+
+
+
+ <!--------------------------------------------------------------------------------------------------------------------------------->
+
+<table id="authors" border="1" align="center">
+<tr>
+<td style="width:50%">
+<center>By Elena Martini ~ email: elena.martini6@studio.unibo.it</center> 
+</td>
+<td style="width:50%">
+<center>By Elisa Drudi ~ email: elisa.drudi4@studio.unibo.it </center>
+</td>
+</tr>
+<!-- ---------------->
+<tr>
+<td style="width:50%">
+<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+</td>
+<td style="width:50%">
+<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+</td>
+</tr>
+</table>  
+</body>
+</html>
+
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+</html>
