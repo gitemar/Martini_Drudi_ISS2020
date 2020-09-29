@@ -891,8 +891,105 @@ public class ProvaController {
 	<h4>Automated Test Plans</h4>
 	<div>
 		<p>
+			As already shown in the tearoom QAK model in the Problem Analisys (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint2_ISS2020/userDocs/Documento_Martini_Drudi_Sprint2.html#tearoomqak">Tearoom QAK</a>), it is possible to get the state of the actor (tearoom) as a CoAP resource: the actor updates its state thorugh an <i>updateResource</i> and it is possible, through and automated test, to verify if the state is the one we expected (as we did for Barman and Mover actors). Hereunder the code for an automated test is reported:
 		</p>
+		<pre class="mytab"><code>class testTearoom {
 	
+	var tearoom            : ActorBasic? = null
+	val initDelayTime     = 4000L
+
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Before
+	fun systemSetUp() {
+		
+   		kotlin.concurrent.thread(start = true) {
+			it.unibo.ctxtearoom.main() 					
+			println("testTearoom systemSetUp done")
+   		} 
+	}	
+
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@After
+	fun terminate() {
+		println("testTearoom terminated!")
+	}
+	
+	@kotlinx.coroutines.ObsoleteCoroutinesApi
+	@kotlinx.coroutines.ExperimentalCoroutinesApi
+	fun test(){
+		println(" --- testTearoom ---")
+ 		runBlocking{
+			
+			delay(10000)
+ 			while(tearoom == null){
+				println("test | waiting for mover to be created...")
+				delay(500)
+				tearoom = sysUtil.getActor("tearoom")
+			}
+			
+		<comm>//Check initial state: bot table should be clean</comm>
+		var state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(clean,no):teatable2(clean,no)")</sevid>
+		
+		<comm>//let's make teatable1 busy</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 1, busy, c00001 )", tearoom!!   )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		println("state is : $state")
+		<sevid>assertTrue(state == "teatable1(busy,c00001):teatable2(clean,no)")</sevid>
+		
+			
+		<comm>//let's make teatable2 busy</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 2, busy, c00002 )", tearoom!!    )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(busy,c00001):teatable2(busy,c00002)")</sevid>
+		
+		
+		<comm>//let's make teatable1 dirty</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 1, dirty, no )", tearoom!!  )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(dirty,no):teatable2(busy,c00002)")</sevid>
+			
+		
+		<comm>//let's make teatable1 clean</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 1, clean, no )", tearoom!!  )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(clean,no):teatable2(busy,c00002)")</sevid>
+		
+		<comm>//let's make teatable2 dirty</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 2, dirty, no )", tearoom!!  )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(clean,no):teatable2(dirty,no)")</sevid>
+			
+		
+		<comm>//let's make teatable2 clean</comm>
+		MsgUtil.sendMsg( "test","updateState", "updateState(updateTableState, 2, clean, no )", tearoom!! )
+		delay(1000)
+		state = tearoom!!.geResourceRep()
+		<sevid>assertTrue(state == "teatable1(clean,no):teatable2(clean,no)")</sevid>
+				
+		}
+}
+
+
+		
+@kotlinx.coroutines.ObsoleteCoroutinesApi
+@kotlinx.coroutines.ExperimentalCoroutinesApi
+	@Test
+	fun testTearoom(){
+		
+		test()
+
+		println("testTearoom finished  ")
+	}
+}</code></pre>
 	</div>
 
 	
