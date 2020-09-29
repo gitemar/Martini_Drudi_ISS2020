@@ -10,7 +10,7 @@ mqttBroker "localhost" : 1883 eventTopic "unibo/polar" 	//mqtt.eclipse.org
 // 				getClientFromTable	[ARG1 = teatable_id]
 // UPDATE-REQUEST can be: 
 // 				updateTableState  [ARG1 = teatable_id {1,2}, ARG2 = new_state {busy, dirty, clean}, if ARG2=busy => ARG3= client_id]
-// 				updateBound		  [ARG1 = teatable_id {1,2}, ARG2 = client_id]	(ACCORPATA nel messaggio sopra)
+// 				updateBound		  [ARG1 = teatable_id {1,2}, ARG2 = client_id]
 
 
 // Interaction Waiter - Tearoom ========================================//
