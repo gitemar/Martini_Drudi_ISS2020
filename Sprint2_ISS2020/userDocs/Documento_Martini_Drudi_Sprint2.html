@@ -304,7 +304,6 @@ tchange_evid{
 		</br></br>
 		Following some observations on the previous client and waiter models, the team decided to substitute client-waiter request-reply interactions with dispatch and event messages (this decision brought a change on wantToOrder-orderPlease and billPlease-cardPlease messages): a dispatch-event better catch the idea of a real client that won't wait in a blocking way for the waiter to arrive at the table, but will go on doing something else (like texting with a friend, calling someone on the phone...). Hence, we decided to apply a less blocking and more asynchronous interaction between the two actors.
 		</br>
-		@TONNO : controllare consistenza timeout message
 		<pre class="mytab"><code><keyw>System</keyw> waiter
 
 <comm>//-----------SMARTBELL COMMMUNICATION--------------</comm>

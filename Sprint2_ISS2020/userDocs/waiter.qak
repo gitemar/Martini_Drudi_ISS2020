@@ -143,12 +143,6 @@ QActor mover context ctxwaiter {
 		onMsg(atcell : atcell(X,Y)){
 			println("Mover replying to waiter...")
 		}
-		// se la direzione che stai guardando non è verso il basso (e.g servo i clienti guardando il tavolo :-))
-		// allora cambia direzione di conseguenza per guardare verso il basso. OCCHIO dovresti aggiornare anche lo stato del robot
-		// per indicare che stai guardando in una diversa direzione.. peccato che sia tutto cablato nel Planner che tu ovviamente non
-		//vuoi toccare!
-		// Quindi la soluzione è memorizzare la direzione che stai guardando. Poi cambiarla per guardare in basso E prima di invocare 
-		// il planner cambiare nuovamente direzione per far sì di tornare a guardare la direzione che il Planner si aspetta :-)
 	}
 	Goto waitingForCommand		
 				
