@@ -20,7 +20,7 @@ Dispatch startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   //
 Dispatch stopTimer 		: stopTimer(TEATABLE_ID)			   //
 Dispatch resumeTimer 	: resumeTimer(TEATABLE_ID)			   //
 Dispatch endTimer 		: endTimer(TEATABLE_ID)				   //
-Event timeout 			: timeout(TEATABLE_ID)				   //
+Dispatch timeout 			: timeout(TEATABLE_ID)				   //
 //=============================================================//
 
 // Interaction MasterTimer - SubTimers =========================//
@@ -247,7 +247,7 @@ QActor mastertimer context ctxwaiter {
 		onMsg(timeoutSubtimer : timeoutSubtimer(TABLE)){
 			[#Teatable = payloadArg(0).toInt()#]
 			println("mastertimer | timeout for teatable $Teatable...")
-			emit timeout : timeout($Teatable)
+			forward waiter -m timeout : timeout($Teatable)
 		} 
 	}
 	Goto waitForCommand
@@ -301,7 +301,7 @@ QActor waiter context ctxwaiter {
 	Transition t0 	whenMsg enter -> handleEnterPhase1
 					whenMsg wantToOrder -> handleOrderFromClientPhase1
 					whenMsg ready -> serveTeaToClientPhase1
-					whenEvent timeout -> handleTimeoutPhase1
+					whenMsg timeout -> handleTimeoutPhase1
 					whenMsg billPlease -> handlePaymentPhase1 
 					whenMsg cleanTable -> cleanTeatablePhase1
 	
@@ -315,7 +315,7 @@ QActor waiter context ctxwaiter {
 					whenMsg enter -> handleEnterPhase1
 					whenMsg wantToOrder -> handleOrderFromClientPhase1
 					whenMsg ready -> serveTeaToClientPhase1
-					whenEvent timeout -> handleTimeoutPhase1
+					whenMsg timeout -> handleTimeoutPhase1
 					whenMsg billPlease -> handlePaymentPhase1 
 					whenMsg cleanTable -> cleanTeatablePhase1
 	
