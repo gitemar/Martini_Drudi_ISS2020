@@ -306,7 +306,7 @@ video{
 <keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> resumeTimer 		: resumeTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
-<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   
+<keyw>Dispatch</keyw> timeout 			: timeout(TEATABLE_ID)				   
 <comm>//===================================================================//</comm>
 
 <comm>// Interaction MasterTimer - SubTimers ===============================//</comm>
@@ -410,7 +410,7 @@ and can communicate with them through the forward operation (which implements a 
 		onMsg(timeoutSubtimer : timeoutSubtimer(TABLE)){
 			[#Teatable = payloadArg(0).toInt()#]
 			println("mastertimer | timeout for teatable $Teatable...")
-			<mevid>emit timeout : timeout($Teatable)</mevid>
+			<mevid>forward waiter -m timeout : timeout($Teatable)</mevid>
 		} 
 	}
 	<tevid>Goto waitForCommand</tevid>

@@ -337,7 +337,7 @@ tchange_evid{
 <keyw>Dispatch</keyw> stopTimer   : stopTimer(TEATABLE_ID)					
 <keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				
 <keyw>Dispatch</keyw> endTimer    : endTimer(TEATABLE_ID)					
-<keyw>Event</keyw> timeout     : timeout(TEATABLE_ID)						
+<keyw>Dispatch</keyw> timeout     : timeout(TEATABLE_ID)						
 <comm>//------------------------------------------------------------</comm></code></pre>
 		<p>In the space below we have reported the new qak model which has undergone some changes compared to the previous version.</p>
 		<p>The action of cleaning a teatable has therefore been modified in such a way that the arrival of any other message (and so a new task to perform) interrupts it. By doing this, the waiter can give priority to other actions which, as already explained, contribute to the goal of <u>making customers wait as little as possible inside the tearoom</u>.
@@ -377,7 +377,7 @@ ExternalQActor timer 	 context ctxtimer
 		println("waiter | No task to do. Chilling out at home...")	
 	}
 	<tevid>Transition t0   whenMsg enter -> handleEnter</tevid>
-					<tevid>whenEvent timeout -> handleTimeout</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
 					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
 					<tevid>whenMsg ready -> serveTeaToClient </tevid>
 					<tevid>whenMsg billPlease -> handlePayment </tevid>
@@ -389,7 +389,7 @@ ExternalQActor timer 	 context ctxtimer
 	}
 	<tevid>Transition t0   whenTimeVar IdleTime -> restingAtHome</tevid>
 					<tevid>whenMsg enter -> handleEnter</tevid>
-					<tevid>whenEvent timeout -> handleTimeout</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
 					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
 					<tevid>whenMsg ready -> serveTeaToClient</tevid>
 					<tevid>whenMsg billPlease -> handlePayment </tevid>
@@ -657,10 +657,10 @@ ExternalQActor timer 	 context ctxtimer
 
 <comm>// Interaction Waiter - Timer =================================//</comm>
 <keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
-<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> stopTimer 	: stopTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
-<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   
+<keyw>Dispatch</keyw> timeout 		: timeout(TEATABLE_ID)				   
 <comm>//=============================================================//</comm>
 
 <comm>// Interaction Waiter - Tearoom ========================================//</comm>
@@ -745,7 +745,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 	<tevid>Transition t0 	whenMsg enter -> handleEnterPhase1</tevid>
 					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
 					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
-					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
 					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
 					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 	
@@ -760,7 +760,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 					<tevid>whenMsg enter -> handleEnterPhase1</tevid>
 					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
 					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
-					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
 					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
 					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 	
@@ -1091,7 +1091,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 <keyw>Dispatch</keyw> stopTimer 	: stopTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
-<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)
+<keyw>Dispatch</keyw> timeout 		: timeout(TEATABLE_ID)
 <comm>//---------------------------------------------------------</comm>	
 <comm>//----------- MASTERTIMER-SUBTIMER INTERACTION ------------</comm>
 <keyw>Dispatch</keyw> startSubtimer 	: startSubtimer( MAX_TIME)	   
@@ -1186,7 +1186,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 		onMsg(timeoutSubtimer : timeoutSubtimer(TABLE)){
 			[#var Teatable = payloadArg(0).toInt()#]
 			println("mastertimer | timeout for teatable $Teatable...")
-			<mevid>emit timeout : timeout($Teatable)</mevid>
+			<mevid>forward waiter -m timeout : timeout($Teatable)</mevid>
 		} 
 	}
 	<tevid>Goto waitForCommand</tevid>
