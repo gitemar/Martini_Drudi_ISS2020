@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+
+
+
+	<script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/reception.js"></script>
+	<title class="titleBar">Wait</title>
+</head>
+	<style type="text/css">
+	<!--
+	
+	div{
+		padding: 20px;
+		border: 2px solid #63D6BC;
+		margin: 10px;
+		line-height: 30px;
+		border-radius: 20px;
+	}
+	
+	button{
+		background-color: #21B47D;
+		border-radius: 5px;
+		border: 1.5px solid #1C8B60;
+		padding: 5px;
+		color: white;
+	}
+	
+	body{
+		font-family: sans-serif;
+		color: #10886A;
+		background-color: #EDFFFB;
+	}
+	
+	h1,h3{
+		color: #12737B;
+	}
+	
+	#divisor{
+		border: 0px;
+		padding: 0px;
+		border-bottom: 2px dashed #63D6BC;
+		margin: 20px;
+		line-height: 0px;
+		border-radius: 0px;
+	}
+
+	ul{
+		margin: 0px;
+	}
+	-->
+	</style>
+	<body>
+		<script>
+			cid=getCookie("id");
+			tid=getCookie("table");
+			logCookies();
+			connectSocket();
+		</script>
+		<h2>State monitor</h2>
+		<div>
+			<table style="font-size: 14px;">
+				<tr><td width="85px">TEAROOM</td><td id="tearoom" th:text="${ts}">...</td></tr>
+				<tr><td>WAITER</td><td id="waiter" th:text="${ws}">...</td></tr>
+				<tr><td>BARMAN</td><td id="barman" th:text="${bs}">...</td></tr>
+			</table>
+		</div>
+		<div id="divisor"></div>
+		<h2>Client panel</h2>
+		<div id="resp">
+			<h3>Waiter is reaching your table to execute the transaction.</h3>
+			<h4>Please, wait...</h4>
+		</div>
+		
+	</body>
+</html>
