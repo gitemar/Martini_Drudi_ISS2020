@@ -1,0 +1,934 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+<!--
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #1F37B5;
+    background-color: transparent;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin: 10;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 110%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 80%;
+}
+h4 {
+    background-color: #C0F0E0;
+    font-size: 100%;
+	width: 100%;
+	border-radius: 5px;
+	padding: 5px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 90%;
+	border-radius: 5px;
+	padding: 3px;
+	padding-top: 0;
+	margin-top: 0;
+	
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #154A7E;
+	padding: 1px;
+	border-radius: 5px;
+}
+ks{
+	background-color: #E8FFD3;
+	padding: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-radius: 5px;
+	 
+}
+pre{
+	font-family: "Consolas";
+	font-size: 80%;
+	background-color: #F8FFFD;
+	border: 1.5px solid #90E4C8;
+	padding: 10px;
+	border-radius: 10px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+    font-size: 19px;
+	line-height: 110%;
+}    
+div.cit{
+	padding: 10px;
+	margin: 5px;
+    font-size: 18px;
+	background-color: #EFF9F6;
+	border-radius: 25px;
+	border: 1px solid #d5f2ed;
+}       
+div.remark{
+	background-color: #ffffff;	
+    border: 1.5px solid #d5f2ed;
+	padding-left: 20px;
+	padding-right: 30px;
+    margin: 10px;
+	border-radius: 25px;
+}  
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ul{
+	margin: 10px;
+	margin-left: 20px;
+	padding: 0;
+}
+
+li{
+	padding-top: 5px;
+}
+
+table, th, td {
+	border: 2px solid #d5f2ed;
+}
+td{
+	padding: 10px;
+}
+
+#authors {
+	width: 600px;
+	border: 2px solid #AB55FF;
+}
+
+#authors td {
+    background-color: #b2c0ff;
+	padding: 10px;
+	border: 2px solid #AB55FF;
+}
+i{
+	font-weight: bold;
+}
+tl, ttr{
+	color: #154A7E;
+	font-weight: bold;
+}
+ttr{
+	font-style: italic;
+}
+.mytab{
+	tab-size: 4;
+}
+keyw{
+	color: #B12283;
+	font-weight: bold;
+}
+comm{
+	color: #00BD06;
+}
+strs{
+	color: #145CDE;
+}
+ints{
+	color: #E7BE41;
+	}
+p.did{
+	margin: 0;
+	padding-bottom: 10px;
+	padding-top: 0;
+	padding-left: 15px;
+	padding-right: 5px;
+	font-size: 18px;
+	border-left: 2px dashed silver;
+}
+sevid{
+	background-color: #A8ECC7;
+	border-radius: 5px;
+	padding: 2px;
+}
+tevid{
+	border-radius: 5px;
+	padding: 2px;
+	border: 2px solid #A8ECC7;
+	line-height: 24px;
+}
+mevid{
+	background-color: #D4F7E4;
+}
+change_evid{
+	background-color: #FFFF99;
+	border-radius: 5px;
+	padding: 2px;
+}
+schange_evid{
+	background-color: #FFE699;
+	border-radius: 5px;
+	padding: 2px;
+}
+tchange_evid{
+	border-radius: 5px;
+	padding: 2px;
+	border: 2px solid #FFE699;
+	line-height: 24px;
+}
+video{
+	margin: 30px;
+  -->
+</style>
+    
+<head>
+   
+<title>Tearoom - sprint 4</title></head>
+    
+<body>
+<div id="top">
+<h1>Safe Tearoom COVID-19<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+
+<!--<h2>Introduction</h2>
+<div class="remark">
+</div>-->
+
+<h2>Requirements</h2>
+<div class="remark">
+	<h4>Assumptions for Sprint 3</h4>
+	<p>The assumptios made for the third sprint can be found here: <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_4_step_3/userDocs/Documento_Sprint3_Martini_Drudi.html#assumption">Assumptions Sprint 3</a>
+</div>
+
+<h2>Project</h2>
+<div class="remark">
+	<h4>Structure</h4>
+	<div>
+		<ul>
+			<li><h5>Logical Architecture</h5>
+				<p>@TONNO perché non ci sono più eventi </p>
+				<center><img src="img/prog_architecture.PNG" alt="logical architecture" width="100%"/></center>		
+			</li>
+			</br>
+			<li>
+				<h5>Manager architecture</h5>
+				The Manager architecture remained unchanged and is summarized in the image below.  
+				</br></br>
+				<center><img src="img/proj_manager.png" alt="logical architecture" width="70%"/></center>
+			</li></br>
+			<li>
+				<h5>Waiter architecture</h5>
+				
+				The Waiter architecture has not changed compared to what was defined in the @TONNO<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_2_step_1/userDocs/Progetto_Martini_Drudi.html">Sprint 1 project document</a>.
+			</li>
+		</ul>
+	</div>
+	<h4>Interaction</h4>
+	<div>
+		<p> No new form of interaction has been introduced in this third sprint, therefore what discussed in Sprint 1 and Sprint 2 remains valid.</p>
+	</div>
+	<h4>Behaviour</h4>
+	<div>
+	<p>Compared to the previous Problem Analysis and Sprints only the waiter has undergone some changes. Hereunder is reported the waiter qak model and the changes are highlighted.</p>
+		<ul>
+			<li><h5>Waiter QAK behaviour</h5>
+			<p>@TONNO no eventi al cliente, ma info tramite updateresource e basta</p>
+			<pre class="mytab"><code><keyw>System</keyw> waiter
+
+<comm>//-----------SMARTBELL COMMMUNICATION--------------</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)	         
+<comm>//-------------------------------------------------</comm>
+
+<comm>//----------CLIENT COMMUNICATION--------------------------------</comm>
+<keyw>Event</keyw> wait            : wait(CLIENT_ID, MAX_TIME)		  
+<keyw>Event</keyw> sitPlease       : sitPlease(CLIENT_ID, TEATABLE_ID)
+<keyw>Dispatch</keyw> wantToOrder  : wantToOrder(TEATABLE_ID)
+<keyw>Dispatch</keyw> tea          : tea(TEATABLE_ID, TEA)		  
+<keyw>Event</keyw> teaServed       : teaServed(TEATABLE_ID, TEA)	  
+<keyw>Event</keyw> orderPlease     : orderPlease(TEATABLE_ID)		  
+<keyw>Dispatch</keyw> billPlease   : billPlease(TABLE_ID)			 
+<keyw>Event</keyw> cardPlease      : cardPlease(ARG)				  
+<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID)	  
+<keyw>Event</keyw> exitPlease      : exitPlease(CLIENT_ID)			  
+<comm>//--------------------------------------------------------------</comm>
+
+<comm>//-----------BARMAN COMMUNICATION-----------------------------</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)						
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						
+<comm>//------------------------------------------------------------</comm>
+
+<comm>//----------SELF MESSAGES-------------------------------------</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				
+<comm>//------------------------------------------------------------</comm>
+
+<comm>//-----------TIMER COMMMUNICATION-----------------------------</comm>
+<keyw>Dispatch</keyw> startTimer  : startTimer(TEATABLE_ID, MAX_TIME)		
+<keyw>Dispatch</keyw> stopTimer   : stopTimer(TEATABLE_ID)					
+<keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				
+<keyw>Dispatch</keyw> endTimer    : endTimer(TEATABLE_ID)					
+<keyw>Dispatch</keyw> timeout     : timeout(TEATABLE_ID)						
+<comm>//------------------------------------------------------------</comm></code></pre>
+		<p>@TONNO spiegare cleantable esteso e timout e altri eventi contemporanei</p>
+		<pre class="mytab"><code>Context ctxsmartbell 	ip [host="localhost" port=8030]
+Context ctxclient 	ip [host="whateverip" port=8077]
+Context ctxbarman 	ip [host="localhost" port=8066]
+Context ctxwaiter 	ip [host="127.0.0.1" port=8020]
+Context ctxtimer 	ip [host="someip" port=8010]
+
+ExternalQActor barman 	 context ctxbarman
+ExternalQActor smartbell context ctxsmartbell
+ExternalQActor client 	 context ctxclient
+ExternalQActor timer 	 context ctxtimer
+
+
+<sevid>QActor waiter</sevid> context ctxwaiter {
+	[# 
+		var MaxWaitTime : Long
+		val MaxStayTime = 10000L   	// 10 sec
+		val IdleTime = 200L			// 200 ms
+		var ClientToConvoy = ""
+		
+		//variables useful for handling the action of cleaning table
+		val CleanTime = 2000L
+		var RemainigCleaningTime = CleanTime
+		var teatableToClean = 0
+	#]
+	
+	<sevid>State s0 initial</sevid>{
+		discardMsg Off <comm>//we don't want to loose any message</comm>
+	}
+	<tevid>Goto restingAtHome</tevid>
+	
+	<sevid>State restingAtHome</sevid>{
+		if [# currentPos() != HomePos() #] { [# goToHome() #]}
+		println("waiter | No task to do. Chilling out at home...")	
+	}
+	<tevid>Transition t0   whenMsg enter -> handleEnter</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
+					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
+					<tevid>whenMsg ready -> serveTeaToClient </tevid>
+					<tevid>whenMsg billPlease -> handlePayment </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+					
+					
+	<sevid>State doATask</sevid>{
+		println("waiter | checking if there is a task to do...")
+	}
+	<tevid>Transition t0   whenTimeVar IdleTime -> restingAtHome</tevid>
+					<tevid>whenMsg enter -> handleEnter</tevid>
+					<tevid>whenMsg timeout -> handleTimeout</tevid>
+					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
+					<tevid>whenMsg ready -> serveTeaToClient</tevid>
+					<tevid>whenMsg billPlease -> handlePayment </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+					
+					
+	<sevid>State handleEnter</sevid>{
+		onMsg(enter : enter(CLIENT_ID)){
+		
+		if [# wasCleaningActionInterrupted() #]{
+				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+		}
+		
+			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+			if [# freeAndCleanTable() == 0 #] { //NO free and clean table
+			[#
+			    <change_evid>val b=payloadArg(0).toInt()</change_evid>
+			    <change_evid>val d=payloadArg(1).toInt()</change_evid>
+			    <change_evid>var totTime = 0L</change_evid>
+			    <change_evid>if(d>0){</change_evid>
+			    	<change_evid>totTime = MaxCleanTime</change_evid>
+			    <change_evid>}</change_evid>
+			    <change_evid>else{</change_evid>
+			    	<change_evid>totTime = MaxStayTime</change_evid>
+			    <change_evid>}</change_evid>
+			    <change_evid>MaxWaitTime = totTime</change_evid>
+			#]
+				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
+				emit wait : wait($payloadArg(0), $MaxWaitTime)
+			}
+			else {	// there is a free and clean table
+				println("waiter | ... and since there is a free and clean teatable I let ${payloadArg(0)} in!")
+				//convoying is atomic with enter when there is a free table
+				[# ClientToConvoy = payloadArg(0) #]
+			}
+		} //onMsg
+	}
+	<comm>//In this second Sprint since we will handle exactly 2 customer it will never happen that a client has to wait
+	// so freeAndCleanTable is always > 0</comm>
+	<tevid>Goto convoyClientToTable if [# freeAndCleanTable() > 0 #] else checkIfWasCleaning</tevid>
+	
+	<sevid>State checkIfWasCleaning</sevid>{ 
+		<comm>//Temporary state made to implement an else-if statement for Transition from state related to action that can
+		// interrupt cleaning action</comm>
+	}
+	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	
+	
+	<sevid>State convoyClientToTable</sevid>{
+		[#
+			var Teatable = getFreeAndCleanTeatable()	//ID teatable
+			MaxWaitTime = 0L 
+			goToEntranceDoor()		//prepare to convey the client to a teatable
+		#]
+		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
+		println("waiter | convoying client $ClientToConvoy to teatable $Teatable ...")
+		[#
+			reachTeatablePos(Teatable)
+			updateTeatableState(Teatable, "BUSY")
+		#]
+		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $Teatable )</mevid>
+		//start timer to count until MaxStayTime
+		<mevid>forward timer -m startTimer : startTimer($Teatable)</mevid>
+	}
+	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	
+		
+	<sevid>State cleanTeatable</sevid>{
+		onMsg(cleanTable : cleanTable(T)) {
+			//first we reach the teatable
+			[#reachTeatablePos(payloadArg(0))#]
+			// then we clean the teatable
+			println("waiter | cleaning the teatable ${payloadArg(0)}")
+			[#teatableToClean = payloadArg(0).toInt()#]
+		} //onMsg
+		
+		if [#wasCleaningActionInterrupted()#] {
+			//first we reach the teatable
+			[#reachTeatablePos(teatableToClean)#]
+			// then we clean the teatable
+			println("waiter | retry to finish cleaning the teatable $teatableToClean")
+		}
+	}
+	//cleaning is an interruptible action that MUST be interrupted if Waiter can perform other actions
+	<tevid>Transition t0 	whenTimeVar RemainigCleaningTime -> cleaningFinished</tevid>
+					<tevid>whenMsg enter -> handleEnter</tevid>
+					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
+					<tevid>whenMsg ready -> serveTeaToClient</tevid>
+					<tevid>whenMsg billPlease -> handlePayment </tevid>
+	
+	
+	<sevid>State cleaningFinished</sevid>  {
+			//update teatable state
+			[#updateTeatableState(payloadArg(0), "CLEAN")#]
+			//reset RemainigCleaningTime for that table
+			[#RemainigCleaningTime = resetRemainingCleaningTime()#]
+	}
+	//As we have just one client at a time (Assumption 1), we don't have to check if there are clients waiting to enter
+	<tevid>Goto doATask</tevid>
+	
+	
+	<sevid>State handleOrder</sevid>{
+		onMsg(wantToOrder : wantToOrder(TABLE)){
+		
+			if [# wasCleaningActionInterrupted() #]{
+				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+			}
+		
+			//Stop counting for orderTime now
+			<mevid>forward timer -m stopTimer : stopTimer($payloadArg(0))</mevid>
+			
+			//reach teatable position to simulate the action of taking an order
+			[#reachTeatablePos(payloadArg(0))#]
+			//simulating the action of asking the client what he want to order
+			<mevid>emit orderPlease : orderPlease($payloadArg(0))</mevid>
+			
+		}
+	}
+	<tevid>Transition t0 whenMsg tea -> takingOrder</tevid>
+	
+	<sevid>State takingOrder</sevid> {
+		onMsg(tea : tea(T, TEA)){
+			//send the order to barman
+			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
+			<mevid>forward barman -m  order : order($payloadArg(0), $payloadArg(1))</mevid>
+		}
+	}
+	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	
+	<sevid>State serveTeaToClient</sevid>{
+		onMsg(ready : ready(T,D)){
+		
+			if [# wasCleaningActionInterrupted() #]{
+				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+			}
+		
+			println("waiter | order for table ${payloadArg(0)} ready! Serving order...")	
+			[# goToServiceDesk() #]
+			delay 200
+			[#
+				reachTeatablePos(payloadArg(0))	
+			#]
+			<mevid>emit teaServed : teaServed($payloadArg(0), $payloadArg(1) )</mevid>
+			//start counting for consumingTime NOW
+			//start timer to count until MaxStayTime
+			<mevid>forward timer -m resumeTimer : startTimer($payloadArg(0))</mevid>
+		}
+	}
+	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	
+	<sevid>State handlePayment</sevid>{
+		onMsg(billPlease : billPlease(T)){
+		
+			if [# wasCleaningActionInterrupted() #]{
+				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+			}
+		
+			[#
+				ClientToConvoy = getClientAtTable(payloadArg(0))
+			#]
+			println("waiter | ending timer for table ${payloadArg(0)}")
+			<mevid>forward timer -m endTimer : endTimer($payloadArg(0))</mevid>
+			
+			println("waiter | client at table ${payloadArg(0)} finished before MaxStayTime expired...")
+			println("waiter | Reaching table ${payloadArg(0)} ...")
+			[#reachTeatablePos(payloadArg(0))#]
+			println("waiter | Arrived at table ${payloadArg(0)}, requesting credit card...")
+			<mevid>replyTo billPlease with cardPlease : cardPlease(amount_to_pay)</mevid>		
+		}
+		
+		delay 200 //simulating client giving credit card and payment time
+		println("waiter | convoying client to exit door...")
+		[#goToExitDoor()#]
+		<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
+		
+		//waiter sends itself a message to remember to clean the table
+		[# TableToClean = getTableFromClientID(ClientToConvoy)#]
+		<mevid>forward waiter -m cleanTable : cleanTable($TableToClean)</mevid>
+		
+		//update teatable state
+		[#updateTeatableState(TableToClean, "DIRTY")#]
+	}
+	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	
+	<sevid>State handleTimeout</sevid>{
+		onMsg(timeout : timeout(T)){
+			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
+			println("waiter | reaching table ${payloadArg(0)}...")
+			[#
+				reachTeatablePos(payloadArg(0))
+				ClientToConvoy = getClientAtTable(payloadArg(0))
+			#]
+			println("waiter | communicating to client $ClientToConvoy that he has to pay and leave...")
+			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), amount_to_pay)</mevid>			
+		}	
+	}
+	<tevid>Goto handlePayment</tevid>	
+}</code></pre>
+			</li>
+		</ul>
+	</div>	
+</div>
+
+<h2>Test Plans</h2>
+<div class="remark">
+
+	<h4>Client MOK - WebGUI</h4>
+	<div>
+		<p>
+			@TONNO spiegare integrazione di manager con client e la conseguente gestione dei cambiamenti di stato tramite WaiterUpdateResourceHandler (e che il resto non cambia + link a documenti)
+		</p>
+		<p>Hereunder is reported the @Controller class. The parts taking care of the aforementioned aspecs will be highlighted: </p>
+		<pre class="mytab"><code>@Controller
+public class ProvaController {
+	
+	String appName     ="provaGui";
+    String htmlPage  = "welcome";
+    ConnQakCoapMine connQakSupportS;
+    ConnQakCoapMine connQakSupportW;
+    ConnQakCoapMine connQakSupportT;
+    ConnQakCoapMine connQakSupportB;
+   
+    @Autowired
+    ClientAttributes ca;
+    
+    @Autowired
+    SimpMessagingTemplate smt;
+    
+    String[] tavoliClienti = {"",""};
+    String stateT ="";
+    String stateW ="";
+    String stateB ="";
+    ProvaController controller=this;
+   
+	public ProvaController() {
+        connQakSupportS = new ConnQakCoapMine();
+        connQakSupportW = new ConnQakCoapMine();
+        connQakSupportT = new ConnQakCoapMine();
+        connQakSupportB = new ConnQakCoapMine();
+       
+        connQakSupportS.createConnection("localhost", "8015", "ctxtearoom", "smartbell");
+         <change_evid>stateB = connQakSupportB.createConnection("localhost", "8015", "ctxtearoom", "barman");</change_evid>
+         <change_evid>stateW = connQakSupportW.createConnection("127.0.0.1", "8029", "ctxwaiter", "waiter");</change_evid>
+         <change_evid>stateT = connQakSupportT.createConnection("localhost", "8015", "ctxtearoom", "tearoom");</change_evid>
+  
+	}
+	
+	
+	/*--------------------------------------------MAPPING-----------------------------------------------------------*/
+	
+	@GetMapping("/")
+	public String welcomePage(Model model, HttpSession s){
+		
+		System.out.println("________________________Welcome page requested: " + s.getId());
+		
+		 <change_evid>preparePageUpdating();</change_evid>
+		try {
+			Thread.sleep(350);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+		 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+		 <change_evid>model.addAttribute("bs", stateB);</change_evid>
+		return "welcome";
+		
+	}
+	
+	@PostMapping("/enter")
+	public String afterRingPage(Model model, HttpServletResponse r) {
+		System.out.println("________________________Client rang the smartbell... "+model);
+		
+		try {
+			ApplMessage msg = MsgUtil.buildRequest("clientWebPage", "ring", "ring()", "smartbell");
+			String answer = connQakSupportS.request( msg );
+			
+			while(!(model!=null)) {
+				System.out.println("________________________Waiting for smartbell reply...");
+				Thread.sleep(200);
+			}
+			
+			System.out.println("_______________________Smartbell reply: "+answer);
+			String html = this.getAccessResult(answer, model);
+			r.addCookie(new Cookie("id",ca.getId()));
+			r.addCookie(new Cookie("table","0"));
+
+			try {
+				Thread.sleep(350);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+			 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+			 <change_evid>model.addAttribute("bs", stateB);</change_evid>
+			return ""+html;	
+		}
+		catch(Exception e) {
+			System.out.println("_________________________ERROR=" + e.getMessage());
+			e.printStackTrace();
+			
+			try {
+				Thread.sleep(350);
+			} catch (InterruptedException er) {
+				// TODO Auto-generated catch block
+				er.printStackTrace();
+			}
+			 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+			 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+			 <change_evid>model.addAttribute("bs", stateB);</change_evid>
+			return "welcome";
+		}
+	}
+	
+	@PostMapping("/order")
+	public String wantToOrder(Model model, HttpServletResponse r){
+		
+		int tid = indexOf(ca.getId()) + 1;		
+		ca.setTable(tid);
+		System.out.println("_______________________Client wants to order...");
+		connQakSupportW.forward(MsgUtil.buildDispatch(ca.getId(), "wantToOrder", "wantToOrder("+ca.getTable()+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+
+		try {
+			Thread.sleep(350);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+		 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+		 <change_evid>model.addAttribute("bs", stateB);</change_evid>
+		return "order";
+	}
+	
+	@PostMapping("/consume")
+	public String afterOrder(@RequestParam String type, Model model, HttpServletResponse r){
+		
+		System.out.println("_______________________Client has requested " + type + " tea...");		
+		connQakSupportW.forward(MsgUtil.buildDispatch("clientWebPage", "tea", "tea("+ca.getTable()+","+type+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+		model.addAttribute("teaOrdered", type);
+
+		try {
+			Thread.sleep(350);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+		 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+		 <change_evid>model.addAttribute("bs", stateB);</change_evid>
+		return "consume";
+	}
+	
+
+	@PostMapping("/exit")
+	public String afterOrder(Model model, HttpServletResponse r){
+		
+		System.out.println("_______________________Client has requested  the bill...");		
+		connQakSupportW.forward(MsgUtil.buildDispatch(ca.getId(), "billPlease", "billPlease("+ca.getTable()+")", "waiter"));
+		r.addCookie(new Cookie("id",ca.getId()));
+		r.addCookie(new Cookie("table",""+ca.getTable()));
+
+		try {
+			Thread.sleep(350);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 <change_evid>model.addAttribute("ts", stateT);</change_evid>
+		 <change_evid>model.addAttribute("ws", stateW);</change_evid>
+		 <change_evid>model.addAttribute("bs", stateB); </change_evid>
+		return "exit";
+	}
+	
+	
+	/*-------------------------------------------UTILITIES------------------------------------------------------------*/
+	
+	public void updateWaiterResp(String testo, String topic) {
+		smt.convertAndSend(topic, testo);
+		System.out.println("____________________________Updating client web-view...");
+		System.out.println("TOPIC: "+topic+"\nTESTO: "+testo);
+	}	
+	
+	public String getAccessResult(String msg, Model m) {
+		
+		String msgArg = KotParser.getMessageArg(msg, "sendClientID");
+		System.out.println(msgArg);
+		String ret = "welcome";
+		
+		if(msgArg.equals("NO")) {
+			System.out.println("________________________The client cannot enter... "+m);
+			ret = "noAccess";
+		}
+		else {
+			System.out.println("________________________The client can enter... "+m);
+			m.addAttribute("waiterResp", "Waiting for waiter instructions...");
+			ca.setId(msgArg);
+			ret = "enter";
+		}
+		
+		return ret;
+		
+	}
+
+
+	public String[] getTavoliClienti() {
+		return tavoliClienti;
+	}
+
+	private int indexOf(String id) {
+		if(tavoliClienti[0].equals(id)) {
+			return 0;
+		}
+		else {
+			if(tavoliClienti[1].equals(id)) {
+				return 1;
+			}
+			else
+				return -1;
+		}
+	}
+	
+	 <change_evid>private void preparePageUpdating() {
+	    	connQakSupportT.getClient().observe(new CoapHandler() {
+				@Override
+				public void onLoad(CoapResponse response) {
+					stateT = response.getResponseText();
+					System.out.println("MonitorController --> CoapClient changed ->" + stateT);
+					System.out.println("_____________________Updating manager web view...");
+					System.out.println("TOPIC: "+WebSocketConfig.topicForManager1+"\nTESTO: "+stateT);
+					smt.convertAndSend(WebSocketConfig.topicForManager1, 
+							new ResourceRepMine("" + HtmlUtils.htmlEscape(stateT)));
+				}
+
+				@Override
+				public void onError() {
+					System.out.println("MonitorController --> CoapClient error!");
+				}
+			});
+	    	connQakSupportW.getClient().observe(new CoapHandler() {
+				@Override
+				public void onLoad(CoapResponse response) {
+					stateW = response.getResponseText();
+					System.out.println("MonitorController --> CoapClient changed ->" + stateW);
+					System.out.println("_____________________Updating manager web view...");
+					System.out.println("TOPIC: "+WebSocketConfig.topicForManager3+"\nTESTO: "+stateW);
+					smt.convertAndSend(WebSocketConfig.topicForManager3, 
+							new ResourceRepMine("" + HtmlUtils.htmlEscape(stateW)  ));
+					
+					WaiterUpdateResourceHandler.parseUpdate(controller, stateW);		
+					
+				}
+
+				@Override
+				public void onError() {
+					System.out.println("MonitorController --> CoapClient error!");
+				}
+			});
+	    	connQakSupportB.getClient().observe(new CoapHandler() {
+				@Override
+				public void onLoad(CoapResponse response) {
+					stateB = response.getResponseText();
+					System.out.println("MonitorController --> CoapClient changed ->" + stateB);
+					System.out.println("_____________________Updating manager web view...");
+					System.out.println("TOPIC: "+WebSocketConfig.topicForManager2+"\nTESTO: "+stateB);
+					smt.convertAndSend(WebSocketConfig.topicForManager2, 
+							new ResourceRepMine("" + HtmlUtils.htmlEscape(stateB)  ));
+				}
+
+				@Override
+				public void onError() {
+					System.out.println("MonitorController --> CoapClient error!");
+				}
+			});
+		}
+}</change_evid></code></pre>
+	<p>The updating is now done by another handler capable of parsing the updateResource String. It can be found at <a href="./WaiterUpdateResourceHandler.java">WaiterUpdateResourceHandler.java</a>. Hereunder is reported a piece of its code as an example:
+	<pre class="mytab"><code>public final class WaiterUpdateResourceHandler {
+	
+	public static void parseUpdate(ProvaController pc, String update) {
+		
+		if(update.contains("clientSitting")) {
+			parseSit(pc,update);
+		}
+		else if(update.contains("clientOrdering")) {
+			parseOrder(pc,update);
+		}
+		else if(update.contains("teaServed")) {
+			parseServed(pc,update);
+		}
+		...
+	}
+
+	private static void parseEnter(ProvaController pc, String update) {
+		String[] elem = getElements(update,":");
+		System.out.println("__________Client "+elem[2]+" can enter now");
+		String resp="Waiter :- Please, follow me...";
+		pc.updateWaiterResp(resp, "/topic/"+elem[2]);
+		
+	}
+
+	private static void parseWait(ProvaController pc, String update) {
+		String[] elem = getElements(update,":");
+		long temp = Long.parseLong(elem[3]);
+		long minutes = temp / (1000L*60L);
+		long seconds = ( temp / 1000L ) % 60L;
+		System.out.println("__________Client "+elem[2]+" has to wait");
+		String resp="You have to wait at maximum " + minutes +" minutes and "+seconds+" seconds. Please, come again later. We are sorry for the waiting...";
+		pc.updateWaiterResp(resp, "/topic/"+elem[2]);
+	}
+	
+	...
+}</code></pre>
+	<p>Again, the client-side updating is taken care by <a href="./reception.js">reception.js</a> that now listens on other three different topics, one for actor (/topic/displybarman , /topic/displytearoom , /topic/displaywaiterstate ).</p>
+	<p>All the other files can be found here:
+		<ul>
+			<li><a href="./WebSocketConfig.java">WebSocketConfig.java</a></li>
+			<li><a href="./ProvaController.java">ProvaController.java</a></li>
+		</ul>
+	</p>
+	</div>
+	<h4>Testing with client in action</h4>
+	
+	<center><video width="80%" controls>
+		<source src="./video/threeclients.mp4" type="video/mp4">
+		<source src="./video/threeclients.ogg" type="video/ogg">
+		Your browser does not support the video tag.
+	</video></center>
+	
+	<!--<h4>Automated Test Plans</h4>-->
+</div>
+
+</div>
+
+
+
+ <!--------------------------------------------------------------------------------------------------------------------------------->
+
+<table id="authors" border="1" align="center">
+<tr>
+<td style="width:50%">
+<center>By Elena Martini ~ email: elena.martini6@studio.unibo.it</center> 
+</td>
+<td style="width:50%">
+<center>By Elisa Drudi ~ email: elisa.drudi4@studio.unibo.it </center>
+</td>
+</tr>
+<!-- ---------------->
+<tr>
+<td style="width:50%">
+<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+</td>
+<td style="width:50%">
+<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+</td>
+</tr>
+</table>  
+</body>
+</html>
+
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+</html>
