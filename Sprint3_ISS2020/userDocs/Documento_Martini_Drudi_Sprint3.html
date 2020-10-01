@@ -261,7 +261,7 @@ tchange_evid{
 			
 			<h5>Waiter</h5>
 			<p>
-				Since our waiter has to manage a third client, it has to know the investigate the state of the tearoom to know wether there are (or not) free table and also if those tables are dirty or busy. With those information, it is able to tell the client how much time it has to wait (calculated as the minimum time between MaxCleanTime and MaxStayTime).
+				Since our waiter has to manage a third client, it has to investigate the state of the tearoom to know wether there are (or not) free table and also if those tables are dirty or busy. With those information, it is able to tell the client how much time it has to wait (calculated as the minimum time between MaxCleanTime and MaxStayTime).
 			</p>
 			
 		</li>
@@ -284,10 +284,16 @@ tchange_evid{
 		
 		<h5>Qak Waiter model</h5>
 		<center><img src="img/req_waiteractor.PNG" alt="req_waiteractor2.PNG" width="50%"/></center>
-		</br>
+		
 		In the waiter model we reported the client-waiter interaction messages: as already examined in the previous Sprint document, the Client is not part of our system (that the team has to develop), but only a component to mimic/simulate a real-person client/customer. Therefore, all client-waiter interaction relative messages are there only as a tool to test the waiter and, then, as a way to better understand the essential aspects of the waiter actor.
 		</br></br>
-		Following the possibility of having a third client, it was necessary to modify the waiter model to better manage the entrance request by the third client: now some clients may not be able to always enter the tearoom. The cases are now two: the client asks to enter and there is at least one free and clean teatable, so the waiter convoys it to the table, and the client asks to enter but all the teatables are dirty or busy, so the waiter tells it to wait. In the latter case, the client won't wait in the hall, but it is asked to leave and return later on.
+		Following the possibility of having a third client, it was necessary to modify the waiter model to better manage the entrance request by the third client: now some clients may not be able to always enter the tearoom. The cases are now two:
+		<ol>
+			<li>the client asks to enter and <u>there is at least one free and clean teatable</u>, so the waiter convoys him to a teatable</li>
+			<li>the client asks to enter but <u>all the teatables are dirty or busy</u>, so the waiter tells him to wait
+			</li>
+		</ol></br>
+		In the latter case, the client <i>won't wait in the hall</i>, but it is asked to leave and return later on.
 		</br></br>
 		Since the team had previously managed the requisite of having a client that couldn't enter, the base model (requirement model) of the waiter didn't change. Hereunder, the waiter QAK model is reported and the code part taking care of the aformentioned aspect is highlighted.
 		</br>
@@ -383,27 +389,25 @@ ExternalQActor timer 	 context ctxtimer
 	<sevid>State handleEnter</sevid>{
 		onMsg(enter : enter(CLIENT_ID)){
 		
-		if [# wasCleaningActionInterrupted() #]{
+		    if [# wasCleaningActionInterrupted() #]{
 				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
-		}
+		    }
 		
-			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
-			<change_evid>if [# freeAndCleanTable() == 0 #] { //NO free and clean table
-				[# 
-					MaxWaitTime =  getMaxWaitTime()
-				#]
-				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
-				emit wait : wait($payloadArg(0), $MaxWaitTime)
-			}
-			else {	// there is a free and clean table
-				println("waiter | ... and since there is a free and clean teatable I let ${payloadArg(0)} in!")
-				//convoying is atomic with enter when there is a free table
-				[# ClientToConvoy = payloadArg(0) #]
-			}</change_evid>
+		    println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
+		    <change_evid>if [# freeAndCleanTable() == 0 #] { //NO free and clean table</change_evid>
+		        <change_evid>[# </change_evid>
+		        <change_evid>MaxWaitTime =  getMaxWaitTime()</change_evid>
+		        <change_evid>#]</change_evid>
+		        <change_evid>println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")</change_evid>
+		        <change_evid>emit wait : wait($payloadArg(0), $MaxWaitTime)</change_evid>
+		    <change_evid>}</change_evid>
+		    <change_evid>else {	// there is a free and clean table </change_evid>
+		        <change_evid>println("waiter | ... and since there is a free and clean teatable I let ${payloadArg(0)} in!")</change_evid>
+		        <change_evid>//convoying is atomic with enter when there is a free table</change_evid>
+		        <change_evid>[# ClientToConvoy = payloadArg(0) #]</change_evid>
+		    <change_evid>}</change_evid>
 		} //onMsg
 	}
-	<comm>//In this second Sprint since we will handle exactly 2 customer it will never happen that a client has to wait
-	// so freeAndCleanTable is always > 0</comm>
 	<tevid>Goto convoyClientToTable if [# freeAndCleanTable() > 0 #] else checkIfWasCleaning</tevid>
 	
 	<sevid>State checkIfWasCleaning</sevid>{ 
@@ -565,7 +569,7 @@ ExternalQActor timer 	 context ctxtimer
 }</code></pre>
 		</li>
 		<li><h4>Functional TestPlan</h4>
-		<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_3_step_2/userDocs/DocumentoDelta_Martini_Drudi.html">Sprint 2</a>) are still valid in this second Sprint.
+		<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint2_ISS2020/userDocs/Documento_Martini_Drudi_Sprint2.html">Sprint 2</a>) are still valid in this second Sprint.
 
 </p>
 
@@ -573,7 +577,7 @@ ExternalQActor timer 	 context ctxtimer
 		<li><h4>Client MOK</h4>
 			<h5>Qak Client model</h5>
 		<center><img src="img/req_clientactor.png" alt="req_clientactor.png" width="50%"/></center>
-		<p>Here, since the <i>client</i> should be a human being, there is the need of MOK messages to simulate a correct human behaviour. The observations made for the previous sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_3_step_2/userDocs/DocumentoDelta_Martini_Drudi.html">Sprint 2</a>) are still valid for this one.</p>
+		<p>Here, since the <i>client</i> should be a human being, there is the need of MOK messages to simulate a correct human behaviour. The observations made for the previous sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint2_ISS2020/userDocs/Documento_Martini_Drudi_Sprint2.html">Sprint 2</a>) are still valid for this one.</p>
 		</li>
 	</ol>
 </div>
@@ -593,7 +597,7 @@ ExternalQActor timer 	 context ctxtimer
 <h2>Problem analysis</h2>
 <div class="remark">
 	<ol>
-		<li><h4><a id="logicarch"/>Logical architecture:</h4>
+		<li><h4><a id="logicarch"></a>Logical architecture:</h4>
 			<p>The logical system architecture remained unchanged and it's described by the underlying image:</p>
 			<center><img src="./img/prob_allactors.png" alt="all actors" width="100%"/></center>
 			<p>
@@ -602,54 +606,54 @@ ExternalQActor timer 	 context ctxtimer
 			<center><img src="./img/prob_manager.png" alt="all actors" width="80%"/></center>
 			<h5>Waiter QAKctor</h5>
 			<p>As the waiter is the only actor that has undergone some changes, hereunder is reported its QAK model.</p>
-			<pre class="mytab"><code><keyw>System -trace</keyw> waiter
+			<pre class="mytab"><code><keyw>System</keyw> waiter
 
 <keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
 
 <comm>// Interaction Waiter - Mover =================================//</comm>
-<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   <comm>//</comm>
-<keyw>Reply</keyw> done 		: done(X,Y)									   <comm>//</comm>
-<keyw>Dispatch</keyw> end 	: end(ARG)									  <comm> //	</comm>
+<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						  
+<keyw>Reply</keyw> done 		: done(X,Y)									   
+<keyw>Dispatch</keyw> end 	: end(ARG)									  
 <comm>//=============================================================//</comm>
 
 <comm>// Interaction Waiter - Mastertimer =================================//</comm>
-<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   <comm>//</comm>
-<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   <comm>//</comm>
-<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   <comm>//</comm>
-<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   <comm>//</comm>
-<keyw>Event</keyw> timeout 			: timeout(TEATABLE_ID)				   <comm>//</comm>
+<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
+<keyw>Dispatch</keyw> stopTimer 		: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
+<keyw>Dispatch</keyw> timeout 			: timeout(TEATABLE_ID)				   
 <comm>//=============================================================//</comm>
 
 <comm>// Interaction Waiter - Tearoom ========================================//</comm>
-<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)						<comm>//</comm>
-<keyw>Reply</keyw> state			 : state(STATE)										<comm>//</comm>
-<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	<comm>//</comm>
+<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)						
+<keyw>Reply</keyw> state			 : state(STATE)										
+<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	
 <comm>//======================================================================//</comm>
 
 <comm>// Interaction Waiter - Smartbell ============================//</comm>
-<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)						      <comm>//</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)						      
 <comm>//============================================================//</comm>
 
 <comm>// Interaction Waiter - Client ===============================//</comm>
-<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 <comm> //</comm>
-<keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   <comm>//</comm>
-<keyw>Dispatch</keyw> wantToOrder	: wantToOrder(TEATABLE_ID)	          <comm>//</comm>
-<keyw>Event</keyw> orderPlease		: orderPlease(ARG)					  <comm>//</comm>
-<keyw>Dispatch</keyw> tea 			: tea(TEATABLE_ID, TEA)				  <comm>//</comm>
-<keyw>Event</keyw> teaServed 		: teaServed(TEATABLE_ID, TEA)		  <comm>//</comm>
-<keyw>Dispatch</keyw> billPlease 	: billPlease(TABLE_ID)				  <comm>//</comm>
-<keyw>Event</keyw> cardPlease 		: cardPlease(ARG)					  <comm>//</comm>
-<keyw>Event</keyw> maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  <comm>//</comm>
-<keyw>Event</keyw> exitPlease 		: exitPlease(CLIENT_ID)				  <comm>//</comm>
+<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 
+<keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   
+<keyw>Dispatch</keyw> wantToOrder	: wantToOrder(TEATABLE_ID)	          
+<keyw>Event</keyw> orderPlease		: orderPlease(ARG)					  
+<keyw>Dispatch</keyw> tea 			: tea(TEATABLE_ID, TEA)				  
+<keyw>Event</keyw> teaServed 		: teaServed(TEATABLE_ID, TEA)		  
+<keyw>Dispatch</keyw> billPlease 	: billPlease(TABLE_ID)				  
+<keyw>Event</keyw> cardPlease 		: cardPlease(ARG)					  
+<keyw>Event</keyw> maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  
+<keyw>Event</keyw> exitPlease 		: exitPlease(CLIENT_ID)				  
 <comm>//============================================================//</comm>
 
 <comm>// Interaction Waiter - Barman  ==============================//</comm>
-<keyw>Dispatch</keyw> order : order(TEATABLE_ID, TEA)					  <comm>//</comm>
-<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						  <comm>//</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID, TEA)					  
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						  
 <comm>//============================================================//</comm>
 
 <comm>// Interaction Waiter auto-message ===========================//</comm>
-<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				  <comm>//</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				  
 <comm>//============================================================//</comm></code></pre>
 		</br>
 		<p>Waiter has undergone some changes so that it would be able to manage the cleaning interruption as decribed in the Requirements Analysis:</p>
@@ -702,7 +706,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 	<tevid>Transition t0 	whenMsg enter -> handleEnterPhase1</tevid>
 					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
 					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
-					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
 					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
 					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 	
@@ -717,7 +721,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 					<tevid>whenMsg enter -> handleEnterPhase1</tevid>
 					<tevid>whenRequest wantToOrder -> handleOrderFromClientPhase1</tevid>
 					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
-					<tevid>whenEvent timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
 					<tevid>whenRequest billPlease -> handlePaymentPhase1 </tevid>
 					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 	
@@ -749,40 +753,45 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 	<tevid>Transition t0 whenReply state -> handleEnterPhase2</tevid>
 	
 	<sevid>State handleEnterPhase2</sevid> {
-		println("waiter | state response arrived")
-		onMsg(state : state(S)){
-			<change_evid>if [#payloadArg(0).toInt() == 0 #] { //NO free and clean table (CAN'T HAPPEN in this first prototype since there is only one client)
-				[#MaxWaitTime = 1L#]
-				println("waiter | But there is no free and clean teatable")
-			}
-			else { // there is a free and clean table and Tearoom sent me it's ID
-				[# 
-					MaxWaitTime =  0L
-					DestTable = payloadArg(0).toInt()
-				#]
-			}
-		}
-		println("waiter | waittime: $MaxWaitTime")</change_evid>
+	
+		<change_evid>println("waiter | state response arrived")</change_evid>
+		<change_evid>onMsg(state : state(S)){</change_evid>
+			<change_evid>if [#payloadArg(0).toInt() == 0 #] { //NO free and clean table </change_evid>
+				<change_evid>[#MaxWaitTime = 1L#]</change_evid>
+				<change_evid>println("waiter | But there is no free and clean teatable")</change_evid>
+			<change_evid>}</change_evid>
+			<change_evid>else { // there is a free and clean table and Tearoom sent me it's ID</change_evid>
+				<change_evid>[# </change_evid>
+					<change_evid>MaxWaitTime =  0L</change_evid>
+					<change_evid>DestTable = payloadArg(0).toInt()</change_evid>
+				<change_evid>#]</change_evid>
+			<change_evid>}</change_evid>
+		<change_evid>}</change_evid>
+		<change_evid>println("waiter | waittime: $MaxWaitTime")</change_evid>
+		
 	}
 	<tchange_evid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else requestTableStates</tchange_evid>
 	
 	<schange_evid>State requestTableStates</schange_evid>{
-		<change_evid>println("waiter | requesting teatable states to tearoom...")
-		request tearoom -m getRoomState : getRoomState(getBusyAndDirtyTables, arg1)</change_evid>
+	
+		<change_evid>println("waiter | requesting teatable states to tearoom...")</change_evid>
+		<change_evid>request tearoom -m getRoomState : getRoomState(getBusyAndDirtyTables, arg1)</change_evid>
 	}
 	<tchange_evid>Transition t0 whenReply numBusyAndDirty -> analyzeTableStates</tchange_evid>
 	
 	<schange_evid>State analyzeTableStates</schange_evid>{
-		<change_evid>onMsg(numBusyAndDirty : numBusyAndDirty(B,D)){
-			println("waiter | tearoom replied with ${payloadArg(0)}-${payloadArg(1)} (busy-dirty)")
-			[#
-				//getMaxWaitTime() will use information given by tearoom state
-				MaxWaitTime = getMaxWaitTime(payloadArg(0),payloadArg(1))
-			#]
-			delay 800
-			println("waiter | client has to wait at least $MaxWaitTime minutes")
-			emit wait : wait($ClientToConvoy,$MaxWaitTime)</change_evid>
-		}
+	
+		<change_evid>onMsg(numBusyAndDirty : numBusyAndDirty(B,D)){</change_evid>
+			<change_evid>println("waiter | tearoom replied with ${payloadArg(0)}-${payloadArg(1)} (busy-dirty)")</change_evid>
+			<change_evid>[#</change_evid>
+			    <change_evid>//getMaxWaitTime() will use information given by tearoom state</change_evid>
+			    <change_evid>MaxWaitTime = getMaxWaitTime(payloadArg(0),payloadArg(1))</change_evid>
+			<change_evid>#]</change_evid>
+			<change_evid>delay 800</change_evid>
+			<change_evid>println("waiter | client has to wait at least $MaxWaitTime minutes")</change_evid>
+			<change_evid>emit wait : wait($ClientToConvoy,$MaxWaitTime)</change_evid>
+		<change_evid>}</change_evid>
+		
 	}
 	<tchange_evid>Goto doATask if [# WasCleaning == false #] else cleanTeatablePhase1</tchange_evid>
 	
@@ -1058,21 +1067,26 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 			<p>
 				The tearoom now has to manage also the request for the number of dirty and busy tables. The changes has been applied both to Tearoom QAKctor and prolog knowledge base and have been highlighted.
 			</p>
-			<pre class="mytab"><code><keyw>System -trace</keyw> tearoom
+			<pre class="mytab"><code><keyw>System</keyw> tearoom
 			
 <keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)
 <keyw>Reply</keyw> state : state(STATE)	
 <keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)
 
-<comm>// REQUEST can be: 
-// 				getNumFreeTables
-//				getFreeTable
-// 				getTablesState		(Not for now)
-// 				getTableFromClient	[ARG1 = client_id]
-// 				getClientFromTable	[ARG1 = teatable_id]
-// UPDATE-REQUEST can be: 
-// 				updateTableState  [ARG1 = teatable_id {1,2}, ARG2 = new_state {busy, dirty, clean}, if ARG2=busy => ARG3= client_id]
-// 				updateBound		  [ARG1 = teatable_id {1,2}, ARG2 = client_id]</comm></code></pre>
+<comm>/*
+ REQUEST can be: 
+ 			getNumFreeTables
+			getFreeTable
+			getTablesState		(Not for now)
+ 			getTableFromClient	[ARG1 = client_id]
+ 			getClientFromTable	[ARG1 = teatable_id]
+ UPDATE-REQUEST can be: 
+ 			updateTableState  
+					[ARG1 = teatable_id {1,2}, ARG2 = new_state {busy, dirty, clean}, 
+					if ARG2=busy then ARG3=client_id]
+ 			updateBound		  
+					[ARG1 = teatable_id {1,2}, ARG2 = client_id]
+*/</comm></code></pre>
 		</br>
 		<pre class="mytab"><code>Context ctxtearoom 			ip [host="localhost" port=8015]
 Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
@@ -1122,20 +1136,21 @@ ExternalQActor waiter context ctxwaiter
 		}
 		
 		<comm>//REQUEST: getBusyAndDirtyTables</comm>
-		<change_evid>onMsg(getRoomState : getRoomState(getBusyAndDirtyTables, A)){
-			println("tearoom | getting number of busy and dirty tables")
-			[#
-				var NumBusy = 0
-				var NumDirty = 0
-			#]
-			solve(numbusytables(N))	
-			ifSolved { [# NumBusy = getCurSol("N").toString().toInt() #] }
-			println("tearoom | number of busy table: $NumBusy")
-			solve(numdirtytables(N))	
-			ifSolved { [# NumDirty = getCurSol("N").toString().toInt() #] }
-			println("tearoom | number of dirty table: $NumDirty")
-			replyTo getRoomState with numBusyAndDirty : numBusyAndDirty($NumBusy,$NumDirty)
-		}</change_evid>
+		
+		<change_evid>onMsg(getRoomState : getRoomState(getBusyAndDirtyTables, A)){</change_evid>
+			<change_evid>println("tearoom | getting number of busy and dirty tables")</change_evid>
+			<change_evid>[#</change_evid>
+				<change_evid>var NumBusy = 0</change_evid>
+				<change_evid>var NumDirty = 0</change_evid>
+			<change_evid>#]</change_evid>
+			<change_evid>solve(numbusytables(N))</change_evid>	
+			<change_evid>ifSolved { [# NumBusy = getCurSol("N").toString().toInt() #] }</change_evid>
+			<change_evid>println("tearoom | number of busy table: $NumBusy")</change_evid>
+			<change_evid>solve(numdirtytables(N))	</change_evid>
+			<change_evid>ifSolved { [# NumDirty = getCurSol("N").toString().toInt() #] }</change_evid>
+			<change_evid>println("tearoom | number of dirty table: $NumDirty")</change_evid>
+			<change_evid>replyTo getRoomState with numBusyAndDirty : numBusyAndDirty($NumBusy,$NumDirty)</change_evid>
+		<change_evid>}</change_evid>
 		
 		<comm>// REQUEST: getTableFromClient</comm>
 		onMsg(getRoomState : getRoomState(getTableFromClient, A)){
@@ -1288,18 +1303,15 @@ assign(X,Y).</code></pre>
 		</li>
 		<li><h4>Abstraction gap:</h4>
 			<h5>Application</h5>
-			<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_3_step_2/userDocs/DocumentoDelta_Martini_Drudi.html">Sprint 2</a>) are still valid in this third Sprint
+			<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint2_ISS2020/userDocs/Documento_Martini_Drudi_Sprint2.html">Sprint 2</a>) are still valid in this third Sprint
 			<h5>Web-GUI: Client and ManagerGUI</h5>
-			<p>As for what concernes the user interface, the usage of Spring Web ( <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a> ) reduces the abstraction gap. In fact, the Spring Framework, with the help of Spring Boot ( <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/webspring.intro/userDocs/LabSpringIntro.html">Spring Boot</a> ) provides a way to quickly develop applications without concerning about the lower part of it: in the web case, Spring Web creates and manages a standalone server (Tomcat) and relative beans, all sone automatically, so that the developer can concentrate on the business logic of the web-app.</p><!-- 
-			
-			A livello di gestione dei servizi web, invece, l'utilizzo di Spring Web facilita la progettazione e lo sviluppo del server-web PIPPONE SU SPRING, SERVER STANDALONE E ANNOTATIONS
-			-->
+			<p>As for what concernes the user interface, the usage of Spring Web ( <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a> ) reduces the abstraction gap. In fact, the Spring Framework, with the help of Spring Boot ( <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/anatali/iss2020LabBo/master/webspring.intro/userDocs/LabSpringIntro.html">Spring Boot</a> ) provides a way to quickly develop applications without concerning about the lower part of it: in the web case, Spring Web creates and manages a standalone server (Tomcat) and relative beans, all sone automatically, so that the developer can concentrate on the business logic of the web-app.</p>
 		</li>
 		<li><h4>Functional TestPlan:</h4>
-			<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_3_step_2/userDocs/DocumentoDelta_Martini_Drudi.html">Sprint 2</a>) are still valid in this third Sprint.
+			<p>The considerations made in the last sprint (<a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint2_ISS2020/userDocs/Documento_Martini_Drudi_Sprint2.html">Sprint 2</a>) are still valid in this third Sprint.
 		</li>
 		<li><h4>Product backlog:</h4>
-			<p>The goal of this third Sprint is to develop the manage the presence of a third actor when the tearoom is already full or all tables are busy or dirty.</p>
+			<p>The goal of this third Sprint is to develop the code necessary to manage the presence of a third actor when the tearoom is already full or all tables are busy or dirty.</p>
 		</li>
 	</ol>
 </div>
@@ -1319,10 +1331,10 @@ assign(X,Y).</code></pre>
 <!-- ---------------->
 <tr>
 <td style="width:50%">
-<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+<center><img src="./img/elena.jpg" alt="mbot" width="100%"></center>
 </td>
 <td style="width:50%">
-<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+<center><img src="./img/elisa.jpg" alt="mbot" width="100%"></center>
 </td>
 </tr>
 </table>  
