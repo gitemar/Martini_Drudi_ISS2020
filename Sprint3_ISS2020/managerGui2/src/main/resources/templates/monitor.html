@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head></head>
+	<title>COVID-19 Tearoom Monitor</title>
+	
+	<script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/reception.js"></script>
+    
+	<style type="text/css">
+	<!--
+	
+	div{
+		padding: 20px;
+		border: 2px solid #BF710D;
+		margin: 10px;
+		line-height: 30px;
+		border-radius: 20px;
+	}
+	
+	button{
+		background-color: #E5B022;
+		border-radius: 5px;
+		border: 1.5px solid #BF710D;
+		padding: 5px;
+		color: white;
+	}
+	
+	body{
+		font-family: sans-serif;
+		color: #DA8C1B;
+		background-color: #FFF7E2;
+	}
+	
+	h1,h3{
+		color: #D16806;
+	}
+	
+	-->
+	</style>
+	
+	<body>
+		<script>connectSocket()</script>
+		<h2>Hereunder, the different components states are monitored.</h2>
+		
+		<h4>TEAROOM</h4>
+		<div>
+			<span id="tearoom" th:text="${st}">...</span>	
+		</div>
+		<h4>BARMAN</h4>
+		<div>
+			<span id="barman" th:text="${sb}">...</span>		
+		</div>
+		<h4>WAITER</h4>
+		<div>
+			<span id="waiter" th:text="${sw}">...</span>		
+		</div>			
+	</body>
+</html>
