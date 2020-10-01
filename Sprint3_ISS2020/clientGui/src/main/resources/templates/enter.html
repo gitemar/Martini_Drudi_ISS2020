@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+
+<title class="titleBar">Wait Access</title>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/reception.js"></script>
+</head>
+	<style type="text/css">
+	<!--
+	
+	div{
+		padding: 20px;
+		border: 2px solid #63D6BC;
+		margin: 10px;
+		line-height: 30px;
+		border-radius: 20px;
+	}
+	
+	button{
+		background-color: #21B47D;
+		border-radius: 5px;
+		border: 1.5px solid #1C8B60;
+		padding: 5px;
+		color: white;
+	}
+	
+	body{
+		font-family: sans-serif;
+		color: #10886A;
+		background-color: #EDFFFB;
+	}
+	
+	h1,h3{
+		color: #12737B;
+	}
+	
+	#menuDiv{
+	visibility: hidden;
+	}
+	
+	#resp{
+	visibility: hidden;
+	}
+	-->
+	</style>
+	<body>
+	<script>
+		cid=getCookie("id");
+		tid=getCookie("table");
+		logCookies();
+		connectSocket();
+	</script>
+		<div id="waitingDiv">
+			<h1>You may enter!</h1>
+			<div>
+				You can enter the safe tearoom as you have a body temperature below 37.5 degrees (celsius).
+				<h3>Please, wait for waiter instructions to enter the safe tearoom...</h3>
+			</div>
+			
+			<div>
+				<p id="waiterResp"><span th:text="${waiterResp}">waiter Response</span></p>
+			</div>
+		</div>
+		<div id="menuDiv">
+			<h2>Here is your menu...</h2>
+			<h4>Click on the "order" button when you have decided which tea you do want.<h4>
+			<table>
+				<tr>
+					<td>TEA</td>
+					<td>PRICE</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Oolong</td>
+					<td>3 euro</td>
+				</tr>
+				<tr>
+					<td>Peach</td>
+					<td>4 euro</td>
+				</tr>
+				<tr>
+					<td>Lemon</td>
+					<td>4 euro</td>
+				</tr>
+				<tr>
+					<td>Earl Grey</td>
+					<td>3 euro</td>
+				</tr><tr>
+					<td>Rooibos</td>
+					<td>4 euro</td>
+				</tr>
+			</table>
+			
+			<td>
+				<form action="/order" method="post">
+					<button name="wantToOrder">Ready to order</button>
+				</form>
+			<td>
+		</div>
+		<div id="resp">
+		</div>
+	</body>
+</html>

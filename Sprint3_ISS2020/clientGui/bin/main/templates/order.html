@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+
+<title>Order</title>
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/reception.js"></script>
+</head>
+	<style type="text/css">
+	<!--
+	
+	div{
+		padding: 20px;
+		border: 2px solid #63D6BC;
+		margin: 10px;
+		line-height: 30px;
+		border-radius: 20px;
+	}
+	
+	button{
+		background-color: #21B47D;
+		border-radius: 5px;
+		border: 1.5px solid #1C8B60;
+		padding: 5px;
+		color: white;
+	}
+	
+	body{
+		font-family: sans-serif;
+		color: #10886A;
+		background-color: #EDFFFB;
+	}
+	
+	h1,h3{
+		color: #12737B;
+	}
+	
+	td{
+		padding: 5px;
+	}
+	
+	.orderbutton{
+		visibility: hidden;
+	}
+
+	-->
+	</style>
+	<body>
+	<script>
+		cid=getCookie("id");
+		tid=getCookie("table");
+		logCookies();
+		connectSocket();
+	</script>
+	<div id="menuDiv">
+			<h2>Menu</h2>
+			<h4 id="waitStatus">The waiter is arriving to take your order. Please Wait.<h4>
+			<table>
+				<tr>
+					<td>TEA</td>
+					<td>PRICE</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Oolong</td>
+					<td>3 euro</td>
+					<td class="orderbutton" >
+						<form action="/consume" method="post">
+							<button name="type" value="Oolong">Order</button>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>Peach</td>
+					<td>4 euro</td>
+					<td class="orderbutton" >
+						<form action="/consume" method="post">
+							<button name="type" value="Peach">Order</button>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>Lemon</td>
+					<td>4 euro</td>
+					<td class="orderbutton" >
+						<form action="/consume" method="post">
+							<button name="type" value="Lemon">Order</button>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>EarlGrey</td>
+					<td>3 euro</td>
+					<td class="orderbutton" >
+						<form action="/consume" method="post">
+							<button name="type" value="EarlGrey">Order</button>
+						</form>
+					</td>
+				</tr><tr>
+					<td>Rooibos</td>
+					<td>4 euro</td>
+					<td class="orderbutton" >
+						<form action="/consume" method="post">
+							<button name="type" value="Rooibos">Order</button>
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
