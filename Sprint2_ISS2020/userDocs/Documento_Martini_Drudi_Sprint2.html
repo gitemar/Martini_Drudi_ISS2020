@@ -652,10 +652,10 @@ ExternalQActor timer 	 context ctxtimer
 <comm>// Interaction Waiter - Mover =================================//</comm>
 <keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   
 <keyw>Reply</keyw> done 		: done(X,Y)									   
-<keyw>Dispatch</keyw> end 	: end(ARG)									  <comm> //	</comm>
+<keyw>Dispatch</keyw> end 	: end(ARG)									  
 <comm>//=============================================================//</comm>
 
-<comm>// Interaction Waiter - Timer =================================//</comm>
+<comm>// Interaction Waiter - MasterTimer =================================//</comm>
 <keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
 <keyw>Dispatch</keyw> stopTimer 	: stopTimer(TEATABLE_ID)			   
 <keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
@@ -674,7 +674,7 @@ ExternalQActor timer 	 context ctxtimer
 <comm>//============================================================//</comm>
 
 <comm>// Interaction Waiter - Client ===============================//</comm>
-<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 <comm> //</comm>
+<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 
 <keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   
 <keyw>Dispatch</keyw> wantToOrder	: wantToOrder(TEATABLE_ID)	          
 <keyw>Event</keyw> orderPlease		: orderPlease(ARG)					  

@@ -221,7 +221,7 @@ video{
     
 <head>
    
-<title>Tearoom - sprint 2</title></head>
+<title>Tearoom - sprint 3</title></head>
     
 <body>
 <div id="top">
@@ -259,7 +259,7 @@ video{
 			<li>
 				<h5>Waiter architecture</h5>
 				
-				The Waiter architecture has not changed compared to what was defined in the <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_2_step_1/userDocs/Progetto_Martini_Drudi.html">Sprint 1 project document</a>.
+				The Waiter architecture has not changed compared to what was defined in the <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_ISS2020/blob/master/Sprint1_ISS2020/userDocs/Progetto_Martini_Drudi_Sprint1.html">Sprint 1 project document</a>.
 				
 
 			</li>
@@ -275,135 +275,235 @@ video{
 		<ul>
 			<li><h5>Waiter QAK behaviour</h5>
 			<pre class="mytab"><code><keyw>System</keyw> waiter
+			
+<keyw>mqttBroker</keyw> <strs>"localhost"</strs> : <ints>1883</ints> <keyw>eventTopic</keyw> "unibo/polar" 	<comm>//mqtt.eclipse.org</comm>
 
-<comm>//-----------SMARTBELL COMMMUNICATION--------------</comm>
-<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)	         
-<comm>//-------------------------------------------------</comm>
+<comm>// Interaction Waiter - Mover =================================//</comm>
+<keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   
+<keyw>Reply</keyw> done 		: done(X,Y)									   
+<keyw>Dispatch</keyw> end 	: end(ARG)									  
+<comm>//=============================================================//</comm>
 
-<comm>//----------CLIENT COMMUNICATION--------------------------------</comm>
-<keyw>Event</keyw> wait            : wait(CLIENT_ID, MAX_TIME)		  
-<keyw>Event</keyw> sitPlease       : sitPlease(CLIENT_ID, TEATABLE_ID)
-<keyw>Dispatch</keyw> wantToOrder  : wantToOrder(TEATABLE_ID)
-<keyw>Dispatch</keyw> tea          : tea(TEATABLE_ID, TEA)		  
-<keyw>Event</keyw> teaServed       : teaServed(TEATABLE_ID, TEA)	  
-<keyw>Event</keyw> orderPlease     : orderPlease(TEATABLE_ID)		  
-<keyw>Dispatch</keyw> billPlease   : billPlease(TABLE_ID)			 
-<keyw>Event</keyw> cardPlease      : cardPlease(ARG)				  
-<keyw>Event</keyw> maxTimeExceeded : maxTimeExceeded(TEATABLE_ID)	  
-<keyw>Event</keyw> exitPlease      : exitPlease(CLIENT_ID)			  
-<comm>//--------------------------------------------------------------</comm>
+<comm>// Interaction Waiter - MasterTimer =================================//</comm>
+<keyw>Dispatch</keyw> startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   
+<keyw>Dispatch</keyw> stopTimer 	: stopTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> resumeTimer 	: resumeTimer(TEATABLE_ID)			   
+<keyw>Dispatch</keyw> endTimer 		: endTimer(TEATABLE_ID)				   
+<keyw>Dispatch</keyw> timeout 		: timeout(TEATABLE_ID)				   
+<comm>//=============================================================//</comm>
 
-<comm>//-----------BARMAN COMMUNICATION-----------------------------</comm>
-<keyw>Dispatch</keyw> order : order(TEATABLE_ID,TEA)						
-<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						
-<comm>//------------------------------------------------------------</comm>
+<comm>// Interaction Waiter - Tearoom ========================================//</comm>
+<keyw>Request</keyw> getRoomState : getRoomState(REQUEST, ARG1)						
+<keyw>Reply</keyw> state			 : state(STATE)										
+<keyw>Dispatch</keyw> updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	
+<comm>//======================================================================//</comm>
 
-<comm>//----------SELF MESSAGES-------------------------------------</comm>
-<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				
-<comm>//------------------------------------------------------------</comm>
+<comm>// Interaction Waiter - Smartbell ============================//</comm>
+<keyw>Dispatch</keyw> enter : enter(CLIENT_ID)						      
+<comm>//============================================================//</comm>
 
-<comm>//-----------TIMER COMMMUNICATION-----------------------------</comm>
-<keyw>Dispatch</keyw> startTimer  : startTimer(TEATABLE_ID, MAX_TIME)		
-<keyw>Dispatch</keyw> stopTimer   : stopTimer(TEATABLE_ID)					
-<keyw>Dispatch</keyw> resumeTimer : resumeTimer(TEATABLE_ID)				
-<keyw>Dispatch</keyw> endTimer    : endTimer(TEATABLE_ID)					
-<keyw>Dispatch</keyw> timeout     : timeout(TEATABLE_ID)						
-<comm>//------------------------------------------------------------</comm></code></pre>
-		<pre class="mytab"><code>Context ctxsmartbell 	ip [host="localhost" port=8030]
-Context ctxclient 	ip [host="whateverip" port=8077]
-Context ctxbarman 	ip [host="localhost" port=8066]
-Context ctxwaiter 	ip [host="127.0.0.1" port=8020]
-Context ctxtimer 	ip [host="someip" port=8010]
+<comm>// Interaction Waiter - Client ===============================//</comm>
+<keyw>Event</keyw> wait 				: wait(CLIENT_ID, MAX_TIME)			 
+<keyw>Event</keyw> sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   
+<keyw>Dispatch</keyw> wantToOrder	: wantToOrder(TEATABLE_ID)	          
+<keyw>Event</keyw> orderPlease		: orderPlease(ARG)					  
+<keyw>Dispatch</keyw> tea 			: tea(TEATABLE_ID, TEA)				  
+<keyw>Event</keyw> teaServed 		: teaServed(TEATABLE_ID, TEA)		  
+<keyw>Dispatch</keyw> billPlease 	: billPlease(TABLE_ID)				  
+<keyw>Event</keyw> cardPlease 		: cardPlease(ARG)					  
+<keyw>Event</keyw> maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  
+<keyw>Event</keyw> exitPlease 		: exitPlease(CLIENT_ID)				  
+<comm>//============================================================//</comm>
 
-ExternalQActor barman 	 context ctxbarman
-ExternalQActor smartbell context ctxsmartbell
-ExternalQActor client 	 context ctxclient
-ExternalQActor timer 	 context ctxtimer
+<comm>// Interaction Waiter - Barman  ==============================//</comm>
+<keyw>Dispatch</keyw> order : order(TEATABLE_ID, TEA)					  
+<keyw>Dispatch</keyw> ready : ready(TEATABLE_ID,TEA)						  
+<comm>//============================================================//</comm>
+
+<comm>// Interaction Waiter auto-message ===========================//</comm>
+<keyw>Dispatch</keyw> cleanTable : cleanTable (TEATABLE_ID)				  
+<comm>//============================================================//</comm></code></pre>
+
+		<pre class="mytab"><code>Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+Context ctxtearoom 		 	ip [host="localhost" port=8015]
+
+ExternalQActor tearoom 		context ctxtearoom
+ExternalQActor barman		context ctxtearoom
+ExternalQActor smartbell	context ctxtearoom
+
+CodedQActor datacleaner    	context ctxwaiter className "rx.dataCleaner"
+CodedQActor distancefilter 	context ctxwaiter className "rx.distanceFilter"
+CodedQActor basicrobot 		context ctxwaiter className "it.unibo.basicrobot.Basicrobot"
+CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker.Trustingwalker"
+CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Mastertimer"
+
 
 
 <sevid>QActor waiter</sevid> context ctxwaiter {
 	[# 
-		var MaxWaitTime : Long
+		var MaxWaitTime = 0L
 		val MaxStayTime = 10000L   	// 10 sec
 		val IdleTime = 200L			// 200 ms
-		var ClientToConvoy = ""
 		
-		//variables useful for handling the action of cleaning table
-		val CleanTime = 2000L
-		var RemainigCleaningTime = CleanTime
-		var teatableToClean = 0
+		var ClientToConvoy = ""
+		var DestTable = -1
+		var CurDrink = ""
+		var Price = 3
+		
+		var TimeToClean = 2000L
+		var TimeCleanBegan = 0L
+		var WasCleaning = false
+		var TableToClean = 0
 	#]
 	
 	<sevid>State s0 initial</sevid>{
-		discardMsg Off <comm>//we don't want to loose any message</comm>
+		//init
+		println("waiter | beep beep boop...START...")
+		discardMsg Off
 	}
 	<tevid>Goto restingAtHome</tevid>
 	
+	<comm>// WAITER WAIT FOR TASK TO DO 1</comm>
 	<sevid>State restingAtHome</sevid>{
-		if [# currentPos() != HomePos() #] { [# goToHome() #]}
-		println("waiter | No task to do. Chilling out at home...")	
+	
+		println("waiter | Chilling out at home...")	
+		updateResource[#"atPosition(0,0,home)"#]
+			
 	}
-	<tevid>Transition t0   whenMsg enter -> handleEnter</tevid>
-					<tevid>whenMsg timeout -> handleTimeout</tevid>
-					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
-					<tevid>whenMsg ready -> serveTeaToClient </tevid>
-					<tevid>whenMsg billPlease -> handlePayment </tevid>
-					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+	<tevid>Transition t0   whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenMsg wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 					
-					
+	<comm>// WAITER WAIT FOR TASK TO DO 2</comm>				
 	<sevid>State doATask</sevid>{
+	
 		println("waiter | checking if there is a task to do...")
+		
 	}
-	<tevid>Transition t0   whenTimeVar IdleTime -> restingAtHome</tevid>
-					<tevid>whenMsg enter -> handleEnter</tevid>
-					<tevid>whenMsg timeout -> handleTimeout</tevid>
-					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
-					<tevid>whenMsg ready -> serveTeaToClient</tevid>
-					<tevid>whenMsg billPlease -> handlePayment </tevid>
-					<tevid>whenMsg cleanTable -> cleanTeatable</tevid>
+	<tevid>Transition t0   whenTimeVar IdleTime -> goHome</tevid> <comm>// if waiter has no task it go home to rest a little bit</comm>
+					<tevid>whenMsg enter -> handleEnterPhase1</tevid>
+					<tevid>whenMsg wantToOrder -> handleOrderFromClientPhase1</tevid>
+					<tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+					<tevid>whenMsg timeout -> handleTimeoutPhase1</tevid>
+					<tevid>whenMsg billPlease -> handlePaymentPhase1 </tevid>
+					<tevid>whenMsg cleanTable -> cleanTeatablePhase1</tevid>
 					
-					
-	<sevid>State handleEnter</sevid>{
+	<comm>// WAITER GO HOME	</comm>
+	<sevid>State goHome</sevid> {
+		
+		updateResource[#"goingHome"#]
+		<mevid>request mover -m moveTo : moveTo(home)</mevid>
+		
+	}
+	<tevid>Transition t0 whenReply done -> restingAtHome</tevid>
+
+
+	<comm>/******************************  WAITER HANDLE ENTER REQUEST **************************************/</comm>
+	
+	<sevid>State handleEnterPhase1</sevid> {
+		println("waiter | enter message arrived")
 		onMsg(enter : enter(CLIENT_ID)){
-		
-		if [# wasCleaningActionInterrupted() #]{
-				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
-		}
-		
+			
+			if [# WasCleaning == true #]{
+				[# var TempTime = 0L #]
+				memoCurrentTime TempTime
+				[# TimeToClean = TimeToClean - (TempTime - TimeCleanBegan) #]
+				println("waiter | interrupted cleaning to handle enter request")
+			}
+			
+			[#ClientToConvoy = payloadArg(0)#]
+			
 			println("waiter | a client with client_id ${payloadArg(0)} asked to enter the safe tearoom...")
-			if [# freeAndCleanTable() == 0 #] { //NO free and clean table
-			[#
-			    <change_evid>val b=payloadArg(0).toInt()</change_evid>
-			    <change_evid>val d=payloadArg(1).toInt()</change_evid>
-			    <change_evid>var totTime = 0L</change_evid>
-			    <change_evid>if(d>0){</change_evid>
-			    	<change_evid>totTime = MaxCleanTime</change_evid>
-			    <change_evid>}</change_evid>
-			    <change_evid>else{</change_evid>
-			    	<change_evid>totTime = MaxStayTime</change_evid>
-			    <change_evid>}</change_evid>
-			    <change_evid>MaxWaitTime = totTime</change_evid>
-			#]
-				println("waiter | ... but since there is no free and clean teatable I ask ${payloadArg(0)} to wait a little ($MaxWaitTime)!")
-				emit wait : wait($payloadArg(0), $MaxWaitTime)
-			}
-			else {	// there is a free and clean table
-				println("waiter | ... and since there is a free and clean teatable I let ${payloadArg(0)} in!")
-				//convoying is atomic with enter when there is a free table
-				[# ClientToConvoy = payloadArg(0) #]
-			}
+			println("waiter | checking if the safe tearoom has a free table ...")
+			<mevid>request tearoom -m getRoomState : getRoomState(getFreeTable, arg1)</mevid>
 		} //onMsg
+		
 	}
-	<comm>//In this second Sprint since we will handle exactly 2 customer it will never happen that a client has to wait
-	// so freeAndCleanTable is always > 0</comm>
-	<tevid>Goto convoyClientToTable if [# freeAndCleanTable() > 0 #] else checkIfWasCleaning</tevid>
+	<tevid>Transition t0 whenReply state -> handleEnterPhase2</tevid>
 	
-	<sevid>State checkIfWasCleaning</sevid>{ 
-		<comm>//Temporary state made to implement an else-if statement for Transition from state related to action that can
-		// interrupt cleaning action</comm>
+	<sevid>State handleEnterPhase2</sevid> {
+		
+		onMsg(state : state(S)){
+			if [#payloadArg(0).toInt() == 0 #] { <comm>//NO free and clean table</comm>
+				<change_evid>[# MaxWaitTime =  1L #]</change_evid>
+				<change_evid>println("waiter | But there is no free and clean teatable"</change_evid>
+			}
+			else { <comm>// there is a free and clean table and Tearoom sent me it's ID</comm>
+				[# 
+					MaxWaitTime =  0L
+					DestTable = payloadArg(0).toInt()
+				#]
+			}
+		}
 	}
-	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	<tchange_evid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else requestTableStates</tchange_evid>
 	
+	<schange_evid>State requestTableStates</schange_evid>{
+	
+		<change_evid>println("waiter | requesting teatable states to tearoom...")</change_evid>
+		<change_evid>request tearoom -m getRoomState : getRoomState(getBusyAndDirtyTables, arg1)</change_evid>
+		
+	}
+	<tchange_evid>Transition t0 whenReply numBusyAndDirty -> analyzeTableStates</tchange_evid>
+	
+	<schange_evid>State analyzeTableStates{</schange_evid>
+	
+		<change_evid>onMsg(numBusyAndDirty : numBusyAndDirty(B,D)){</change_evid>
+			<change_evid>println("waiter | tearoom replied with ${payloadArg(0)}-${payloadArg(1)} (busy-dirty)")</change_evid>
+			<change_evid>[#</change_evid>
+				<change_evid>val b=payloadArg(0).toInt()</change_evid>
+				<change_evid>val d=payloadArg(1).toInt()</change_evid>
+				<change_evid>var totTime = 0L</change_evid>
+				<change_evid>if(d>0){</change_evid>
+					<change_evid>totTime = MaxCleanTime</change_evid>
+				<change_evid>}</change_evid>
+				<change_evid>else{</change_evid>
+					<change_evid>totTime = MaxStayTime</change_evid>
+				<change_evid>}</change_evid>
+				<change_evid>MaxWaitTime = totTime</change_evid>
+			<change_evid>#]</change_evid>
+			<change_evid>delay 800</change_evid>
+			<change_evid>println("waiter | client has to wait at least $MaxWaitTime minutes")</change_evid>
+			<change_evid>emit wait : wait($ClientToConvoy,$MaxWaitTime)</change_evid>
+		<change_evid>}</change_evid>
+	}
+	<tchange_evid>Goto doATask if [# WasCleaning == false #] else cleanTeatablePhase1</tchange_evid>
+	
+	<comm>/****************************************************************************************************/</comm>
+	
+	<comm>/******************************  WAITER CONVOY CLIENT TO TABLE **************************************/</comm>
+	
+	<sevid>State convoyClientToTablePhase1</sevid> {
+		updateResource[#"convoyingClientToTable($DestTable,$ClientToConvoy)"#]
+		println("waiter | reaching entrance door to convoy client $ClientToConvoy to teatable $DestTable ...")
+		<mevid>request mover -m moveTo : moveTo(entrance)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase2</tevid>
+	
+	<sevid>State convoyClientToTablePhase2</sevid> {
+		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
+		println("waiter | convoying client $ClientToConvoy to teatable $DestTable ...")
+		[#var Dest =  "teatable" + DestTable.toString() #]
+		<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToTablePhase3</tevid>
+		
+	<sevid>State convoyClientToTablePhase3</sevid> {
+		
+		println("waiter | Start mastertimer, update tearoom and telling client to sit")
+		<mevid>forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)</mevid>
+		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $DestTable )</mevid>
+		<comm>//start timer to count until MaxStayTime</comm>
+		<mevid>forward mastertimer -m startTimer : startTimer($DestTable, $MaxStayTime)</mevid>
+		
+	}
+	<tevid>Goto doATask if [# WasCleaning == false #] else cleanTeatablePhase1</tevid>
+	
+	<comm>/****************************************************************************************************/</comm>
+	@TONNO
 	
 	<sevid>State convoyClientToTable</sevid>{
 		[#

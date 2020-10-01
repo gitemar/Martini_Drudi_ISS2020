@@ -7,11 +7,11 @@ import it.unibo.kactor.TimerActor
 import alice.tuprolog.Term
 
 /*
- * startSubtimer : startTimer(TIME)
- * stopSubtimer : stopTimer(ARG)
- * resumeSubtimer : resumeTimer(ARG)
- * endSubtimer : endTimer(ARG)
- * timeoutSubtimer : timeout (TEATABLE_ID)
+ * startSubtimer : startSubtimer(TIME)
+ * stopSubtimer : stopSubtimer(ARG)
+ * resumeSubtimer : resumeSubtimer(ARG)
+ * endSubtimer : endSubtimer(ARG)
+ * timeoutSubtimer : timeoutSubtimer (TEATABLE_ID)
  */
 
 class Subtimer (name: String, scope: CoroutineScope, val ctx : QakContext , tid : Int ) : ActorBasicFsm( name, scope ){
