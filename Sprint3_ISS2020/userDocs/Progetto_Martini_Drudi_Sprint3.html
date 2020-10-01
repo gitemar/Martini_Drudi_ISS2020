@@ -503,157 +503,261 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 	<tevid>Goto doATask if [# WasCleaning == false #] else cleanTeatablePhase1</tevid>
 	
 	<comm>/****************************************************************************************************/</comm>
-	@TONNO
 	
-	<sevid>State convoyClientToTable</sevid>{
-		[#
-			var Teatable = getFreeAndCleanTeatable()	//ID teatable
-			MaxWaitTime = 0L 
-			goToEntranceDoor()		//prepare to convey the client to a teatable
-		#]
-		<mevid>emit wait : wait($ClientToConvoy , $MaxWaitTime)</mevid>
-		println("waiter | convoying client $ClientToConvoy to teatable $Teatable ...")
-		[#
-			reachTeatablePos(Teatable)
-			updateTeatableState(Teatable, "BUSY")
-		#]
-		<mevid>emit sitPlease : sitPlease($ClientToConvoy, $Teatable )</mevid>
-		//start timer to count until MaxStayTime
-		<mevid>forward timer -m startTimer : startTimer($Teatable)</mevid>
-	}
-	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	<comm>/**************************************  WAITER CLEAN TABLE **************************************/</comm>
 	
+	<sevis>State cleanTeatablePhase1</sevid> {
 		
-	<sevid>State cleanTeatable</sevid>{
+		[# var Dest="" #]
+		
 		onMsg(cleanTable : cleanTable(T)) {
-			//first we reach the teatable
-			[#reachTeatablePos(payloadArg(0))#]
-			// then we clean the teatable
-			println("waiter | cleaning the teatable ${payloadArg(0)}")
-			[#teatableToClean = payloadArg(0).toInt()#]
-		} //onMsg
 		
-		if [#wasCleaningActionInterrupted()#] {
-			//first we reach the teatable
-			[#reachTeatablePos(teatableToClean)#]
-			// then we clean the teatable
-			println("waiter | retry to finish cleaning the teatable $teatableToClean")
+			println("Waiter moving towards teatable to clean (${payloadArg(0)})")
+			[#
+			  Dest =  "teatable" + payloadArg(0) 
+			  DestTable = payloadArg(0).toInt()
+			  TableToClean = payloadArg(0).toInt()
+			#]
 		}
+		
+		<comm>//resuming cleaning if waiter was cleaning</comm>
+		if[# WasCleaning == true #]{
+			println("Waiter moving towards teable $TableToClean to resume cleaning")
+			[#
+			  Dest =  "teatable" + TableToClean
+			  DestTable = TableToClean
+			#]
+		}
+		
+		updateResource[#"cleaning($DestTable)"#]
+		
+		<comm>//first we reach the table</comm>
+		<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
 	}
-	//cleaning is an interruptible action that MUST be interrupted if Waiter can perform other actions
-	<tevid>Transition t0 	whenTimeVar RemainigCleaningTime -> cleaningFinished</tevid>
-					<tevid>whenMsg enter -> handleEnter</tevid>
-					<tevid>whenMsg wantToOrder -> handleOrder</tevid>
-					<tevid>whenMsg ready -> serveTeaToClient</tevid>
-					<tevid>whenMsg billPlease -> handlePayment </tevid>
+	<tevid>Transition t0 whenReply done -> cleanTeatablePhase2</tevid>
 	
 	
-	<sevid>State cleaningFinished</sevid>  {
-			//update teatable state
-			[#updateTeatableState(payloadArg(0), "CLEAN")#]
-			//reset RemainigCleaningTime for that table
-			[#RemainigCleaningTime = resetRemainingCleaningTime()#]
+	<sevid>State cleanTeatablePhase2</sevid> {
+		
+		<comm>// then we clean the teatable</comm>
+		println("waiter | cleaning the teatable ${payloadArg(0)}")
+		[#
+			WasCleaning = true
+		#]
+		memoCurrentTime TimeCleanBegan					
 	}
-	//As we have just one client at a time (Assumption 1), we don't have to check if there are clients waiting to enter
+	<tevid>Transition t1 whenTimeVar TimeToClean -> finishedClean</tevid>
+				  <tevid>whenMsg ready -> serveTeaToClientPhase1</tevid>
+				  <tevid>whenMsg enter -> handleEnterPhase1</tevid>
+				  <tevid>whenMsg wantToOrder -> handleOrderFromClientPhase1</tevid>
+				  <tevid>whenMsg billPlease -> handlePaymentPhase1</tevid>
+	
+	
+	<sevid>State finishedClean</sevid>{
+		
+		println("waiter | finished cleaning teatable $TableToClean")
+		<comm>//update teatable state</comm>
+		<mevid>forward tearoom -m updateState : updateState (updateTableState, $TableToClean, clean, ARG3)</mevid>
+		[# 
+			WasCleaning = false
+			TimeToClean = 2000L
+			TableToClean = 0
+			TimeCleanBegan = 0L
+		#]
+	}
 	<tevid>Goto doATask</tevid>
 	
+		
+	<comm>/****************************************************************************************************/</comm>
 	
-	<sevid>State handleOrder</sevid>{
-		onMsg(wantToOrder : wantToOrder(TABLE)){
+	<comm>/**************************************  WAITER TAKE CLIENT's ORDER **************************************/</comm>	
 		
-			if [# wasCleaningActionInterrupted() #]{
-				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+	
+	<sevid>State handleOrderFromClientPhase1</sevid> {
+		
+		onMsg(wantToOrder : wantToOrder(TEATABLE_ID)){
+		
+			if [# WasCleaning == true #]{
+				[# var TempTime = 0L #]
+				memoCurrentTime TempTime
+				[# TimeToClean = TimeToClean - (TempTime - TimeCleanBegan) #]
+				println("waiter | interrupted cleaning to handle order request")
 			}
-		
-			//Stop counting for orderTime now
-			<mevid>forward timer -m stopTimer : stopTimer($payloadArg(0))</mevid>
-			
-			//reach teatable position to simulate the action of taking an order
-			[#reachTeatablePos(payloadArg(0))#]
-			//simulating the action of asking the client what he want to order
-			<mevid>emit orderPlease : orderPlease($payloadArg(0))</mevid>
-			
+			<comm>//Stop timer </comm>
+			<mevid>forward mastertimer -m stopTimer : stopTimer($payloadArg(0))</mevid>
+			println("waiter | client at teatable ${payloadArg(0)} want to order! Reaching table ${payloadArg(0)}...")
+			<comm>// reach teatable to take client order</comm>
+			[#var 
+				Dest =  "teatable" + payloadArg(0)
+				DestTable = payloadArg(0).toInt()
+			#]
+			updateResource[#"takingOrder(${payloadArg(0)})"#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
 		}
 	}
-	<tevid>Transition t0 whenMsg tea -> takingOrder</tevid>
+	<tevid>Transition t0 whenReply done -> handleOrderFromClientPhase2</tevid>
 	
-	<sevid>State takingOrder</sevid> {
-		onMsg(tea : tea(T, TEA)){
-			//send the order to barman
+	
+	<sevid>State handleOrderFromClientPhase2</sevid> {
+		
+		println("waiter | client can now order..."
+		<mevid>emit orderPlease : orderPlease(ARG)</mevid>
+	}
+	<tevid>Transition t0 whenMsg tea -> handleOrderFromClientPhase3</tevid>
+	
+	
+	<sevid>State handleOrderFromClientPhase3</sevid> {
+		
+		onMsg(tea : tea(TABLE,TEA)){
 			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
 			<mevid>forward barman -m  order : order($payloadArg(0), $payloadArg(1))</mevid>
 		}
+		
 	}
-	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	<tevid>Goto cleanTeatablePhase1 if [# WasCleaning == true #] else doATask</tevid>
 	
-	<sevid>State serveTeaToClient</sevid>{
+	
+	<comm>/****************************************************************************************************/</comm>
+	
+	<comm>/**************************************  WAITER SERVE CLIENT  **************************************/</comm>
+	
+	<sevid>State serveTeaToClientPhase1</sevid> {
 		onMsg(ready : ready(T,D)){
-		
-			if [# wasCleaningActionInterrupted() #]{
-				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+			
+			if [# WasCleaning == true #]{
+				[# var TempTime = 0L #]
+				memoCurrentTime TempTime
+				[# TimeToClean = TimeToClean - (TempTime - TimeCleanBegan) #]
+				println("waiter | interrupted cleaning to serve")
 			}
-		
-			println("waiter | order for table ${payloadArg(0)} ready! Serving order...")	
-			[# goToServiceDesk() #]
-			delay 200
-			[#
-				reachTeatablePos(payloadArg(0))	
+			[# 
+				DestTable = payloadArg(0).toInt()
+				CurDrink = payloadArg(1)
 			#]
-			<mevid>emit teaServed : teaServed($payloadArg(0), $payloadArg(1) )</mevid>
-			//start counting for consumingTime NOW
-			//start timer to count until MaxStayTime
-			<mevid>forward timer -m resumeTimer : startTimer($payloadArg(0))</mevid>
+			println("waiter | order for table ${payloadArg(0)} ready! Reaching service desk...")
+			updateResource[#"servingTea($DestTable)"#]			
+			<mevid>request mover -m moveTo : moveTo(servicedesk)</mevid>
 		}
+		
 	}
-	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase2</tevid>
 	
-	<sevid>State handlePayment</sevid>{
+	
+	<sevid>State servTeaToClientPhase2</sevid> {
+		
+		println("waiter | bringing tea to table $DestTable...")
+		[#var Dest =  "teatable" + DestTable #]
+		<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+			
+	}
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase3</tevid>
+	
+	<sevid>State servTeaToClientPhase3</sevid> {
+		delay 1000
+		<mevid>emit teaServed : teaServed($DestTable, $CurDrink )</mevid>
+		<comm>//start counting for consumingTime NOW</comm>
+		<comm>//start timer to count until MaxStayTime</comm>
+		<mevid>forward mastertimer -m resumeTimer : resumeTimer($DestTable)</mevid>
+	
+	}		
+	<tevid>Goto cleanTeatablePhase1 if [# WasCleaning == true #] else doATask</tevid>
+	
+	<comm>/****************************************************************************************************/</comm>
+	
+	<comm>/**************************************  WAITER HANDLE PAYMENT **************************************/</comm>
+	
+	<sevid>State handlePaymentPhase1</sevid>{
+		
 		onMsg(billPlease : billPlease(T)){
 		
-			if [# wasCleaningActionInterrupted() #]{
-				[# RemainigCleaningTime = calculateNewCleaningTimeForTeatable(teatableToClean)#]
+			if [# WasCleaning == true #]{
+				[# var TempTime = 0L #]
+				memoCurrentTime TempTime
+				[# TimeToClean = TimeToClean - (TempTime - TimeCleanBegan) #]
+				println("waiter | interrupted cleaning to handle payment request")
 			}
-		
-			[#
-				ClientToConvoy = getClientAtTable(payloadArg(0))
-			#]
-			println("waiter | ending timer for table ${payloadArg(0)}")
-			<mevid>forward timer -m endTimer : endTimer($payloadArg(0))</mevid>
 			
-			println("waiter | client at table ${payloadArg(0)} finished before MaxStayTime expired...")
+			<comm>// stopping timer</comm>
+			println("waiter | Client at table ${payloadArg(0)} is ready to pay. Ending timer for table ${payloadArg(0)}")
+			<mevid>forward mastertimer -m endTimer : endTimer($payloadArg(0))</mevid>
+			
+			<comm>// reaching table</comm>
+			[#
+				<comm>//memorizing teatable_id for next phase</comm>
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
+			#]
 			println("waiter | Reaching table ${payloadArg(0)} ...")
-			[#reachTeatablePos(payloadArg(0))#]
-			println("waiter | Arrived at table ${payloadArg(0)}, requesting credit card...")
-			<mevid>replyTo billPlease with cardPlease : cardPlease(amount_to_pay)</mevid>		
+			updateResource[#"handlePayment($DestTable)"#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
 		}
 		
-		delay 200 //simulating client giving credit card and payment time
-		println("waiter | convoying client to exit door...")
-		[#goToExitDoor()#]
-		<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
-		
-		//waiter sends itself a message to remember to clean the table
-		[# TableToClean = getTableFromClientID(ClientToConvoy)#]
-		<mevid>forward waiter -m cleanTable : cleanTable($TableToClean)</mevid>
-		
-		//update teatable state
-		[#updateTeatableState(TableToClean, "DIRTY")#]
 	}
-	<tevid>Goto cleanTeatable if [# wasCleaningActionInterrupted() #] else doATask</tevid>
+	<tevid>Transition t0 whenReply done -> handlePaymentPhase2</tevid>
 	
-	<sevid>State handleTimeout</sevid>{
+	
+	<sevid>State handlePaymentPhase2</sevid> {
+		println("waiter | Asking Client at table $DestTable to pay ...")
+		delay 500
+		<mevid>emit cardPlease : cardPlease($Price) </mevid>
+		<comm>//get client_id from table_id</comm>
+		<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable) </mevid>
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
+	
+	State convoyClientToExitPhase1 {
+		onMsg(state : state(C)){
+			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
+			[# ClientToConvoy = payloadArg(0)#]
+			updateResource[#"convoyingClientToExitDoor($ClientToConvoy)"#]
+			<mevid>request mover -m moveTo : moveTo(exit)</mevid>
+		}
+	}
+	<tevid>Transition t0 whenReply done -> convoyClientToExitPhase2</tevid>
+	
+	<sevid>State convoyClientToExitPhase2</sevid> {
+			println("waiter | saying goodbye to client $ClientToConvoy...")
+			<mevid>emit exitPlease : exitPlease($ClientToConvoy)</mevid>
+			
+			<comm>//updating teatable state</comm>
+			<mevid>forward tearoom -m updateState : updateState(updateTableState, $DestTable, dirty, ARG)</mevid>
+			
+			<comm>//remember to clean the table</comm>
+			<mevid>forward waiter -m cleanTable : cleanTable($DestTable)</mevid>
+	}
+	<tevid>Goto cleanTeatablePhase1 if [# WasCleaning == true #] else doATask</tevid>
+	
+	<comm>/****************************************************************************************************/</comm>
+	
+	<comm>/**************************************  WAITER HANDLE SLOW CLIENT **************************************/</comm>
+	
+	
+	<sevid>State handleTimeoutPhase1</sevid> {
+		
 		onMsg(timeout : timeout(T)){
 			println("waiter | Time exceeded for client at table ${payloadArg(0)}")
 			println("waiter | reaching table ${payloadArg(0)}...")
+			
 			[#
-				reachTeatablePos(payloadArg(0))
-				ClientToConvoy = getClientAtTable(payloadArg(0))
+				DestTable = payloadArg(0).toInt()
+				var Dest = "teatable" + payloadArg(0)
 			#]
-			println("waiter | communicating to client $ClientToConvoy that he has to pay and leave...")
-			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), amount_to_pay)</mevid>			
-		}	
+			updateResource[#"handlePayment($DestTable)"#]
+			<mevid>request mover -m moveTo : moveTo($Dest)</mevid>
+		}
 	}
-	<tevid>Goto handlePayment</tevid>	
+	<tevid>Transition t0 whenReply done -> handleTimeoutPhase2</tevid>
+	
+	<sevid>State handleTimeoutPhase2</sevid> {
+			println("waiter | communicating to client at table ${payloadArg(0)} that he has to pay and leave...")
+			<mevid>emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), $Price)</mevid>
+						
+			<comm>//get client_id from table_id</comm>
+			<mevid>request tearoom -m getRoomState : getRoomState(getClientFromTable, $DestTable)</mevid>	
+			
+	}
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
+	
 }</code></pre>
 			</li>
 		</ul>

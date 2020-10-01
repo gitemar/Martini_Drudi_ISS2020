@@ -1029,7 +1029,7 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
 	
 	<sevid>State convoyClientToExitPhase1</sevid> {
-		println("waiter | Asking Client at table $DestTable to pay ...")
+		
 		onMsg(state : state(C)){
 			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
 			[# ClientToConvoy = payloadArg(0)#]
