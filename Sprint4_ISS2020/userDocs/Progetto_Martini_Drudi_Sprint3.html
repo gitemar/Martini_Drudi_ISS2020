@@ -234,10 +234,29 @@ video{
 <div class="remark">
 </div>-->
 
-<h2>Requirements</h2>
+<h2>Specifics</h2>
 <div class="remark">
-	<h4>Assumptions for Sprint 3</h4>
-	<p>The assumptios made for the third sprint can be found here: <a href="https://htmlpreview.github.io/?https://github.com/gitemar/Martini_Drudi_Safe_Tearoom/blob/master/week_4_step_3/userDocs/Documento_Sprint3_Martini_Drudi.html#assumption">Assumptions Sprint 3</a>
+	<h4>Introduction</h4>
+	<p>At the end of the third Sprint the team was able to complete the development of the system as per customer requirements. However, the need to make some changes to our system subsequently emerged. This need arose from considerations that emerged during further internal team meetings, born in part from more in-depth tests carried out on the system and in part from the experience gained by the team during the previous sprints.</p>
+	<p>In the following paragraphs, the updates performed on the system are briefly explained. More details about the components implementation will be given in the <i>Project</i> section of this document.</p>
+	<h4>Updates</h4>
+	<ul>
+		<li>
+			<h5>Optimized clean table interruption</h5>
+			<p><i>Need</i> : After more in-depth tests carried out on the system, the team found out that if più azioni che risultano prioritarie sono in coda, il waiter non le eseguirà tutte prima di tornare a pulire il tavolo, bensì sì interromperà per la prima azione e, dopo averla eseguita, invece che continare con le azioni prioritarie in coda, tornerà a pulire per poi interropersi subito. Questo comportamento non risulta errato, ma è poco efficiente in termini di tempo (tempo che viene perso negli spostamenti da key point a tavolo da pulire). </p>
+			
+			<p><i>Solution</i> : prima di decidere di tornare a pulire, il waiter verifica se ci sono altri task più prioritari in coda e, se ci sono, li esegue. Solo dopo, torna a pulire il tavolo.</p>
+		</li>
+		<li>
+			<h5>Simultaneous messages handling</h5>
+			<ul>
+				<li>
+				</li>
+				<li>
+				</li>
+			</ul>
+		</li>
+	</ul>
 </div>
 
 <h2>Project</h2>
