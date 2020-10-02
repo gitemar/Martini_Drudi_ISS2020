@@ -225,7 +225,7 @@ video{
     
 <body>
 <div id="top">
-<h1>Safe Tearoom COVID-19<font size="5"></font> </h1>
+<h1>Safe Tearoom COVID-19 - Sprint 3<font size="5"></font> </h1>
 </div>  
 
 <div class="body"> 
@@ -282,6 +282,13 @@ video{
 <keyw>Request</keyw> moveTo 	: moveTo(KEY_POSITION)						   
 <keyw>Reply</keyw> done 		: done(X,Y)									   
 <keyw>Dispatch</keyw> end 	: end(ARG)									  
+<comm>//=============================================================//</comm>
+
+<comm>// Interaction Mover - TrustingWalker ==========================//</comm>
+<keyw>Event</keyw>    twstarted  : twstarted(X)		    <comm>// emitted by TrustingWalker after it started</comm>
+<keyw>Request</keyw>  movetoCell : movetoCell(X,Y)		<comm>// move to position (X,Y) with X column and Y row</comm>
+<keyw>Reply</keyw>   atcell     : atcell(X,Y)			<comm>  // if success TrustingWalker send this message</comm>
+<keyw>Reply</keyw>	 walkbreak  : walkbreak(X,Y) 		<comm>// if fail TrustingWalker send this message </comm>
 <comm>//=============================================================//</comm>
 
 <comm>// Interaction Waiter - MasterTimer =================================//</comm>
@@ -428,8 +435,8 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 		
 		onMsg(state : state(S)){
 			if [#payloadArg(0).toInt() == 0 #] { <comm>//NO free and clean table</comm>
-				<change_evid>[# MaxWaitTime =  1L #]</change_evid>
-				<change_evid>println("waiter | But there is no free and clean teatable"</change_evid>
+				[# MaxWaitTime =  1L #]
+				println("waiter | But there is no free and clean teatable"
 			}
 			else { <comm>// there is a free and clean table and Tearoom sent me it's ID</comm>
 				[# 
@@ -439,20 +446,20 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 			}
 		}
 	}
-	<tchange_evid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else requestTableStates</tchange_evid>
+	<tevid>Goto convoyClientToTablePhase1 if [# MaxWaitTime == 0L #] else requestTableStates</tevid>
 	
-	<schange_evid>State requestTableStates</schange_evid>{
+	<sevid>State requestTableStates</sevid>{
 	
-		<change_evid>println("waiter | requesting teatable states to tearoom...")</change_evid>
-		<change_evid>request tearoom -m getRoomState : getRoomState(getBusyAndDirtyTables, arg1)</change_evid>
+		println("waiter | requesting teatable states to tearoom...")
+		request tearoom -m getRoomState : getRoomState(getBusyAndDirtyTables, arg1)
 		
 	}
-	<tchange_evid>Transition t0 whenReply numBusyAndDirty -> analyzeTableStates</tchange_evid>
+	<tevid>Transition t0 whenReply numBusyAndDirty -> analyzeTableStates</tevid>
 	
 	<schange_evid>State analyzeTableStates{</schange_evid>
 	
-		<change_evid>onMsg(numBusyAndDirty : numBusyAndDirty(B,D)){</change_evid>
-			<change_evid>println("waiter | tearoom replied with ${payloadArg(0)}-${payloadArg(1)} (busy-dirty)")</change_evid>
+		onMsg(numBusyAndDirty : numBusyAndDirty(B,D)){
+			println("waiter | tearoom replied with ${payloadArg(0)}-${payloadArg(1)} (busy-dirty)")
 			<change_evid>[#</change_evid>
 				<change_evid>val b=payloadArg(0).toInt()</change_evid>
 				<change_evid>val d=payloadArg(1).toInt()</change_evid>
@@ -465,10 +472,10 @@ CodedQActor mastertimer		context ctxwaiter className "it.unibo.mastertimer.Maste
 				<change_evid>}</change_evid>
 				<change_evid>MaxWaitTime = totTime</change_evid>
 			<change_evid>#]</change_evid>
-			<change_evid>delay 800</change_evid>
-			<change_evid>println("waiter | client has to wait at least $MaxWaitTime minutes")</change_evid>
-			<change_evid>emit wait : wait($ClientToConvoy,$MaxWaitTime)</change_evid>
-		<change_evid>}</change_evid>
+			delay 800
+			println("waiter | client has to wait at least $MaxWaitTime minutes")
+			emit wait : wait($ClientToConvoy,$MaxWaitTime)
+		}
 	}
 	<tchange_evid>Goto doATask if [# WasCleaning == false #] else cleanTeatablePhase1</tchange_evid>
 	

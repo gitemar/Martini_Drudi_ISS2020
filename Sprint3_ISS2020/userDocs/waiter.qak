@@ -15,7 +15,7 @@ Reply    atcell     : atcell(X,Y)							   // if success TrustingWalker send thi
 Reply	 walkbreak  : walkbreak(X,Y) 						   // if fail TrustingWalker send this message
 // ============================================================//
 
-// Interaction Waiter - Timer =================================//
+// Interaction Waiter - MasterTimer =================================//
 Dispatch startTimer 	: startTimer(TEATABLE_ID, MAX_TIME)	   //
 Dispatch stopTimer 		: stopTimer(TEATABLE_ID)			   //
 Dispatch resumeTimer 	: resumeTimer(TEATABLE_ID)			   //
