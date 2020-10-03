@@ -1626,7 +1626,7 @@ ExternalQActor waiter context ctxwaiter
 			<p>The issue related to the movement of the waiter around the room are already addressed by some component that the unibo team developed in the past. As already mentioned for the basic movement of the robot we can use application level command instead of low level command thanks to virtualRobotSupport.kt. The unibo team also developed a basicrobot actor (<a href="https://htmlpreview.github.io/?https://github.com/anatali/iss2020LabBo/blob/master/it.unibo.qak20.basicrobot/userDocs/Qak20Basicrobot.html">Basicrobot docs</a>) which is able to compute basic moves indipendently of the version of the robot (virtual or physical) thank to the multiple libraries mentioned above. As analyst we use the Basicrobot actor as a service to make our application more tecnology indipendent.</p>
 			<p>The planning of a correct path to reach a certain destination is also not a real problem since we have a Planner component developed by unibo team able to plan path by exploiting AI technique.</p> 
 
-			<p>The abstraction gap is also greatly reduced by the support of the QAK infrastructure thant resolve most of the common issue of distributed systems and let us work on a higher abstraction level.</p>
+			<p>The abstraction gap is also greatly reduced by the support of the QAK infrastructure that resolve most of the common issue of distributed systems and let us work on a higher abstraction level.</p>
 
 			<p>In conclusion, thank to these components the abstraction gap for our application is extremely small. Once the team has become familiar with the aforementioned components it should be able to design and develop the system in this first form (with the assumption mentioned in the Requirement Analysis)in short time.</p>
 
@@ -1640,8 +1640,8 @@ ExternalQActor waiter context ctxwaiter
 			Per quanto riguarada gli altri stati, ogni attore gestisce il proprio. Dunque, la gestione degli stati è distribuita, poiché ogni attore mantiene il suo stato di pertinenza e non vi è un unica autorità centrale che si occupa di mantenerli tutti.
 			
 			-->
-			<h5>Client MOK Web-GUI</h5>
-			<p>As the client MOK needs to interact with the system, it needs to exchange messages with some of our actors (in particular Waiter and Smartbell). Hence, the client has been represented (here) as an actor and its messages are represented in the QAK syntax. This has been done only for the sake of highlight the principal aspects of its interaction with the system by using a formal modeling language (QAK modeling language).</p>
+			<h5>Client MOCK Web-GUI</h5>
+			<p>As the client MOCK needs to interact with the system, it needs to exchange messages with some of our actors (in particular Waiter and Smartbell). Hence, the client has been represented (here) as an actor and its messages are represented in the QAK syntax. This has been done only for the sake of highlight the principal aspects of its interaction with the system by using a formal modeling language (QAK modeling language).</p>
 			<center><img src="img/req_clientactor.png" alt="req_clientactor.png" width="50%"/></center>
 			<pre class="mytab"><code><keyw>System</keyw> client
 
@@ -1677,7 +1677,7 @@ ExternalQActor waiter context ctxwaiter
 		</table>
 		<p>The image above is only an example of how the final representation of the tearoom will be. To have a faithful map, though, there is the need to previously scan the room with the robot. In the Design phase, some tuning (adjusting virtual robot speed and step size) will be required to "tailor" the map representation around the virtual robot itself.</p>
 		<h5>Entities states</h5>
-			<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then ther will be a correspondence between the actions an actor is performing and its state. </br>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
+			<p>If the systems and its entities (actors) are based on the Moore's Finite States Machine, then there will be a correspondence between the actions an actor is performing and its state. </br>So, to verify that our actors are performing the right action, their current state will be memorized so that it is visible from outside the actor. Therefore, while forcing a specific action in a testing phase, it is possible to verify the component is really performing that action by knowing its state that is accessible from the testing code.</p>
 			
 			<p>The states will be distributed among the different actors, so that every actor has its own state to manage. The state is made visible to external entities as a CoAP resource. Hereunder are listed the values of the main states of waiter, barman, tearoom (hall state is not represented now, since we decided to focus on just one client at a time):
 			<ul>
