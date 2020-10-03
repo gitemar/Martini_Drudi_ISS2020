@@ -249,26 +249,26 @@ video{
 		</li>
 		<li>
 			<h5>Simultaneous messages handling</h5>
-			<p><i>Need</i> : Alcuni test più approfonditi hanno messo in evidenza un errore nella gestione, da parte di Waiter e Mastertimer, di alcune specifiche sequenze di messaggi che si verificano qualora due componenti del sistema inviino quasi contemporaneamente questi messaggi. In particolare di sotto sono riportate le sequenze di messaggi problematiche per il Waiter e per il Mastertimer:
+			<p><i>Need</i> : Some more in-depth tests have highlighted an inaccuracy in the handling, by Waiter and Mastertimer, of some specific sequences of messages that can occur if two system components send these messages almost simultaneously. In particular, below are summarized the sequences of problematic messages for the Waiter and the Mastertimer (more detail will be given in their qak models).
 				<ul>
-					<li><u>Mastertimer</u>: può capitare che il Waiter e un Subtimer inviino in contemporanea rispettivamente uno stopTimer/endTimer e un timeoutSubtimer relativi allo stesso tavolo. Quando ciò accade è necessario che il Mastertimer gestisca il secondo messaggio arrivato tenendo conto del messaggio arrivato subito prima poichè se il Subtimer è già scaduto non avrebbe senso nè eseguire l'operazione di stopSubtimer nè quella di endSubtimer;</li>
-					<li><u>Waiter</u>: può capitare che il Client e il Subtimer inviino in contemporanea rispettivamente un wantToOrder/billPlease e un timeout relativi allo stesso tavolo. Quando ciò accade è necessario che il Waiter gestisca il secondo messaggio arrivato tenendo conto del messaggio arrivato subito prima poichè se un Client è già stato accompagnato fuori non ha senso elaborare altri messagi relativi a lui.</li>
+					<li><u>Mastertimer</u>: it may happen that the Waiter and a Subtimer simultaneously send respectively a <em>stopTimer / endTimer</em> and a <em>timeoutSubtimer</em> for the same teatable. When this happens it is necessary that the Mastertimer manages the second message arrived taking into account the message arrived immediately before because if the Subtimer has already expired it would not make sense to perform either the stopSubtimer operation or the endSubtimer operation on it;</li>
+					<li><u>Waiter</u>: it may happen that the Client and the Subtimer simultaneously send respectively a <em>wantToOrder / billPlease</em> and a <em>timeout</em> for the same teatable. When this happens it is necessary for the Waiter to handle the second message arrived taking into account the message that arrived immediately before as if a Client has already been accompanied out of the tearoom, it makes no sense to process other messages relating to him.</li>
 				</ul>
 			</p>
-			<p><i>Solution</i> : In entrambi i casi è necessario che Mastertimer e Waiter si ricordino rispettivamente di aver già gestito completamente un particolare Subtimer o un particolare cliente così che ulteriori messaggi che richiedono altre operazioni su di essi vengano scartati.</p>
+			<p><i>Solution</i> : In both cases it is necessary that Mastertimer and Waiter respectively remember that they have already fully managed a particular Subtimer or a particular customer so that further messages that require other operations on them are discarded.</p>
 		</li>
 		<li>
 			<h5>Testing with client</h5>
-			<p><i>Need</i> : esenguendo test sempre più approfonditi sul sistema, è sorta la necessità di poter visualizzare, oltre alla GUI del client che consente di interfacciarsi con il waiter, anche le informazioni sulle attività del waiter, in modo da poter controllare in modo ancora migliore il suo funzionamento
+			<p><i>Need</i> : after performing more in-depth tests on the system, the need arose for a way to display, other than the client GUI that lets us interact with the waiter, information on the waiter activities, so that we can better control its behaviour.
 			</p>
-			<p><i>Solution</i> : poiché l'attività di osservazione degli stati del waiter era già presente nel manager, è stato sufficiente aggiungere tali funzionalità anche alla client GUI.
+			<p><i>Solution</i> : as the manager already diplayed the waiter activity (through its states), we had just to add those funtionalities (manager ones) to the client GUI.
 			</p>
 		</li>
 		<li>
 			<h5>Observing the waiter to change</h5>
-			<p><i>Need</i> : gli eventi che il waiter inviava al client, sono stati introdotti per permettere all'utente Mokkato di conoscere la posizione del waiter (i.e. quando il waiter è al tavolo e quindi cambiare la gui visualizzata). Poich1è però, il sistema dovrà avere a che fare con utenti reali, gli eventi che privano venivano ascoltati dalla gui, a quel punto verrebbero prodotti inutilmente. 
+			<p><i>Need</i> : The events that the waiter was sending to the client were introduced to let the mock client know where the waiter was (i.e. if the client had requested the bill and the waiter reached the teatable, so the waiter sends an event to inform the client about its presence) so that the client GUI could change and show new elements of interaction. Though, the system will have to deal with real clients (in person), so the events that were listened by the GUI will then be sent uselessly. 
 			</p>
-			<p><i>Solution </i>: il waiter non ha più bisogno di inviare eventi per far conoscere la propria posizione, ma attraverso il meccanismo degli stati rende nota la sua posizione. la client gui a questo punto deve solo osservare il waiter e a ogni cambiamento di stato potrà aggiornarsi.
+			<p><i>Solution </i>: the waiter doesn't need any more to send events to make his position know by others, but it is possible to know its state thorugh the state mechanism. The client GUI will just observe the waiter status and change the web-view at every update of it.
 			</p>
 		</li>
 	</ul>
@@ -325,23 +325,23 @@ video{
 <keyw>Dispatch</keyw> endSubtimer 		: endSubtimer(ARG)
 <keyw>Dispatch</keyw> timeoutSubtimer 	: timeoutSubtimer(TEATABLE_ID)
 <comm>//==============================================================//</comm></code></pre>
-				<p>Per quanto riguarda la gestione dei messaggi simultanei può capitare che, come già detto sopra, il Mastertimer si trovi nella coda dei messaggi un timeoutSubtimer e un stopTimer/endTimer relativi allo stesso teatable. Ciò accade quando Subtimer e Waiter inviano questi messaggi contemporaneamente. Quattro sono i possibili casi da trattare:
+				<p><i>Simultaneous messages handling</i>: Regarding the Simultaneous messages handling need, it may happen that, as already mentioned above, the Mastertimer has a timeoutSubtimer and a stopTimer / endTimer related to the same teatable in the message queue. This happens when Subtimer and Waiter send these messages at the same time. There are four possible cases that need to be kept in consideration:
 					<ol>
 						<li>
-							<p>Il Mastertimer si trova nella coda prima un timeoutSubtimer e poi un stopTimer per lo stesso tavolo.</p>
-							<p><i>Soluzione</i> : Il Mastertimer gestisce normalmente il timeoutSubtimer notificando il Waiter e inoltre si ricorda che il timer per quel tavolo è terminato (si dimenticherà di questa informazione alla successiva ricezione di StartTimer per quel tavolo). Quando è il momento di gestire lo stopTimer si ricorda che quel timer è già scaduto e quindi scarta il messaggio.</p>
+							<p>Inside the queue of the Mastertimer there is first a <u>timeoutSubtimer</u> message and then a <u>stopTimer</u> message for the same teatable.</p>
+							<p><i>Solution</i> : The Mastertimer handles as usual the timeoutSubtimer by notifying the Waiter, but also remembers that the timer for that teatable has expired (it will forget this information the next time it receives StartTimer for that teatable). When it's time to handle the stopTimer, it remembers that the timer has already expired and therefore discards the message.</p>
 						</li>
 						<li>
-							<p>Il Mastertimer si trova nella coda prima un stopTimer e poi un timeoutSubtimer per lo stesso tavolo.</p>
-							<p><i>Soluzione</i> : Il Mastertimer gestisce normalmente lo stopTimer notificando il Subtimer corretto. Il Subtimer ignorerà il messaggio perchè è avendo terminato di contare si aspetta un messaggio di tipo StartSubtimer(discardMsg On). Successivamente riceve un timeoutSubtimer e lo gestisce normalmente notificando il Waiter. Sarà quindi compito del Waiter gestire correttamente il timeout arrivato dopo lo StopTimer.</p>
+							<p>Inside the queue of the Mastertimer there is first a <u>stopTimer</u> message and then a <u>timeoutSubtimer</u> message for the same teatable.</p>
+							<p><i>Solution</i> : The Mastertimer handles as usual the stopTimer message by notifying the correct Subtimer. The Subtimer will ignore this message because, having finished counting, it expects a message of type startSubtimer (discardMsg On). Afterwards, the Mastertimer handle the timoutSubtimer normally by notifying the Waiter. Therefore, it will be up to the Waiter to correctly handle the timeout after a StopTimer.</p>
 						</li>
 						<li>
-							<p>Il Mastertimer si trova nella coda prima un timeoutSubtimer e poi un EndTimer per lo stesso tavolo.</p>
-							<p><i>Soluzione</i> : In questo caso il mastertimer gestisce normalmente il timeoutSubtimer notificando il Waiter e si ricorda che il timer per quel tavolo è scaduto (si dimenticherà di questa informazione alla successiva ricezione di StartTimer per quel tavolo). Quando è il momento di gestire il EndTimer si ricorda che quel timer è già scaduto e quindi scarta il messaggio.</p>
+							<p>Inside the queue of the Mastertimer there is first a <u>timeoutSubtimer</u> message and then a <u>endTimer</u> message for the same teatable.</p>
+							<p><i>Solution</i> : The Mastertimer handles as usual the timeoutSubtimer message by notifying the Waiter, but also remembers that the timer for that teatable has expired (this information will be forgotten the next time a StartTimer message is received for that teatable). When it's time to handle the endTimer message, the Mastertimer remembers that the timer has already expired and therefore discards the message.</p>
 						</li>
 						<li>
-							<p>Il Mastertimer si trova nella coda prima un EndTimer e poi un timeoutSubtimer per lo stesso tavolo.</p>
-							<p><i>Soluzione</i> : In questo caso il Mastertimer gestisce normalmente il EndTimer notificando il Subtimer corretto e si ricorda che quel timer è terminato (si dimenticherà di questa informazione alla successiva ricezione di StartTimer per quel tavolo). Il Subtimer ignorerà il messaggio perchè avendo terminato di contare si aspetta un messaggio di tipo StartSubtimer(discardMsg On). Successivamente quando è il momento di gestire il timeoutSubtimer si ricorda che il Waiter aveva già chiesto di terminare il timer e che quindi non è più interessato a ricevere un timeout per cui scarterà il messaggio.</p>
+							<p>Inside the queue of the Mastertimer there is first a <u>endTimer</u> message and then a <u>timeoutSubtimer</u> message for the same teatable.</p>
+							<p><i>Solution</i> : The Mastertimer handles as usual the endTimer message by notifying the Waiter and remembers that the timer for that teatable was 'ended'(this information will be forgotten the next time a StartTimer message is received for that teatable). Since the Subtimer has already finished counting it expects a startSubtimer message, thus it will ignore the message endSubtimer sent by the Mastertimer (discardMsg On). Subsequently, when the Mastertimer handle the timoutSubtimer message, it remembers that the timer was already 'ended', meaning that the Waiter is no longer interested in receiving a timeout for that table and thus it will discard the message. </p>
 						</li>
 					</ol>
 				</p>
@@ -511,23 +511,24 @@ video{
 <comm>//============================================================//</comm></code></pre>
 		
 		<p><i>Optimized clean table interruption</i> : as mentioned above (Updates section), before returning to the cleaning action after it was interrupted, the waiter checks if there are any prioritized tasks (state <u>checkForOtherPrioritizedTasks</u>). If there are, it performs them.</p>
-		<p><i>Simultaneous messages</i> : per quanto riguarda la gestione dei messaggi simultanei può capitare che, come già detto sopra, il Waiter si trovi nella coda dei messaggi un timeout e un wantToOrder/billPlease relativi allo stesso teatable (all'interno della safe tearoom ogni cliente è associato univocamente ad un tavolo). Ciò accade quando Client e Mastertimer inviano questi messaggi contemporaneamente. Quattro sono i possibili casi da trattar
+		
+		<p><i>Simultaneous messages handling</i> : regarding the simultaneous messages handling need, it may happen that, as already mentioned above, the Waiter has a wantToOrder/ billPlease and a timeout reletad to the same teatable in its message queue.This happens when Client and Mastertimer send these messages at the same time.There are four possible cases that need to be kept in consideration:
 			<ol>
 				<li>
-					<p>Il Waiter si trova nella coda prima un timeout e poi un WantToOrder per lo stesso tavolo.</p>
-					<p><i>Soluzione</i> : In questo caso il Waiter gestisce normalmente il timeout notificando il Client e facendolo uscire dalla tearoom. Si ricorda inoltre che il cliente a quel tavolo è già stato gestito completamente (si dimenticherà di questa informazione quando assegnerà il tavolo ad un nuovo cliente). Successivamente quando è il momento di gestire il WantTOrder il Waiter si ricorda che il cliente è già stato gestito e scarterà il messaggio.</p>
+					<p>Inside the queue of the Waiter there is first a <u>timeout</u> message and then a <u>wantToOrder</u> message for the same teatable (within the safe tearoom each customer is univocally associated with a teatable).</p>
+					<p><i>Solution</i> : The Waiter handle as usual the tiemout message by notifying the Client and helping him to leave the tearoom. The Waiter also remembers that the customer at that teatable has already been fully managed (this information will be forgotten the next time it assigns the teatable to a new customer). Subsequently, when it's time to handle the WantTOrder message, the Waiter remembers that the customer is no more inside the tearoom and will discard the message.</p>
 				</li>
 				<li>
-					<p>Il Waiter si trova nella coda prima un wantToOrder e poi un timeout per lo stesso tavolo.</p>
-					<p><i>Soluzione</i> : In questo caso il Waiter gestisce normalmente il WantToOrder andando a prendere l'ordine del cliente e chiedendo al Barman di preparare l'ordine. Successivamente gestisce normalmente il timeout facendo pagare il cliente e scortandolo all'uscita. Inoltre si ricorda di aver completato la gestione di quel tavolo (informazione che si dimentica quando assegna quel tavolo ad un nuovo cliente). Quando poi successivamente riceve un messaggio ready dal barman per quel tavolo si ricorda che il cliente è già stato fatto uscire e lo scarta.</p>
+					<p>Inside the queue of the Waiter there is first a <u>wantToOrder</u> message and then a <u>timeout</u> message for the same teatable.</p>
+					<p><i>Solution</i> : The Waiter handle as usual the wantToOrder message by taking the customer's order and asking the Barman to prepare it. The Waiter then normally handle the timeout message by making the customer pay and escorting him to the exit door. It also remembers that the customer at that teatable is no more inside the tearoom (this information will be forgotten the next time it assigns the teatable to a new customer). When the Waiter handle the ready message sent from the Barman for that teatable, it remembers that the order is for a client that has already left the tearoom and thus discards the message.</p>
 				</li>
 				<li>
-					<p>Il Waiter si trova nella coda prima un timeout e poi un billPlease per lo stesso tavolo.</p>
-					<p><i>Soluzione</i> : In questo caso il Waiter gestisce normalmente il timeout notificando il Client e facendolo uscire dalla tearoom. Si ricorda inoltre che il cliente a quel tavolo è già stato gestito completamente (si dimenticherà di questa informazione quando assegnerà il tavolo ad un nuovo cliente). Successivamente quando è il momento di gestire il billPlease il Waiter si ricorda che il cliente è già stato gestito e scarterà il messaggio.</p>
+					<p>Inside the queue of the Waiter there is first a <u>timeout</u> message and then a <u>billPlease</u> message for the same teatable.</p>
+					<p><i>Solution</i> : The Waiter handle as usual the timeout message by notifying the Client and helping him to leave the tearoom. The Waiter also remembers that the customer at that teatable has already been fully managed (this information will be forgotten the next time it assigns the teatable to a new customer). Subsequently, when it's time to handle the billPlease message, the Waiter remembers that the customer is no more inside the tearoom and will discard the message.</p>
 				</li>
 				<li>
-					<p>Il Waiter si trova nella coda prima un billPlease e poi un timeout per lo stesso tavolo.</p>
-					<p><i>Soluzione</i> : In questo caso il Waiter gestisce normalmente il billPlease facendo pagare il Cliente e scortandolo poi all'uscita. Si ricorda inoltre che il cliente a quel tavolo è già stato gestito completamente (si dimenticherà di questa informazione quando assegnerà il tavolo ad un nuovo cliente). Successivamente quando è il momento di gestire il timeout il Waiter si ricorda che il cliente è già stato gestito e scarterà il messaggio.</p>
+					<p>Inside the queue of the Waiter there is first a <u>billPlease</u> message and then a <u>timeout</u> message for the same teatable.</p>
+					<p><i>Solution</i> : The Waiter handle as usual the billPlease message by making the customer pay and then escorting him to the exit. The Waiter also remembers that the customer at that teatable has already been fully managed (this information will be forgotten the next time it assigns the teatable to a new customer). Subsequently, when it's time to handle the timeout message, the Waiter remembers that the customer is no more inside the tearoom and will discard the message.</p>
 				</li>
 			</ol>
 		</p>
@@ -1095,10 +1096,15 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 <h2>Test Plans</h2>
 <div class="remark">
 
-	<h4>Client MOK - WebGUI</h4>
+	<h4>Client MOCK - WebGUI</h4>
 	<div>
 		<p>
-			@TONNO spiegare integrazione di manager con client e la conseguente gestione dei cambiamenti di stato tramite WaiterUpdateResourceHandler (e che il resto non cambia + link a documenti)
+			Two are the main changes performed on the client gui for the sake of testing:
+
+			<ol>
+				<li>The client GUI now shows tearoom, barman and waiter states as the manager did before. Hence, the web server for the client web app now observes the CoAP resources associated with waiter, barman and tearoom actors. At every change of state, the web server will update the web-view with the new state thorugh web-sockes, as explained in the previous Sprints (for the manager GUI);</li>
+				<li>To update the view in term of interaction elements (i.e. showing order button to let the client be able to trigger the order request), the client web server doesn't listen any more to an MQTT broker for the events sent by the waiter, but it takes advantage of the observed states (from the previous addition) and draws useful information from those (i.e. waiter state is "atPosition(teatable1,1,1:clientSitting:c4w65e4f5r4er7:1", then the client holding c4w65e4f5r4er7 id can sit at teatable 1 and the view should show the menu view).</li>
+			</ol>
 		</p>
 		<p>Hereunder is reported the @Controller class. The parts taking care of the aforementioned aspecs will be highlighted: </p>
 		<pre class="mytab"><code>@Controller
