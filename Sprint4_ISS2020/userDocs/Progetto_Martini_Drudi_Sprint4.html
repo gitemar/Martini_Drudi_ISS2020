@@ -218,14 +218,14 @@ video{
 	margin: 30px;
 }
 
-change1 {
+change1{
 	background-color: #FFFF99;
 	border-radius: 5px;
 	padding: 2px;
 }
 
 change2 {
-	background-color: #FF9933;
+	background-color: #FFB900;
 	border-radius: 5px;
 	padding: 2px;
 }
@@ -364,16 +364,16 @@ change3 {
 						</li>
 					</ol>
 				</p>
-				<pre class="mytab"><code>QActor mastertimer context ctxwaiter {
+				<pre class="mytab"><code><sevid>QActor mastertimer</sevid> context ctxwaiter {
 	
 	[#
 		val map = mutableMapOf<Int, ActorBasic?>()
 		var Teatable : Int
 		
-		val endedTimers = mutableMapOf<Int, Boolean?>()
+		<change3>val endedTimers = mutableMapOf<Int, Boolean?>()</change3>
 	#]
 	
-	State s0 initial {
+	<sevid>State s0 initial</sevid> {
 		discardMsg Off
 		
 		[#
@@ -381,48 +381,48 @@ change3 {
 			map.put(1, Subtimer("subtimer1", scope, context!!, 1))
 			map.put(2, Subtimer("subtimer2", scope, context!!, 2))
 
-			endedTimers.put(1, false)
-			endedTimers.put(2, false)
+			<change3>endedTimers.put(1, false)</change3>
+			<change3>endedTimers.put(2, false)</change3>
 			
 			// waiting for subtimer to be created
 			delay(1000)
 		#]
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 	
-	State waitForCommand{
+	<sevid>State waitForCommand</sevid>{
 		println("mastertimer | waiting for waiter's command...")
 	}
-	Transition t0 	whenMsg startTimer -> startTimer
-					whenMsg stopTimer -> stopTimer
-					whenMsg resumeTimer -> resumeTimer
-					whenMsg endTimer -> endTimer
-					whenMsg timeoutSubtimer -> handleTimeout
+	<tevid>Transition t0 	whenMsg startTimer -> startTimer</tevid>
+					<tevid>whenMsg stopTimer -> stopTimer</tevid>
+					<tevid>whenMsg resumeTimer -> resumeTimer</tevid>
+					<tevid>whenMsg endTimer -> endTimer</tevid>
+					<tevid>whenMsg timeoutSubtimer -> handleTimeout</tevid>
 	
-	State startTimer {
+	<sevid>State startTimer</sevid> {
 		onMsg(startTimer : startTimer(TABLE, TIME)){
 			println("mastertimer | starting timer for teatable ${payloadArg(0)} and timeout ${payloadArg(1)} ms")
 		    [#
 		    	Teatable = payloadArg(0).toInt()
-		    	endedTimers.put(Teatable, false)  //forget past end for simulaneus timeout/endTimer message handling
+		    	<change3>endedTimers.put(Teatable, false)  //forget past end for simulaneus timeout/endTimer message handling</change3>
 		    	forward("startSubtimer", "startSubtimer(${payloadArg(1)})" ,"${map.get(Teatable)!!.name}" )
 		    #]
 
 		}
 		
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 	
-	State stopTimer {
+	<sevid>State stopTimer</sevid>{
 		onMsg(stopTimer : stopTimer(TABLE)) {
 			
 			 println("mastertimer | stopping timer for teatable ${payloadArg(0)}...")
 			 [# Teatable = payloadArg(0).toInt()#]
 			
-			if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received stopTimer and timeout
-					println("mastertimer | [stopTimer] ignoring message already handled...")
+			<change3>if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received stopTimer and timeout</change3>
+					<change3>println("mastertimer | [stopTimer] ignoring message already handled...")</change3>
 					//ignore message
-			}
+			<change3>}</change3>
 			else{
 					println("mastertimer | stopping timer for teatable ${payloadArg(0)}...")
 					[# forward("stopSubtimer", "stopSubtimer(arg)" ,"${map.get(Teatable)!!.name}" ) #]
@@ -431,9 +431,9 @@ change3 {
 
 		}
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 	
-	State resumeTimer {
+	<sevid>State resumeTimer</sevid> {
 		onMsg(resumeTimer : resumeTimer(TABLE)) {
 			
 			 println("mastertimer | resuming timer for teatable ${payloadArg(0)}...")
@@ -444,18 +444,18 @@ change3 {
 
 		}
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 	
-	State endTimer {
+	<sevid>State endTimer</sevid> {
 		onMsg(endTimer : endTimer(TABLE)) {
 			
 			 println("mastertimer | ending timer for teatable ${payloadArg(0)}...")
 			  [# Teatable = payloadArg(0).toInt()#]
 			
-			if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received endTimer and timeout
-					println("mastertimer | [endTimer] ignoring message already handled...")
+			<change3>if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received endTimer and timeout</change3>
+					<change3>println("mastertimer | [endTimer] ignoring message already handled...")</change3>
 					//ignore message
-			}
+			<change3>}</change3>
 			else{
 					println("mastertimer | ending timer for teatable ${payloadArg(0)}...")
 					[# forward("endSubtimer", "endSubtimer(arg)" ,"${map.get(Teatable)!!.name}" ) #]
@@ -464,16 +464,16 @@ change3 {
 
 		}
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 	
-	State handleTimeout {
+	<sevid>State handleTimeout</sevid> {
 		onMsg(timeoutSubtimer : timeoutSubtimer(TABLE)){
 			[# Teatable = payloadArg(0).toInt()#]
 			
-			if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received endTimer/stopTimer and timeout
-					println("mastertimer | [timeoutSubtimer] ignoring message already handled...")
+			<change3>if [# endedTimers.get(Teatable)!! == true #] { //warning: simultaneously received endTimer/stopTimer and timeout</change3>
+					<change3>println("mastertimer | [timeoutSubtimer] ignoring message already handled...")</change3>
 					//ignore message
-			}
+			<change3>}</change3>
 			else{
 				println("mastertimer | timeout for teatable $Teatable...")
 				forward waiter -m timeout : timeout($Teatable)
@@ -481,7 +481,7 @@ change3 {
 			}
 		} 
 	}
-	Goto waitForCommand
+	<tevid>Goto waitForCommand</tevid>
 }</code></pre>
 			</li>
 			<li><h5>Waiter QAK behaviour</h5>
@@ -584,7 +584,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		var WasCleaning = false
 		var TableToClean = 0
 		
-		<change_evid>val stopHandlingClientAtTable = mutableMapOf<Int, Boolean?>()</change_evid>
+		<change3>val stopHandlingClientAtTable = mutableMapOf<Int, Boolean?>()</change3>
 		var stopCheck = false
 	#]
 	
@@ -593,8 +593,8 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		
 		//init
 		println("waiter | beep beep boop...START...")
-		<change_evid>[# stopHandlingClientAtTable.put(1, false) #]</change_evid>
-		<change_evid>[# stopHandlingClientAtTable.put(2, false) #]</change_evid>
+		<change3>[# stopHandlingClientAtTable.put(1, false) #]</change3>
+		<change3>[# stopHandlingClientAtTable.put(2, false) #]</change3>
 		discardMsg Off
 	}
 	<tevid>Goto restingAtHome</tevid>
@@ -697,18 +697,18 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 				MaxWaitTime = totTime
 			#]
 			println("waiter | client has to wait at least $MaxWaitTime minutes")
-			<change_evid>updateResource[#"newClient($ClientToConvoy):clientWaiting:$ClientToConvoy:$MaxWaitTime"#]</change_evid>
+			<change1>updateResource[#"newClient($ClientToConvoy):clientWaiting:$ClientToConvoy:$MaxWaitTime"#]</change1>
 			delay 800
 		}
 	}
-	<tchange_evid>Goto doATask if [# WasCleaning == false #] else checkForOtherPrioritizedTasks</tchange_evid>
+	<change2>Goto doATask if [# WasCleaning == false #] else checkForOtherPrioritizedTasks</change2>
 	
 	
 	
 	<comm>/*************  WAITER CONVOY CLIENT TO TABLE *************************************************************************/</comm>
 	
 	<sevid>State convoyClientToTablePhase1</sevid> {
-		<change_evid>updateResource[#"reachingPosition(entrance)"#]</change_evid>
+		<change1>updateResource[#"reachingPosition(entrance)"#]</change1>
 		println("waiter | reaching entrance door to convoy client $ClientToConvoy to teatable $DestTable ...")
 		request mover -m moveTo : moveTo(entrance)
 	}
@@ -716,9 +716,9 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 	
 	<sevid>State convoyClientToTablePhase2</sevid> {
 		onMsg(done : done(X,Y)){
-			<change_evid>updateResource[#"atPosition(entrance,${payloadArg(0)},${payloadArg(1)}):clientEntering:$ClientToConvoy:$MaxWaitTime"#]</change_evid>
+			<change1>updateResource[#"atPosition(entrance,${payloadArg(0)},${payloadArg(1)}):clientEntering:$ClientToConvoy:$MaxWaitTime"#]</change1>
 			delay 500
-			<change_evid>updateResource[#"convoyingClientToTable($DestTable,$ClientToConvoy)"#]</change_evid>
+			<change1>updateResource[#"convoyingClientToTable($DestTable,$ClientToConvoy)"#]</change1>
 			println("waiter | convoying client $ClientToConvoy to teatable $DestTable ...")
 			[#var Dest =  "teatable" + DestTable.toString() #]
 			request mover -m moveTo : moveTo($Dest)
@@ -730,7 +730,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		onMsg(done : done(X,Y)){
 			println("waiter | Start mastertimer, update tearoom and telling client to sit")
 			forward tearoom -m updateState : updateState (updateTableState, $DestTable, busy, $ClientToConvoy)
-			<change_evid>updateResource[# "atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientSitting:$ClientToConvoy:$DestTable" #]</change_evid>
+			<change1>updateResource[# "atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientSitting:$ClientToConvoy:$DestTable" #]</change1>
 			//refresh information in stopHandlingClientAtTable to correctly handle case of simultaneous timeout/billPlease/wantToOrder
 			[# stopHandlingClientAtTable.put(DestTable, false) #]
 			//start timer to count until MaxStayTime
@@ -739,13 +739,13 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		}
 		
 	}
-	<tchange_evid>Goto doATask if [# WasCleaning == false #] else checkForOtherPrioritizedTasks</tchange_evid>
+	<change2>Goto doATask if [# WasCleaning == false #] else checkForOtherPrioritizedTasks</change2>
 	
 	<comm>/****************************************************************************************************/</comm>
 	
 	<comm>/**************************************  WAITER CLEAN TABLE **************************************/</comm>
 	
-	State cleanTeatablePhase1 {
+	<sevid>State cleanTeatablePhase1</sevid> {
 		
 		[# var Dest="" #]
 		
@@ -767,14 +767,14 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			#]
 		}
 		
-		updateResource[#"cleaning($DestTable)"#]
+		<change1>updateResource[#"cleaning($DestTable)"#]</change1>
 		//first we reach the table
 		request mover -m moveTo : moveTo($Dest)
 	}
-	Transition t0 whenReply done -> cleanTeatablePhase2
+	<tevid>Transition t0 whenReply done -> cleanTeatablePhase2</tevid>
 	
 	
-	State cleanTeatablePhase2 {
+	<sevid>State cleanTeatablePhase2</sevid> {
 		
 		// then we clean the teatable
 		println("waiter | cleaning teatable $TableToClean")
@@ -783,13 +783,13 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		#]	
 		memoCurrentTime TimeCleanBegan
 	}
-	Transition t1 whenTimeVar TimeToClean -> finishedClean
-				  whenMsg ready -> serveTeaToClientPhase0
-				  whenMsg enter -> handleEnterPhase1
-				  whenMsg wantToOrder -> handleOrderFromClientPhase0
-				  whenMsg billPlease -> handlePaymentPhase0
+	<tevid>Transition t1 whenTimeVar TimeToClean -> finishedClean</tevid>
+				 <tevid> whenMsg ready -> serveTeaToClientPhase0</tevid>
+				 <tevid> whenMsg enter -> handleEnterPhase1</tevid>
+				  <tevid>whenMsg wantToOrder -> handleOrderFromClientPhase0</tevid>
+				  <tevid>whenMsg billPlease -> handlePaymentPhase0</tevid>
 				  
-	State finishedClean{
+	<sevid>State finishedClean</sevid>{
 		
 		println("waiter | finished cleaning teatable $TableToClean")
 		//update teatable state
@@ -801,23 +801,23 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			TimeCleanBegan = 0L
 		#]
 	}
-	Goto doATask
+	<tevid>Goto doATask</tevid>
 	
-	State checkForOtherPrioritizedTasks{
+	<change2>State checkForOtherPrioritizedTasks{</change2>
 		//checking if there are other tasks that are prioritized (that would interrupt cleaning action)
 		//if there is one, the waiter does that task
 		//this way it won't return to the table to start cleaning and interrupt immediately after
 	}
-	Transition t0 whenTimeVar IdleTime -> cleanTeatablePhase1
-				  whenMsg ready -> serveTeaToClientPhase1
-				  whenMsg enter -> handleEnterPhase1
-				  whenMsg wantToOrder -> handleOrderFromClientPhase1
-				  whenMsg billPlease -> handlePaymentPhase1
+	<change2>Transition t0 whenTimeVar IdleTime -> cleanTeatablePhase1</change2>
+				  <change2>whenMsg ready -> serveTeaToClientPhase1</change2>
+				  <change2>whenMsg enter -> handleEnterPhase1</change2>
+				  <change2>whenMsg wantToOrder -> handleOrderFromClientPhase1</change2>
+				  <change2>whenMsg billPlease -> handlePaymentPhase1</change2>
 				  
-	State checkIfWasCleaning{
+	<sevid>State checkIfWasCleaning</sevid>{
 		//
 	}
-	Goto cleanTeatablePhase1 if [# WasCleaning == true #] else doATask
+	<tevid>Goto cleanTeatablePhase1 if [# WasCleaning == true #] else doATask</tevid>
 	
 		
 	<comm>/****************************************************************************************************/</comm>
@@ -825,7 +825,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 	<comm>/**************************************  WAITER TAKE CLIENT's ORDER **************************************/</comm>	
 		
 	
-	State handleOrderFromClientPhase0{
+	<change3>State handleOrderFromClientPhase0</change3>{
 		onMsg(wantToOrder : wantToOrder(TEATABLE_ID)){
 			
 			if [# WasCleaning == true #]{
@@ -857,27 +857,27 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			}
 		}
 	}
-	Goto handleOrderFromClientPhase1 if [# stopCheck == false #] else checkIfWasCleaning
+	<change3>Goto handleOrderFromClientPhase1 if [# stopCheck == false #] else checkIfWasCleaning</change3>
 	
-	State handleOrderFromClientPhase1 {
+	<sevid>State handleOrderFromClientPhase1</sevid> {
 			[#
 				var Dest =  "teatable" + DestTable
 			#]
-			updateResource[#"reachingPosition(teatable$DestTable)"#]
+			<change1>updateResource[#"reachingPosition(teatable$DestTable)"#]</change1>
 			request mover -m moveTo : moveTo($Dest)
 	}
-	Transition t0 whenReply done -> handleOrderFromClientPhase2
+	<tevid>Transition t0 whenReply done -> handleOrderFromClientPhase2</tevid>
 	
-	State handleOrderFromClientPhase2 {
+	<sevid>State handleOrderFromClientPhase2</sevid> {
 		onMsg(done : done(X,Y)){
 			println("waiter | client can now order...")
-			updateResource[# "atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientOrdering:$DestTable" #]
+			<change1>updateResource[# "atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientOrdering:$DestTable" #]</change1>
 	//		emit orderPlease : orderPlease($DestTable)
 		}
 	}
-	Transition t0 whenMsg tea -> handleOrderFromClientPhase3
+	<tevid>Transition t0 whenMsg tea -> handleOrderFromClientPhase3</tevid>
 	
-	State handleOrderFromClientPhase3 {
+	<sevid>State handleOrderFromClientPhase3 </sevid>{
 		
 		onMsg(tea : tea(TABLE,TEA)){
 			println("waiter | client at teatable ${payloadArg(0)} ordered a ${payloadArg(1)}! Sending order to Barman...")
@@ -885,14 +885,14 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		}
 		
 	}
-	Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask
+	<change2>Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask</change2>
 	
 	
 	<comm>/****************************************************************************************************/</comm>
 	
 	<comm>/**************************************  WAITER SERVE CLIENT  **************************************/</comm>
 	
-	State serveTeaToClientPhase0 {
+	<change3>State serveTeaToClientPhase0</change3> {
 		onMsg(ready : ready(T,D)){
 			
 			if [# WasCleaning == true #]{
@@ -926,34 +926,34 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			
 		}
 	}
-	Goto serveTeaToClientPhase1 if [# stopCheck == false #] else checkIfWasCleaning
+	<change3>Goto serveTeaToClientPhase1 if [# stopCheck == false #] else checkIfWasCleaning</change3>
 	
-	State serveTeaToClientPhase1 {
-		updateResource[#"reachingPosition(servicedesk)"#]
+	<sevid>State serveTeaToClientPhase1</sevid> {
+		<change1>updateResource[#"reachingPosition(servicedesk)"#]</change1>
 		println("waiter | order for table $DestTable ready! Reaching service desk...")
 		request mover -m moveTo : moveTo(servicedesk)
 				
 	}
-	Transition t0 whenReply done -> servTeaToClientPhase2
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase2</tevid>
 	
-	State servTeaToClientPhase2 {
+	<sevid>State servTeaToClientPhase2</sevid> {
 		
 		onMsg(done : done(X,Y)){
-			updateResource[#"atPosition(servicedesk,${payloadArg(0)},${payloadArg(1)}):tea($CurDrink,$DestTable)"#]
+			<change1>updateResource[#"atPosition(servicedesk,${payloadArg(0)},${payloadArg(1)}):tea($CurDrink,$DestTable)"#]</change1>
 			delay 500
 			println("waiter | bringing tea to table $DestTable...")
 			[#var Dest =  "teatable" + DestTable #]
-			updateResource[#"reachingPosition(teatable$DestTable):servingTea($CurDrink)"#]	
+			<change1>updateResource[#"reachingPosition(teatable$DestTable):servingTea($CurDrink)"#]	</change1>
 			request mover -m moveTo : moveTo($Dest)
 		
 		}
 			
 	}
-	Transition t0 whenReply done -> servTeaToClientPhase3
+	<tevid>Transition t0 whenReply done -> servTeaToClientPhase3</tevid>
 	
-	State servTeaToClientPhase3 {
+	<sevid>State servTeaToClientPhase3</sevid> {
 			onMsg(done : done(X,Y)){
-				updateResource[#"atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):teaServed:$DestTable:$CurDrink"#]
+				<change1>updateResource[#"atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):teaServed:$DestTable:$CurDrink"#]</change1>
 				delay 1000
 				//emit teaServed : teaServed($DestTable, $CurDrink )
 				//start counting for consumingTime NOW
@@ -963,13 +963,13 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 				
 			}
 	}		
-	Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask
+	<change2>Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask</change2>
 	
 	<comm>/****************************************************************************************************/</comm>
 	
 	<comm>/**************************************  WAITER HANDLE PAYMENT **************************************/</comm>
 	
-	State handlePaymentPhase0 {
+	<change3>vState handlePaymentPhase0</change3> {
 		onMsg(billPlease : billPlease(T)){
 			
 			if [# WasCleaning == true #]{
@@ -1003,23 +1003,23 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			}
 		}
 	}
-	Goto handlePaymentPhase1 if [# stopCheck == false #] else checkIfWasCleaning
+	<change3>Goto handlePaymentPhase1 if [# stopCheck == false #] else checkIfWasCleaning</change3>
 	
-	State handlePaymentPhase1{
+	<sevid>State handlePaymentPhase1</sevid>{
 		
 		// reaching table
 		println("waiter | Reaching table ${payloadArg(0)} ...")
-		updateResource[#"reachingPosition(teatable$DestTable)"#]
+		<change1>updateResource[#"reachingPosition(teatable$DestTable)"#]</change1>
 		[# var Dest = "teatable" + DestTable #]
 		request mover -m moveTo : moveTo($Dest)
 	}
-	Transition t0 whenReply done -> handlePaymentPhase2
+	<tevid>Transition t0 whenReply done -> handlePaymentPhase2</tevid>
 	
-	State handlePaymentPhase2 {
+	<sevid>State handlePaymentPhase2</sevid> {
 		
 		onMsg(done : done(X,Y)){
 			println("waiter | Asking Client at table $DestTable to pay ...")
-			updateResource[#"atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientPaying:$DestTable"#]
+			<change1>updateResource[#"atPosition(teatable$DestTable,${payloadArg(0)},${payloadArg(1)}):clientPaying:$DestTable"#]</change1>
 			delay 500
 //			emit cardPlease : cardPlease($DestTable) 
 			//get client_id from table_id
@@ -1027,22 +1027,22 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		
 		} 
 	}
-	Transition t0 whenReply state -> convoyClientToExitPhase1
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
 	
-	State convoyClientToExitPhase1 {
+	<sevid>State convoyClientToExitPhase1</sevid> {
 		onMsg(state : state(C)){
 			println("waiter | Convoying Client ${payloadArg(0)} to exit door ...")
 			[# ClientToConvoy = payloadArg(0)#]
-			updateResource[#"convoyingClientToExitDoor($ClientToConvoy)"#]
+			<change1>updateResource[#"convoyingClientToExitDoor($ClientToConvoy)"#]</change1>
 			request mover -m moveTo : moveTo(exit)
 		}
 	}
-	Transition t0 whenReply done -> convoyClientToExitPhase2
+	<tevid>Transition t0 whenReply done -> convoyClientToExitPhase2</tevid>
 	
-	State convoyClientToExitPhase2 {
+	<sevid>State convoyClientToExitPhase2</sevid> {
 		onMsg(done : done(X,Y)){
 			println("waiter | saying goodbye to client $ClientToConvoy...")
-			updateResource[#"atPosition(exit,${payloadArg(0)},${payloadArg(1)}):clientExiting:$ClientToConvoy"#]
+			<change1>updateResource[#"atPosition(exit,${payloadArg(0)},${payloadArg(1)}):clientExiting:$ClientToConvoy"#]</change1>
 //			emit exitPlease : exitPlease($ClientToConvoy)
 			delay 500
 			//updating teatable state
@@ -1051,14 +1051,14 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			forward waiter -m cleanTable : cleanTable($DestTable)
 		}
 	}
-	Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask
+	<change2>Goto checkForOtherPrioritizedTasks if [# WasCleaning == true #] else doATask</change2>
 	
 	<comm>/****************************************************************************************************/</comm>
 	
 	<comm>/**************************************  WAITER HANDLE SLOW CLIENT **************************************/</comm>
 	
 	
-	State handleTimeoutPhase0 {
+	<change3>State handleTimeoutPhase0</change3> {
 		println("waiter | inside handleTimeoutPhase0")
 		onMsg(timeout : timeout(T)){
 			println("waiter | inside handleTimeoutPhase0 AND onMsg!")
@@ -1082,20 +1082,20 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			}
 		}
 	}
-	Goto handleTimeoutPhase1 if [#stopCheck == false#] else doATask
+	<change3>Goto handleTimeoutPhase1 if [#stopCheck == false#] else doATask</change3>
 	
-	State handleTimeoutPhase1 {
+	<sevid>State handleTimeoutPhase1</sevid> {
 		
-		updateResource[#"reachingPosition(teatable$DestTable)"#]
+		<change1>updateResource[#"reachingPosition(teatable$DestTable)"#]</change1>
 		[# var Dest = "teatable" + DestTable #]
 		request mover -m moveTo : moveTo($Dest)
 		
 	}
-	Transition t0 whenReply done -> handleTimeoutPhase2
+	<tevid>Transition t0 whenReply done -> handleTimeoutPhase2</tevid>
 	
-	State handleTimeoutPhase2 {
+	<sevid>State handleTimeoutPhase2</sevid> {
 		onMsg(done : done(X,Y)){
-			updateResource[#"atPosition(teatable$DestTable,,${payloadArg(0)},${payloadArg(1)}):maxTimeExceeded:$DestTable"#]
+			<change1>updateResource[#"atPosition(teatable$DestTable,,${payloadArg(0)},${payloadArg(1)}):maxTimeExceeded:$DestTable"#]</change1>
 			println("waiter | communicating to client at table ${payloadArg(0)} that he has to pay and leave...")
 //			emit maxTimeExceeded : maxTimeExceeded($payloadArg(0), $Price)	
 			delay 800			
@@ -1104,7 +1104,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 		}
 			
 	}
-	Transition t0 whenReply state -> convoyClientToExitPhase1	
+	<tevid>Transition t0 whenReply state -> convoyClientToExitPhase1</tevid>
 	
 }</code></pre>
 			</li>
