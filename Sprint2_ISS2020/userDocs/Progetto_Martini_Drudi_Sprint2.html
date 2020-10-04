@@ -545,9 +545,9 @@ import alice.tuprolog.Term
 					For what concernes the manager gui, we decided to take advantage of Spring Framework and Spring Boot project that offer a way to quickly develop and manage a standalone web server: using <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html">Spring Web MVC</a>, we were allowed to easily manage GET and POST requests from the manager web interface (page). For the communication between QAKctors and managerGui, instead, we used CoAP (provided by <i>org.eclipse.californium.core</i>). The updating of the web page is done, instead, through web-sockets.
 				</p>
 				<p>
-					lato web-server, il manager richiede unicamente di poter accedere al monitoring dello stato delle entità del sistema e quindi di waiter, tearoom (teatables) e barman. La classe responsabile della gestione di tali richieste è ManagerController (as it helds @Controller annotation): le richieste di tipo GET sono gestite dai metodi annotati con @GetMapping("path"), mentre le richieste di tipo POST sono gestite dai metodi annotati con @PostMapping("path").
+					Web server side, the manager only requests to access to the various system entities states and, therefore, to the waiter, tearoom and barman states. The class in charge of managing that monitor request is the ManagerController (as it helds @Controller annotation): the GET requests are managed by methods annotated with @GetMapping("path") and POST ones are managed by methods annotaded with @PostMapping("path").
 					</br></br>
-					In particolare, nel momento in cui il manager comunica l'intenzione di iniziare a monitorare le risorse, la risorsa obiettivo verrà osservata come CoAP resource e, ad ogni cambiamento di stato, verrà pubblicato un messaggio attraverso una o più web-socket configurate in <a href="./WebSocketConfigManager.java">WebSocketConfig</a> che provocherà l'aggiornamento della pagina html mostrata al manager.
+					In particular, when the manager when the manager wants to start monitoring the system, all the involved actors (waiter, barman and tearoom) will be observed by the web server as CoAP resources and, at every change of their state, a web-socket message will be sent on one or more topics configurated as in <a href="./WebSocketConfigManager.java">WebSocketConfig</a>. That message will induce an update on the manager web-view.
 				</p>
 				<p>
 					<i>ManagerController.java</i>
@@ -636,7 +636,8 @@ public class ManagerController {
 
 }</code></pre>
 				</p>
-				<p>lato client, invece, l'aggiornamento della pagina tramite web-socket è gestito da javascript (reception.js file). In particolare, la "pagina" viene sottoscritta a diversi topic di interesse e alla ricezione di un messaggio su tali topic verrà invocato un metodo che si occuperà dell'aggiornamento. All'interno di tale metodo e tramite Jquery, infine, è possibile modificare direttamente gli elementi del DOM (Document OBject Model). Nel caso specifico: 
+				<p>
+				Client side, instead, the update that has been propagated through a web-socket is managed by some javascript methods (<i>reception.js</i>). In particular, the web page subscribes to different topics of interest and, at every reception of a message in those topics, a callback method will be invoked. Inside those methods, the DOM (Document OBject Model) elements can be accessed and modified (updated) through JQuery. In this specific case JQuery is used as followed:
 				<center><p style="font-family: monospace;
 						  font-size: 17px;
 						  background-color: #F4F4F4;
