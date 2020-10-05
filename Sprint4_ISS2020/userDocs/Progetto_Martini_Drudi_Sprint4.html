@@ -322,7 +322,8 @@ change3 {
 	</div>
 	<h4>Behaviour</h4>
 	<div>
-	<p>Compared to the previous Sprints, the waiter actor and mastertimer actor have undergone some optimization changes (as described in the "Updates" - section). Hereunder, their QAK models are reported and the changes highlighted.</p>
+	<p>Compared to the previous Sprints, the waiter actor and mastertimer actor have undergone some optimization changes (as described in the "Updates" - section). Hereunder, their QAK models are reported and the changes highlighted. 
+	</br>Changes related to the <u>simultaneous message handling need</u> are highlighted in <change3>pink</change3> , those related to the <u>optimized clean table interruption</u> need are highlighted in <change2>orange</change2> and those reletad to <u>the observing the waiter to change need</u> are highlighted in <change1>yellow</change1></p>
 		<ul>
 			<li><h5>Mastertimer QAK behaviour</h5>
 				<pre class="mytab"><code><keyw>System</keyw> waiter
@@ -903,9 +904,6 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 			}
 			
 			[# var Teatable = payloadArg(0).toInt() #]
-				
-			//Se mi arriva contemporaneamente un wantToOrder e subito dopo un timeout...??? Ormai ho inviato la richiesta di fare un piatto...
-			// devo ignorare il ready!
 			
 			//Was wantToOrder sent just before a timeout for that client was triggered? Then this client is no more inside the tearoom and waiter should ignore
 			// this message
@@ -969,7 +967,7 @@ CodedQActor trustingwalker 	context ctxwaiter className "it.unibo.trustingwalker
 	
 	<comm>/**************************************  WAITER HANDLE PAYMENT **************************************/</comm>
 	
-	<change3>vState handlePaymentPhase0</change3> {
+	<change3>State handlePaymentPhase0</change3> {
 		onMsg(billPlease : billPlease(T)){
 			
 			if [# WasCleaning == true #]{
@@ -1469,10 +1467,10 @@ public class ProvaController {
 <!-- ---------------->
 <tr>
 <td style="width:50%">
-<center><img src="./mia.jpg" alt="mbot" width="50%"></center>
+<center><img src="./img/elena.jpg" alt="mbot" width="100%"></center>
 </td>
 <td style="width:50%">
-<center><img src="./img/imageProfilo.jpeg" alt="mbot" width="20%"></center>
+<center><img src="./img/elisa.jpg" alt="mbot" width="100%"></center>
 </td>
 </tr>
 </table>  
