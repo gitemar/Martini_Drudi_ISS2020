@@ -1,0 +1,459 @@
+System tearoom
+
+mqttBroker "localhost" : 1883 eventTopic "unibo/polar" 	//mqtt.eclipse.org
+
+// REQUEST can be: 
+// 				getNumFreeTables
+//				getFreeTable
+// 				getTablesState		(NO! Per ora non serve! per questo non è ancora implementata)
+// 				getTableFromClient	[ARG1 = client_id]
+// 				getClientFromTable	[ARG1 = teatable_id]
+// UPDATE-REQUEST can be: 
+// 				updateTableState  [ARG1 = teatable_id {1,2}, ARG2 = new_state {busy, dirty, clean}, if ARG2=busy => ARG3= client_id]
+// 				updateBound		  [ARG1 = teatable_id {1,2}, ARG2 = client_id]
+
+
+// Interaction Waiter - Tearoom ========================================//
+Request getRoomState : getRoomState(REQUEST, ARG1)						//
+Reply state			 : state(STATE)										//
+Dispatch updateState : updateState (UPDATE_REQUEST, ARG1, ARG2, ARG3)	//
+//======================================================================//
+
+// Interaction Waiter - Barman  ==============================//
+Dispatch order : order(TEATABLE_ID, TEA)					  //
+Dispatch ready : ready(TEATABLE_ID,TEA)						  //
+//============================================================//
+
+// Interaction Waiter - Smartbell ============================//
+Dispatch enter : enter(CLIENT_ID)						      //
+//============================================================//
+
+// Interaction Smartbell - Client  ===========================//
+Request ring 			: ring(ARG)							  //
+Reply sendClientID 		: sendClientID(CLIENT_ID)			  //
+Dispatch enter 			: enter(CLIENT_ID)					  //
+//============================================================//
+
+
+// Interaction Waiter - Client ===============================//
+Event wait 				: wait(CLIENT_ID, MAX_TIME)			  //
+Event sitPlease 		: sitPlease(CLIENT_ID, TEATABLE_ID)   //
+Request wantToOrder		: wantToOrder(TEATABLE_ID)	          //
+Reply orderPlease		: orderPlease(ARG)					  //
+Dispatch tea 			: tea(TEATABLE_ID, TEA)				  //
+Event teaServed 		: teaServed(TEATABLE_ID, TEA)		  //
+Request billPlease 		: billPlease(TABLE_ID)				  //
+Reply cardPlease 		: cardPlease(ARG)					  //
+Event maxTimeExceeded 	: maxTimeExceeded(TEATABLE_ID)		  //
+Event exitPlease 		: exitPlease(CLIENT_ID)				  //
+//============================================================//
+
+Context ctxtearoom 			ip [host="localhost" port=8015]
+Context ctxwaiter 		 	ip [host="127.0.0.1" port=8029]
+
+ExternalQActor waiter context ctxwaiter
+
+QActor tearoom context ctxtearoom {
+	State s0 initial {
+		
+		discardMsg Off
+		solve(consult("state.pl"))
+		
+		//solve(assert( teatable(1, clean) ))
+		//solve(assert( teatable(2, clean) ))
+		//solve(assert( bound(1, NO) ))
+		//solve(assert( bound(2, NO) ))
+		updateResource [# "teatable1(clean,no):teatable2(clean,no)"#]
+	}
+	Goto waitingForCommand
+	
+	State waitingForCommand {
+		println("tearoom | waiting for command...")
+	}
+	Transition t0	whenRequest getRoomState -> handleRequest
+					whenMsg updateState -> handleUpdate
+	
+	State handleRequest {
+		// REQUEST: getFreeTable
+		onMsg(getRoomState : getRoomState(getFreeTable, A)){
+			[# var Table = 0 #]
+		
+			solve(teatable(T, clean))	
+			ifSolved { [# Table = getCurSol("T").toString().toInt() #] 
+				println("tearoom | table $Table is free")
+			}
+			replyTo getRoomState with state : state($Table)
+			
+		}
+		
+		// REQUEST: getNumFreeTables
+		onMsg(getRoomState : getRoomState(getNumFreeTables, A)){
+			[# var Num = 0 #]
+		
+			solve(numfreetables(N))	
+			ifSolved { [# Num = getCurSol("N").toString().toInt() #] }
+			println("tearoom | number of free table: $Num")
+			replyTo getRoomState with state : state($Num)
+			
+		}
+		
+		// REQUEST: getTableFromClient
+		onMsg(getRoomState : getRoomState(getTableFromClient, A)){
+			
+			[# 
+				var Client_id = payloadArg(1)
+				var ID = 0			  
+			#]
+			solve(bound(N,$Client_id))	
+			ifSolved { [# ID = getCurSol("N").toString().toInt() #] 
+				println("tearoom | client $Client_id is at table $ID")
+			}
+			replyTo getRoomState with state : state($ID)
+			
+		}
+		
+		// REQUEST: getClientFromTable
+		onMsg(getRoomState : getRoomState(getClientFromTable, A)){
+			println("tearoom | INSIDE GET_CLIENT_FORM_TABLE")
+			[# 
+				var C = "no"
+				var ID = payloadArg(1).toInt()		  
+			#]
+			solve(bound($ID,N))	
+			ifSolved { [# C = getCurSol("N").toString() #] }
+			println("tearoom | table $ID is used by client $C")
+			replyTo getRoomState with state : state($C)
+			
+		}
+	}
+	Goto waitingForCommand
+	
+	State handleUpdate {
+		
+		//println("tearoom | INSIDE HANDLE_UPDATE")
+		printCurrentMessage
+		
+		// UPDATE-REQUEST: updateTableState CLEAN
+		onMsg(updateState : updateState(updateTableState, ID, clean, A )){
+			
+			[# var T =  payloadArg(1).toInt() #]
+			solve(setCleanTable($T))
+			println("tearoom | update State: table $T is now clean")
+			
+			
+			
+		}
+		
+		// UPDATE-REQUEST: updateTableState DIRTY
+		onMsg(updateState : updateState(updateTableState, ID, dirty, A )){
+			
+			[# 
+				var T =  payloadArg(1).toInt() 
+				var C = "no"
+			#]
+			solve(setDirtyTable($T))
+			solve(assign($T,$C))
+			println("tearoom | update State: table $T is now dirty")
+			
+		}
+		
+		// UPDATE-REQUEST: updateTableState BUSY
+		onMsg(updateState : updateState(updateTableState, ID, busy, A )){
+			
+			[# 
+				var T =  payloadArg(1).toInt() 
+				var C = payloadArg(3)
+			#]
+			solve(setBusyTable($T))
+			solve(assign($T,$C))
+			println("tearoom | update State: table $T is now busy and assigned to client $C")
+			
+		}
+	}
+	Goto updateCoapResource 
+	
+	State updateCoapResource {
+		[#
+			var state1 : String = ""
+			var state2 : String = ""
+			var bound1 : String = ""
+			var bound2 : String = ""
+		#]
+		solve(teatable(1,N))
+		ifSolved { [# state1 = getCurSol("N").toString() #] }
+		solve(teatable(2,N))
+		ifSolved { [# state2 = getCurSol("N").toString() #] }
+		solve(bound(1,N))
+		ifSolved { [# bound1 = getCurSol("N").toString() #] }
+		solve(bound(2,N))
+		ifSolved { [# bound2 = getCurSol("N").toString() #] }
+		[# var resource = "teatable1($state1,$bound1):teatable2($state2,$bound2)"#]
+		updateResource[# "$resource" #]
+	}
+	Goto waitingForCommand
+}
+
+QActor barman context ctxtearoom {
+	State s0 initial {
+		discardMsg Off  //We need to prepare every client's order, thus we don't want to lose potential order 
+						//while preparing previous one (while in state makeOrder)
+	}
+	Goto waitOrder
+	
+	State waitOrder{
+		//waiting for orders from the waiter
+		println("barman | waiting for orders from the waiter... ")
+		
+		updateResource [# "idle" #]
+	}
+	Transition t0 whenMsg order -> makeOrder
+	
+	State makeOrder {
+		onMsg( order : order(D,T)){ 
+			println("barman | making ${payloadArg(1)} for table ${payloadArg(0)} ")
+			updateResource [# "preparing(${payloadArg(0)},${payloadArg(1)})" #]
+			delay 5000	// MAKE the order received
+			forward waiter -m ready : ready($payloadArg(0), $payloadArg(1))
+			updateResource [# "idle" #]
+		}
+		
+		
+	}
+	Goto waitOrder
+}
+
+QActor smartbell context ctxtearoom {
+	
+
+	State s0 initial{
+		discardMsg Off  //We need to handle every client's request, thus we don't want to lose potential request 
+						//while handling previous one (while in state handleRing)
+	}
+	Goto waitRing
+	
+	State waitRing{
+		println("smartbell | waiting for clients to ring ... ")
+	}
+	Transition t0 whenRequest ring -> handleRing
+	
+	State handleRing{
+		//verify client's temperature is under 37.5 degrees. If the temperature is ok the smartbell will create a client identifier
+		// for the client that sent the request
+		println("smartbell | a CLIENT rang the bell! ... ")
+		[#
+			//var temperature = SmartbellUtils.getTemperature()	
+			var temperature = 36
+			var CLIENT_ID = "NO"
+			if (temperature < 37.5) {
+				CLIENT_ID = SmartbellUtils.getClientID()
+			}
+		#]
+		printCurrentMessage
+		replyTo ring with sendClientID : sendClientID($CLIENT_ID)
+		println("Scanning client... it's temperature is $temperature and ID is $CLIENT_ID")
+		if [# temperature < 37.5 #] {
+			println("Smartbell | notifyng waiter that a client want to enter")
+			forward waiter -m enter : enter($CLIENT_ID)
+		}
+	}
+	Goto waitRing
+}
+
+
+//QActor client_mok context ctxtearoom {
+//	
+//	[# var go = false
+//		var ID = ""
+//		var TABLE = -1
+//	#]
+//	
+//	State s0 initial {
+//		//init
+//		println("client | START SIMULATION...")
+//	}
+//	Goto step1
+//	
+//	State step1 {
+//		
+//		println("client | STEP 1 : MOK want to enter the the safe tearoom")
+//		request smartbell -m ring : ring(ARG)
+//	}
+//	Transition t0 whenReply sendClientID -> step2
+//	
+//	State step2 {
+//		printCurrentMessage
+//		onMsg(sendClientID : sendClientID(C)){
+//			printCurrentMessage
+//			[# ID = payloadArg(0)#]
+//			if [# ID == "NO"#] {
+//				println(" client | temperature not OK :-() ")
+//				println(" client | terminating... ")
+//				terminate 1
+//			}
+//			else {
+//				println("client | STEP 2.1 : Received clientID: ${payloadArg(0)}")
+//				println("client | STEP 2.2 : waiting for my turn...")
+//				
+//			}
+//		}
+//	}
+//	Transition t0 whenEvent wait -> waitingToEnter
+//	
+//	State waitingToEnter {
+//		[#go = false#]
+//		onMsg(wait : wait(C, T)){
+//			printCurrentMessage
+//			[# 
+//				var time = payloadArg(1).toLong()
+//			#]
+//			println("client | STEP 3.1 : Received clientID: ${payloadArg(0)} and timeToWait $time")
+//			if [# ID == payloadArg(0) #] {
+//				println("client | STEP 3.2.1 OK it's for me!")
+//				
+//				if [# time == 0L#]{
+//					[# go = true #]
+//					println("client | STEP 3.2: YEEAH it's my turn :-)")
+//				}
+//				else {
+//					println("client | STEP 3.2: BUT it's not my turn :-(((")
+//				}
+//			}
+//		}
+//		if [#go == false#] {
+//			delay 500
+//		}
+//	}
+//	Goto step4 if [#go == true#] else waitingToEnter
+//	
+//	State step4 {
+//		println("client | STEP 4 : robot is convoying MOK to a teatable! Waiting...")
+//	}
+//	Transition t0 whenEvent sitPlease -> waitingToSit
+//	
+//	State waitingToSit {
+//		[#go = false#]
+//		onMsg(sitPlease : sitPlease(C, T)){
+//			printCurrentMessage
+//			println("client | STEP 5.1 : Received event with clientID: ${payloadArg(0)} and table ${payloadArg(1)}")
+//			if [# ID == payloadArg(0) #] {
+//				println("client | STEP 5.2.1 OK MOK is sitted in table ${payloadArg(1)}")
+//				[# 
+//					go = true 
+//					TABLE = payloadArg(1).toInt()
+//				#]
+//				
+//			}
+//		}
+//	}
+//	Goto step6 if [#go == true#] else waitingToSit
+//	
+//	State step6 {
+//		println("client | STEP 6.1 : MOK take same time to order... a lot of time :-)")
+//		delay 3000
+//		println("client | STEP 6.2 : MOK is ready to order")
+//		request waiter -m wantToOrder : wantToOrder($TABLE)
+//	}
+//	Transition t0 whenReply orderPlease -> step7
+//	
+//	State step7 {
+//		onMsg(orderPlease : orderPlease(A)){
+//			printCurrentMessage
+//			println("client | STEP 7.1 : MOK is ordering...")
+//			forward waiter -m tea : tea($TABLE, peach)
+//			println("client | STEP 7.2 : MOK is waiting for its order to arrive...")
+//		}
+//	}
+//	Transition t0 whenEvent teaServed -> waitingForTea
+//	
+//	State waitingForTea {
+//		[#go = false#]
+//		onMsg(teaServed : teaServed(T, TEA)){
+//			printCurrentMessage
+//			println("client | STEP 8.1 : Received event for table: ${payloadArg(0)} and tea ${payloadArg(1)}")
+//			if [# TABLE == payloadArg(0).toInt() #] {
+//				println("client | STEP 8.2 OK MOK is now drinking it's tea")
+//				[# 
+//					go = true 
+//				#]
+//				
+//			}
+//		}
+//	}
+//	Goto step9 if [#go == true#] else waitingForTea
+//	
+//	State step9 {
+//		println("client | STEP 9.1 : MOK take same time to order... a lot of time :-)")
+//		delay 5000
+//		println("client | STEP 9.2 : MOK ask for the bill...")
+//		request waiter -m billPlease : billPlease($TABLE)
+//	}
+//	Transition t0 whenReply cardPlease -> step10
+//	
+//	State step10 {
+//		println("client | STEP 10.1 : MOK payed the bill and will be convoyed to exit...")
+//	}
+//	Transition t0 whenEvent exitPlease -> waitingToExit
+//	
+//	State waitingToExit {
+//		[#go = false#]
+//		onMsg(exitPlease : exitPlease(C)){
+//			printCurrentMessage
+//			println("client | STEP 11.1 : Received event for client: ${payloadArg(0)} ")
+//			if [# ID == payloadArg(0) #] {
+//				println("client | STEP 11.2 OK MOK can leave")
+//				[# 
+//					go = true 
+//				#]
+//				
+//			}
+//		}
+//	}
+//	Goto end if [#go == true#] else waitingToExit
+//	
+//	State end {
+//		println("client | SIMULATION END")
+//	}
+//}
+
+
+/*
+QActor test_barman context ctxtearoom {
+	[# var barman : ActorBasic? = null #]
+	State s0 initial{
+		//init
+		println("test | START SIMULATION...")
+		delay 5000
+	}
+	Goto step1
+	
+	State step1 {
+		println("test | simulating a server that request a tea to be prepared...")
+		[#
+			while(barman == null){
+				println("test | waiting for barman to be created...")
+				delay(200)
+				barman = sysUtil.getActor("barman")
+			}
+			//first the barman is idle
+			println("barman state is : ${barman!!.geResourceRep()}")
+		#]
+		
+		println("test | now I forward an order message...")
+		forward barman -m order : order(1, peach)
+		delay 500
+		[#
+			println("test | barman state should be preparing(1,peach)")
+			println("barman state is : ${barman!!.geResourceRep()}")
+		#]
+	}
+	Transition t0 whenMsg ready -> step2
+	
+	State step2 {
+		println("test | I received ready message... barman state should be idle")
+		[#
+			println("test | barman state should be idle")
+			println("barman state is : ${barman!!.geResourceRep()}")
+		#]
+	}
+}
+*/
