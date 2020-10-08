@@ -5,7 +5,7 @@ To be able to run and test manually the system, please refer to the following st
 
 1. import in Eclipse the following projects:
 	- <b>Sprint4_ISS2020/it.unibo.waiter_step4</b>		: waiter project (it includes Waiter, Mover and Mastertimer)
-	- <b>Sprint4_ISS2020/it.unibo.tearoom_step4</b>	: tearoom project (it includes Tearoom, Barman and Smartbell)
+	- <b>Sprint4_ISS2020/it.unibo.tearoom_step3</b>	: tearoom project (it includes Tearoom, Barman and Smartbell)
 	- <b>Sprint4_ISS2020/clientPlusManagerGuiStep4</b>	: client GUI for testing purposes
 	- <b>Sprint3_ISS2020/managerGui2</b>			: manager GUI (optional)
 
@@ -15,7 +15,7 @@ To be able to run and test manually the system, please refer to the following st
 
 4. run the mosquitto MQTT broker (if not present you may change the mqtt path in the aforementioned projects): <b>mosquitto\mosquitto -v</b>
 
-5. run the tearoom : <b>it.unibo.tearoom_step4 package it.unibo.ctxtearoom -> MainCtxtearoom.kt -> Right click -> Run as... -> Kotlin Application</b>
+5. run the tearoom : <b>it.unibo.tearoom_step3 -> package it.unibo.ctxtearoom -> MainCtxtearoom.kt -> Right click -> Run as... -> Kotlin Application</b>
 
 6. run the waiter: <b>it.unibo.waiter_step4 -> package it.unibo.ctxwaiter -> MainCtxwaiter.kt -> Right click -> Run as... -> Kotlin Application</b>
 
